@@ -23,8 +23,8 @@ Route::get('/seed', function () {
     return Artisan::call('db:seed');
 });
 Route::get('/symlink', function () {
-    $target = env('APP_PUBLIC_PATH_TARGET');
-    $shortcut = env('APP_PUBLIC_PATH');
+    $target = env('SYMLINK_PATH_TARGET');
+    $shortcut = env('SYMLINK_PATH');
     return symlink($target, $shortcut);
 });
 
