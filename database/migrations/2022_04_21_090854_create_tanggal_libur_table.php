@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHariLiburTable extends Migration
+class CreateTanggalLiburTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateHariLiburTable extends Migration
      */
     public function up()
     {
-        Schema::create('hari_libur', function (Blueprint $table) {
+        Schema::create('tanggal_libur', function (Blueprint $table) {
             $table->string('id', 36)->primary();        // uuid v4
             $table->date('tgl_libur');                  // tgl libur kalender gubernur
-            $table->string('keterangan');               // hari libur apa?
+            $table->string('keterangan');               // tanggal libur apa?
             $table->string('dasar_hukum')->nullable();  // dasar hukum
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateHariLiburTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hari_libur');
+        Schema::dropIfExists('tanggal_libur');
     }
 };

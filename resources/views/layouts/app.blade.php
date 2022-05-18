@@ -22,7 +22,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="{{ asset('assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/sb-admin-2.css').'?v='.Str::random(5) }}" rel="stylesheet">
 
 </head>
 
@@ -71,8 +71,9 @@
     <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-    <script src="{{ asset('assets/js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/sb-admin-2.js').'?v='.Str::random(5) }}"></script>
 
+    @stack('script')
 </body>
 
 </html>

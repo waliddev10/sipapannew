@@ -14,6 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// setup
+$router->get('/migrate', function () use ($router) {
+    return Artisan::call('migrate:fresh');
+});
+$router->get('/seed', function () use ($router) {
+    return Artisan::call('db:seed');
+});
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -25,15 +34,15 @@ Route::get('/dashboard', function () {
 
 
 
-Route::get('/basis-data/perusahaan', function () {
+Route::get('/database/perusahaan', function () {
     return view('pages.database.perusahaan');
 })->middleware(['auth'])->name('database.perusahaan');
 
-Route::get('/basis-data/masa-pajak', function () {
+Route::get('/database/masa-pajak', function () {
     return view('pages.database.masa-pajak');
 })->middleware(['auth'])->name('database.masa-pajak');
 
-Route::get('/basis-data/tanggal-libur', function () {
+Route::get('/database/tanggal-libur', function () {
     return view('pages.database.tanggal-libur');
 })->middleware(['auth'])->name('database.tanggal-libur');
 

@@ -10,7 +10,7 @@ $menu = collect([
 # --- menu 1 --- #
 # --- menu 2 --- #
 (object) [
-'title' => 'Basis Data',
+'title' => 'Database',
 'icon' => 'fas fa-fw fa-database',
 'route' => null,
 'submenu' => [
@@ -40,7 +40,7 @@ $menu = collect([
 ## --- submenu 2.4 --- #
 ## --- submenu 2.5 --- #
 (object) [
-'title' => 'Tanggal/Hari Libur',
+'title' => 'Tanggal Libur',
 'route' => 'database.tanggal-libur'
 ],
 ## --- submenu 2.5 --- #
@@ -50,7 +50,7 @@ $menu = collect([
 # --- menu 3 --- #
 (object) [
 'title' => 'Ketentuan',
-'icon' => 'fas fa-fw fa-gavel',
+'icon' => 'fas fa-fw fa-book',
 'route' => null,
 'submenu' => [
 ## --- submenu 3.1 --- #
@@ -106,7 +106,61 @@ $menu = collect([
 # --- menu 2 --- #
 # --- menu 3 --- #
 (object) [
-'title' => 'Pengaturan',
+'title' => 'Pelaporan',
+'icon' => 'fas fa-fw fa-paper-plane',
+'route' => null,
+'submenu' => [
+## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Aplikasi',
+// 'route' => null
+// ],
+## --- submenu 3.1 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Jatuh Tempo',
+'route' => 'database.perusahaan'
+],
+## --- submenu 3.2 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Pelaporan',
+'route' => 'database.perusahaan'
+],
+## --- submenu 3.2 --- #
+]
+],
+# --- menu 2 --- #
+# --- menu 3 --- #
+(object) [
+'title' => 'Penetapan',
+'icon' => 'fas fa-fw fa-gavel',
+'route' => null,
+'submenu' => [
+## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Aplikasi',
+// 'route' => null
+// ],
+## --- submenu 3.1 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Surat Ketetapan',
+'route' => 'database.perusahaan'
+],
+## --- submenu 3.2 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Pembayaran',
+'route' => 'database.perusahaan'
+],
+## --- submenu 3.2 --- #
+]
+],
+# --- menu 2 --- #
+# --- menu 3 --- #
+(object) [
+'title' => 'Setting',
 'icon' => 'fas fa-fw fa-wrench',
 'route' => null,
 'submenu' => [
@@ -118,13 +172,13 @@ $menu = collect([
 ## --- submenu 3.1 --- #
 ## --- submenu 3.2 --- #
 (object) [
-'title' => 'Seting Penandatangan',
+'title' => 'Setting Penandatangan',
 'route' => 'database.perusahaan'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #
 (object) [
-'title' => 'Seting Kota',
+'title' => 'Setting Kota',
 'route' => 'database.perusahaan'
 ],
 ## --- submenu 3.2 --- #
@@ -151,7 +205,7 @@ $menu = collect([
     @if(!empty($m->submenu))
     <li
         class="nav-item @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) active @endif @endforeach">
-        <a class="nav-link collapsed" style="cursor: pointer;" data-toggle="collapse"
+        <a href="javascript:void(0)" class="nav-link collapsed" data-toggle="collapse"
             data-target="#{{ Str::slug($m->title) }}" aria-expanded="true" aria-controls="{{ Str::slug($m->title) }}">
             <i class="{{ $m->icon }}"></i>
             <span>{{ $m->title }}</span>

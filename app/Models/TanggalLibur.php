@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class HariLibur extends Model
+class TanggalLibur extends Model
 {
-    protected $table = 'hari_libur';
+    protected $table = 'tanggal_libur';
 
     public $incrementing = false;
 
