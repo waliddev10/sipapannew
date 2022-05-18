@@ -15,11 +15,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 // setup
-$router->get('/migrate', function () use ($router) {
+
+Route::get('/migrate', function () {
     return Artisan::call('migrate:fresh');
 });
-$router->get('/seed', function () use ($router) {
+Route::get('/seed', function () {
     return Artisan::call('db:seed');
+});
+Route::get('/symlink', function () {
+    $target = env('APP_PUBLIC_PATH_TARGET');
+    $shortcut = env('APP_PUBLIC_PATH');
+    return symlink($target, $shortcut);
 });
 
 
