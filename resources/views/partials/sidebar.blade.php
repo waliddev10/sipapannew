@@ -41,7 +41,7 @@ $menu = collect([
 ## --- submenu 2.5 --- #
 (object) [
 'title' => 'Tanggal Libur',
-'route' => 'database.tanggal-libur'
+'route' => 'tanggal-libur.index'
 ],
 ## --- submenu 2.5 --- #
 ]

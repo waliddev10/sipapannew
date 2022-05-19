@@ -5,6 +5,7 @@ use App\Http\Controllers\JenisUsahaController;
 use App\Http\Controllers\KotaPenandatanganController;
 use App\Http\Controllers\MasaPajakController;
 use App\Http\Controllers\PenandatanganController;
+use App\Http\Controllers\TanggalLiburController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,7 @@ Route::get('/database/tanggal-libur', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('database')->group(function () {
+        Route::resource('/tanggal-libur', TanggalLiburController::class);
         Route::resource('/masa-pajak', MasaPajakController::class);
     });
     Route::prefix('ketentuan')->group(function () {
