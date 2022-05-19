@@ -20,7 +20,7 @@ class MasaPajakController extends Controller
         if ($request->ajax()) {
             return DataTables::of(MasaPajak::orderBy('updated_at', 'desc')->get())
                 ->addColumn('periode', function ($item) {
-                    return str_pad($item->bulan, 2, '0', STR_PAD_LEFT) . ' ' . date("F", mktime(0, 0, 0, $item->bulan, 1));
+                    return str_pad($item->bulan, 2, '0', STR_PAD_LEFT) . ' - ' . date("F", mktime(0, 0, 0, $item->bulan, 1));
                 })
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('masa-pajak.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-danger" title="Hapus " data-toggle="modal" data-target="#modalContainer" data-title="Hapus" href="' . route('masa-pajak.show', $item->id) . '"><i class="fas fa-trash fa-fw"></i></a></div>';
