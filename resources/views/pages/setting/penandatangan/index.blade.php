@@ -12,7 +12,7 @@
             data-target="#modalContainer" data-title="Tambah Penandatangan"
             href="{{ route('penandatangan.create') }}"><i class="fa fa-plus fa-fw"></i> Tambah Penandatangan</a>
         <div class="table-responsive mt-3">
-            <table id="penandatanganTable" class="table table-bordered" width="100%" cellspacing="0">
+            <table id="penandatanganTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\CaraPelaporanController;
 use App\Http\Controllers\JenisUsahaController;
 use App\Http\Controllers\KotaPenandatanganController;
+use App\Http\Controllers\MasaPajakController;
 use App\Http\Controllers\PenandatanganController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,9 @@ Route::get('/database/tanggal-libur', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::prefix('database')->group(function () {
+        Route::resource('/masa-pajak', MasaPajakController::class);
+    });
     Route::prefix('ketentuan')->group(function () {
         Route::resource('/cara-pelaporan', CaraPelaporanController::class);
     });

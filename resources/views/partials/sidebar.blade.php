@@ -35,7 +35,7 @@ $menu = collect([
 ## --- submenu 2.4 --- #
 (object) [
 'title' => 'Masa Pajak',
-'route' => 'database.masa-pajak'
+'route' => 'masa-pajak.index'
 ],
 ## --- submenu 2.4 --- #
 ## --- submenu 2.5 --- #

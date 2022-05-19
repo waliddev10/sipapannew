@@ -1,24 +1,26 @@
 @extends('layouts.app')
 
-@section('title', 'Setting Kota Penandatangan')
+@section('title', 'Masa Pajak')
 
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Setting Kota Penandatangan</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Masa Pajak</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Kota" data-toggle="modal" data-target="#modalContainer"
-            data-title="Tambah Kota" href="{{ route('kota-penandatangan.create') }}"><i class="fa fa-plus fa-fw"></i>
+        <a class="btn btn-outline-primary btn-sm" title="Tambah Masa Pajak" data-toggle="modal"
+            data-target="#modalContainer" data-title="Tambah Masa Pajak" href="{{ route('masa-pajak.create') }}"><i
+                class="fa fa-plus fa-fw"></i>
             Tambah
-            Kota</a>
+            Masa Pajak</a>
         <div class="table-responsive mt-3">
-            <table id="kota-penandatanganTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="masa-pajakTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
                         <th>No.</th>
-                        <th>Nama Kota</th>
+                        <th>Periode</th>
+                        <th>Tahun Pajak</th>
                     </tr>
                 </thead>
             </table>
@@ -98,15 +100,16 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#kota-penandatanganTable').DataTable({
+    tableDokumen = $('#masa-pajakTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('kota-penandatangan.index') !!}',
+        ajax: '{!! route('masa-pajak.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
-            { data: 'nama', name: 'nama' },
+            { data: 'periode', name: 'periode' },
+            { data: 'tahun', name: 'tahun' },
         ],
     });
 

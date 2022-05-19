@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JenisUsaha;
+use App\Models\MasaPajak;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class JenisUsahaController extends Controller
+class MasaPajakController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,15 +18,18 @@ class JenisUsahaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(JenisUsaha::orderBy('created_at', 'desc')->get())
+            return DataTables::of(MasaPajak::orderBy('updated_at', 'desc')->get())
+                ->addColumn('periode', function ($item) {
+                    return str_pad($item->bulan, 2, '0', STR_PAD_LEFT) . ' ' . date("F", mktime(0, 0, 0, $item->bulan, 1));
+                })
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('jenis-usaha.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-danger" title="Hapus " data-toggle="modal" data-target="#modalContainer" data-title="Hapus" href="' . route('jenis-usaha.show', $item->id) . '"><i class="fas fa-trash fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('masa-pajak.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-danger" title="Hapus " data-toggle="modal" data-target="#modalContainer" data-title="Hapus" href="' . route('masa-pajak.show', $item->id) . '"><i class="fas fa-trash fa-fw"></i></a></div>';
                 })
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.setting.jenis-usaha.index');
+        return view('pages.database.masa-pajak.index');
     }
 
     /**
@@ -36,7 +39,7 @@ class JenisUsahaController extends Controller
      */
     public function create()
     {
-        return view('pages.setting.jenis-usaha.create');
+        return view('pages.database.masa-pajak.create');
     }
 
     /**
@@ -48,18 +51,20 @@ class JenisUsahaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'bulan' => 'required|numeric',
+            'tahun' => 'required|numeric',
         ]);
 
-        $data = JenisUsaha::create([
+        $data = MasaPajak::create([
             'id' => Uuid::uuid4(),
-            'nama' => $request->nama
+            'bulan' => $request->bulan,
+            'tahun' => $request->tahun
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Jenis Usaha berhasil ditambah.',
-            'jenis_usaha' => $data
+            'message' => 'Masa Pajak berhasil ditambah.',
+            'masa_pajak' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -69,9 +74,9 @@ class JenisUsahaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(JenisUsaha $jenis_usaha)
+    public function show(MasaPajak $masa_pajak)
     {
-        return view('pages.setting.jenis-usaha.show', ['item' => $jenis_usaha]);
+        return view('pages.database.masa-pajak.show', ['item' => $masa_pajak]);
     }
 
     /**
@@ -80,9 +85,9 @@ class JenisUsahaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(JenisUsaha $jenis_usaha)
+    public function edit(MasaPajak $masa_pajak)
     {
-        return view('pages.setting.jenis-usaha.edit', ['item' => $jenis_usaha]);
+        return view('pages.database.masa-pajak.edit', ['item' => $masa_pajak]);
     }
 
     /**
@@ -95,18 +100,20 @@ class JenisUsahaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'bulan' => 'required|numeric',
+            'tahun' => 'required|numeric',
         ]);
 
-        $data = JenisUsaha::findOrFail($id);
+        $data = MasaPajak::findOrFail($id);
         $data->update($request->only([
-            'nama'
+            'bulan',
+            'tahun'
         ]));
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Jenis Usaha berhasil diubah.',
-            'jenis-usaha' => $data
+            'message' => 'Masa Pajak berhasil diubah.',
+            'masa_pajak' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -118,12 +125,12 @@ class JenisUsahaController extends Controller
      */
     public function destroy($id)
     {
-        $data = JenisUsaha::findOrFail($id);
+        $data = MasaPajak::findOrFail($id);
         $data->delete();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Jenis Usaha berhasil dihapus.'
+            'message' => 'Masa Pajak berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

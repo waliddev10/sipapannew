@@ -1535,10 +1535,10 @@ pre code {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-.table-hover tbody tr:hover {
+/* .table-hover tbody tr:hover {
   color: #858796;
   background-color: rgba(0, 0, 0, 0.075);
-}
+} */
 
 .table-primary,
 .table-primary > th,
@@ -11286,4 +11286,11 @@ body.sidebar-toggled footer.sticky-footer {
 table.dataTable thead {
   background-color: #4e73df;
   color: #fff;
+}
+
+.btn-group-xs > .btn, .btn-xs {
+  padding: .25rem .4rem;
+  font-size: .875rem;
+  line-height: .5;
+  border-radius: .2rem;
 }
