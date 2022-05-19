@@ -173,13 +173,13 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Setting Penandatangan',
-'route' => 'database.perusahaan'
+'route' => 'penandatangan.index'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Setting Kota',
-'route' => 'database.perusahaan'
+'route' => 'setting.kota'
 ],
 ## --- submenu 3.2 --- #
 ]
@@ -330,10 +330,6 @@ $menu = collect([
         </p>
         <a class="btn btn-success btn-sm" href="https://wa.me/6285172277277"><i class="fab fa-whatsapp"></i>
             Kontak Kami</a>
-    </div>
-
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
 
 </ul>
