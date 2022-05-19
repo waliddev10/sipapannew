@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <th width="1%">Nama Kota</th>
+            <th width="1%">Cara Pelaporan</th>
             <td>{{ $item->nama }}</td>
         </tr>
     </tbody>
@@ -9,7 +9,7 @@
 
 <div class="form-group row text-right">
     <div class="col-12">
-        <a href="{{ route('kota-penandatangan.destroy', $item->id) }}" class="btn btn-danger delete"
+        <a href="{{ route('cara-pelaporan.destroy', $item->id) }}" class="btn btn-danger delete"
             data-target-table="tableDokumen"><i class="fa fa-trash"></i>
             Hapus</a>
     </div>

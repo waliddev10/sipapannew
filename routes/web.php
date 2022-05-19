@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CaraPelaporanController;
+use App\Http\Controllers\JenisUsahaController;
 use App\Http\Controllers\KotaPenandatanganController;
 use App\Http\Controllers\PenandatanganController;
 use Illuminate\Support\Facades\Artisan;
@@ -57,7 +59,11 @@ Route::get('/database/tanggal-libur', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::prefix('ketentuan')->group(function () {
+        Route::resource('/cara-pelaporan', CaraPelaporanController::class);
+    });
     Route::prefix('setting')->group(function () {
+        Route::resource('/jenis-usaha', JenisUsahaController::class);
         Route::resource('/penandatangan', PenandatanganController::class);
         Route::resource('/kota-penandatangan', KotaPenandatanganController::class);
     });

@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-bordered">
     <tbody>
         <tr>
             <th width="1%">Nama Penandatangan</th>

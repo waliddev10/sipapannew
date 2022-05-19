@@ -1,24 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'Setting Kota Penandatangan')
+@section('title', 'Cara Pelaporan')
 
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Setting Kota Penandatangan</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Cara Pelaporan</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Kota" data-toggle="modal" data-target="#modalContainer"
-            data-title="Tambah Kota" href="{{ route('kota-penandatangan.create') }}"><i class="fa fa-plus fa-fw"></i>
+        <a class="btn btn-outline-primary btn-sm" title="Tambah Cara Pelaporan" data-toggle="modal"
+            data-target="#modalContainer" data-title="Tambah Cara Pelaporan"
+            href="{{ route('cara-pelaporan.create') }}"><i class="fa fa-plus fa-fw"></i>
             Tambah
-            Kota</a>
+            Cara Pelaporan</a>
         <div class="table-responsive mt-3">
-            <table id="kota-penandatanganTable" class="table table-bordered" width="100%" cellspacing="0">
+            <table id="cara-pelaporanTable" class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
                         <th>No.</th>
-                        <th>Nama Kota</th>
+                        <th>Cara Pelaporan</th>
                     </tr>
                 </thead>
             </table>
@@ -98,11 +99,11 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#kota-penandatanganTable').DataTable({
+    tableDokumen = $('#cara-pelaporanTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('kota-penandatangan.index') !!}',
+        ajax: '{!! route('cara-pelaporan.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},

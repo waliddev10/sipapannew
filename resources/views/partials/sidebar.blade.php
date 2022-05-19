@@ -62,7 +62,7 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Jenis Usaha',
-'route' => 'database.perusahaan'
+'route' => 'jenis-usaha.index'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #
@@ -80,7 +80,7 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Cara Pelaporan',
-'route' => 'database.perusahaan'
+'route' => 'cara-pelaporan.index'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.1 --- #

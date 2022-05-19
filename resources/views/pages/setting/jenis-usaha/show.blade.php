@@ -9,7 +9,7 @@
 
 <div class="form-group row text-right">
     <div class="col-12">
-        <a href="{{ route('kota-penandatangan.destroy', $item->id) }}" class="btn btn-danger delete"
+        <a href="{{ route('jenis-usaha.destroy', $item->id) }}" class="btn btn-danger delete"
             data-target-table="tableDokumen"><i class="fa fa-trash"></i>
             Hapus</a>
     </div>

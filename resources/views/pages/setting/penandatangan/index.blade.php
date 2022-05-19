@@ -15,11 +15,11 @@
             <table id="penandatanganTable" class="table table-bordered" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>No.</th>
                         <th>Nama</th>
                         <th>NIP</th>
                         <th>Jabatan</th>
-                        <th></th>
                     </tr>
                 </thead>
             </table>
@@ -105,11 +105,11 @@
         serverSide: true,
         ajax: '{!! route('penandatangan.index') !!}',
         columns: [
+            { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'nama', name: 'nama' },
             { data: 'nip', name: 'nip' },
             { data: 'jabatan', name: 'jabatan' },
-            { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
         ],
     });
 
