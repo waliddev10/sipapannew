@@ -6,7 +6,7 @@ use App\Models\Penandatangan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
-use Yajra\Datatables\Datatables;
+use Yajra\DataTables\DataTables;
 
 class PenandatanganController extends Controller
 {
@@ -18,7 +18,7 @@ class PenandatanganController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return Datatables::of(Penandatangan::orderBy('updated_at', 'desc')->get())
+            return DataTables::of(Penandatangan::orderBy('updated_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-sm btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-sm btn-danger" title="Hapus " data-toggle="modal" data-target="#modalContainer" data-title="Hapus" href="' . route('penandatangan.show', $item->id) . '"><i class="fas fa-trash fa-fw"></i></a></div>';
                 })
