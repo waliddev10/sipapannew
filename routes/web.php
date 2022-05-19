@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KotaPenandatanganController;
 use App\Http\Controllers\PenandatanganController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,7 @@ Route::get('/database/tanggal-libur', function () {
 Route::middleware(['auth'])->group(function () {
     Route::prefix('setting')->group(function () {
         Route::resource('/penandatangan', PenandatanganController::class);
+        Route::resource('/kota-penandatangan', KotaPenandatanganController::class);
     });
 });
 

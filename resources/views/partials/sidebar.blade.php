@@ -179,7 +179,7 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Setting Kota',
-'route' => 'setting.kota'
+'route' => 'kota-penandatangan.index'
 ],
 ## --- submenu 3.2 --- #
 ]
