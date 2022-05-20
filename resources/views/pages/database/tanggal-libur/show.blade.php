@@ -7,7 +7,9 @@
         </tr>
         <tr>
             <th width="1%">Hari</th>
-            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->format('l') }}</td>
+            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->format('l') }}
+                @if(\Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 0 ||
+                \Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 6) (Weekend) @endif</td>
         </tr>
         <tr>
             <th width="1%">Keterangan</th>

@@ -4,7 +4,7 @@
 
     <div class="form-group">
         <label class="font-weight-semibold">Periode</label>
-        <select class="form-control select2" id="bulan-field" name="bulan_id">
+        <select class="form-control select2" id="bulan-field" name="bulan">
             <option selected="selected" disabled>Pilih Bulan</option>
             @php
             $bulan = 1;

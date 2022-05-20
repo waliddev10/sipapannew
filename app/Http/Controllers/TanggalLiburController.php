@@ -23,7 +23,7 @@ class TanggalLiburController extends Controller
                 ->addColumn('hari', function ($item) {
                     $angkaDalamMinggu = Carbon::parse($item->tgl_libur)->dayOfWeek;
                     if ($angkaDalamMinggu == 0 || $angkaDalamMinggu == 6) {
-                        return Carbon::parse($item->tgl_libur)->format('l') . ' - Weekend';
+                        return Carbon::parse($item->tgl_libur)->format('l') . ' (Weekend)';
                     } else {
                         return Carbon::parse($item->tgl_libur)->format('l');
                     }
