@@ -5,7 +5,8 @@
 
     <div class="form-group">
         <label class="font-weight-semibold">Periode</label>
-        <select name="bulan" class="form-control">
+        <select class="form-control select2" id="bulan-field" name="bulan_id">
+            <option selected="selected" disabled>Pilih Bulan</option>
             @php
             $bulan = 1;
             @endphp
@@ -33,6 +34,8 @@
 </form>
 
 <script type="text/javascript">
+    initSelect2();
+
     $("#editForm").on('submit', function(event) {
         event.preventDefault();
         var form = $(this);
