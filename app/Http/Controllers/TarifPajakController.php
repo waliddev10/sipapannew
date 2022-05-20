@@ -22,6 +22,10 @@ class TarifPajakController extends Controller
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('tarif-pajak.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('tarif-pajak.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
+                ->editColumn('nilai', function ($item) {
+                    return $item->nilai * 100 . '%';
+                })
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -48,18 +52,22 @@ class TarifPajakController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'nilai' => 'required|numeric',
+            'tgl_berlaku' => 'required|date',
+            'keterangan' => 'required'
         ]);
 
         $data = TarifPajak::create([
             'id' => Uuid::uuid4(),
-            'nama' => $request->nama
+            'nilai' => $request->nilai / 100,
+            'tgl_berlaku' => $request->tgl_berlaku,
+            'keterangan' => $request->keterangan,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Cara Pelaporan berhasil ditambah.',
-            'cara_pelaporan' => $data
+            'message' => 'Tarif Pajak berhasil ditambah.',
+            'tarif_pajak' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -69,9 +77,9 @@ class TarifPajakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TarifPajak $cara_pelaporan)
+    public function show(TarifPajak $tarif_pajak)
     {
-        return view('pages.ketentuan.tarif-pajak.show', ['item' => $cara_pelaporan]);
+        return view('pages.ketentuan.tarif-pajak.show', ['item' => $tarif_pajak]);
     }
 
     /**
@@ -80,9 +88,9 @@ class TarifPajakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(TarifPajak $cara_pelaporan)
+    public function edit(TarifPajak $tarif_pajak)
     {
-        return view('pages.ketentuan.tarif-pajak.edit', ['item' => $cara_pelaporan]);
+        return view('pages.ketentuan.tarif-pajak.edit', ['item' => $tarif_pajak]);
     }
 
     /**
@@ -95,18 +103,21 @@ class TarifPajakController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'nilai' => 'sometimes|required|numeric',
+            'tgl_berlaku' => 'sometimes|required|date',
+            'keterangan' => 'sometimes|required'
         ]);
 
         $data = TarifPajak::findOrFail($id);
-        $data->update($request->only([
-            'nama'
-        ]));
+        $data->nilai = $request->nilai / 100;
+        $data->tgl_berlaku = $request->tgl_berlaku;
+        $data->keterangan = $request->keterangan;
+        $data->save();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Cara Pelaporan berhasil diubah.',
-            'tarif-pajak' => $data
+            'message' => 'Tarif Pajak berhasil diubah.',
+            'tarif_pajak' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -123,7 +134,7 @@ class TarifPajakController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Cara Pelaporan berhasil dihapus.'
+            'message' => 'Tarif Pajak berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

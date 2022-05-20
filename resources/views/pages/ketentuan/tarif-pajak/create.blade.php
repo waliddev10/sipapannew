@@ -3,8 +3,21 @@
     @csrf
 
     <div class="form-group">
-        <label class="font-weight-semibold">Tarif Pajak</label>
-        <input type="text" name="nama" class="form-control" />
+        <label class="font-weight-semibold">Tarif Pajak (%)</label>
+        <div class="input-group">
+            <input type="number" name="nilai" class="form-control" />
+            <div class="input-group-append">
+                <span class="input-group-text"><i class="fas fa-fw fa-percent"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="font-weight-semibold">Berlaku Mulai dari Tanggal:</label>
+        <input type="date" name="tgl_berlaku" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="font-weight-semibold">Keterangan</label>
+        <textarea name="keterangan" class="form-control"></textarea>
     </div>
 
     <div class="form-group row text-right">

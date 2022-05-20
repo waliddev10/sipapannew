@@ -20,6 +20,8 @@
                         <th></th>
                         <th>No.</th>
                         <th>Tarif Pajak</th>
+                        <th>Berlaku Mulai</th>
+                        <th>Keterangan</th>
                     </tr>
                 </thead>
             </table>
@@ -108,6 +110,8 @@
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'nilai', name: 'nilai' },
+            { data: 'tgl_berlaku', name: 'tgl_berlaku' },
+            { data: 'keterangan', name: 'keterangan' },
         ],
     });
 

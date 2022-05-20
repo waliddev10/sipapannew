@@ -2,7 +2,15 @@
     <tbody>
         <tr>
             <th width="1%">Tarif Pajak</th>
-            <td>{{ $item->nama }}</td>
+            <td>{{ $item->nilai * 100 }}%</td>
+        </tr>
+        <tr>
+            <th>Berlaku Mulai</th>
+            <td>{{ $item->tgl_berlaku }}</td>
+        </tr>
+        <tr>
+            <th>Keterangan</th>
+            <td>{{ $item->keterangan }}</td>
         </tr>
     </tbody>
 </table>

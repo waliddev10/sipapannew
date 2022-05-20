@@ -22,6 +22,7 @@ class KotaPenandatanganController extends Controller
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('kota-penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('kota-penandatangan.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
