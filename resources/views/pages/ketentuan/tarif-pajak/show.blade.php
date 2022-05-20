@@ -1,33 +1,15 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <th width="1%">Tanggal Libur</th>
-            <td>{{ $item->tgl_libur }}
-            </td>
-        </tr>
-        <tr>
-            <th width="1%">Hari</th>
-            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->format('l') }}
-                @if(\Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 0 ||
-                \Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 6) <i
-                    class="fas fa-exclamation-circle text-danger"></i> @endif</td>
-        </tr>
-        <tr>
-            <th width="1%">Keterangan</th>
-            <td>{{ $item->keterangan }}
-            </td>
-        </tr>
-        <tr>
-            <th width="1%">Dasar Hukum</th>
-            <td>{{ $item->dasar_hukum }}
-            </td>
+            <th width="1%">Tarif Pajak</th>
+            <td>{{ $item->nama }}</td>
         </tr>
     </tbody>
 </table>
 
 <div class="form-group row text-right">
     <div class="col-12">
-        <a href="{{ route('tanggal-libur.destroy', $item->id) }}" class="btn btn-danger delete"
+        <a href="{{ route('tarif-pajak.destroy', $item->id) }}" class="btn btn-danger delete"
             data-target-table="tableDokumen"><i class="fa fa-trash"></i>
             Hapus</a>
     </div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\MasaPajakController;
 use App\Http\Controllers\PenandatanganController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\TanggalLiburController;
+use App\Http\Controllers\TarifPajakController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -69,6 +70,7 @@ Route::middleware(['auth'])->group(function () {
     });
     Route::prefix('ketentuan')->group(function () {
         Route::resource('/cara-pelaporan', CaraPelaporanController::class);
+        Route::resource('/tarif-pajak', TarifPajakController::class);
     });
     Route::prefix('setting')->group(function () {
         Route::resource('/jenis-usaha', JenisUsahaController::class);
