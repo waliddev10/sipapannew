@@ -19,12 +19,17 @@ class TanggalLiburController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(TanggalLibur::orderBy('tgl_libur', 'asc')->get())
+            return DataTables::of(TanggalLibur::orderBy('created_at', 'desc')->orderBy('tgl_libur', 'asc')->get())
                 ->addColumn('hari', function ($item) {
-                    return Carbon::parse($item->tgl_libur)->format('l');
+                    $angkaDalamMinggu = Carbon::parse($item->tgl_libur)->dayOfWeek;
+                    if ($angkaDalamMinggu == 0 || $angkaDalamMinggu == 6) {
+                        return Carbon::parse($item->tgl_libur)->format('l') . ' - Weekend';
+                    } else {
+                        return Carbon::parse($item->tgl_libur)->format('l');
+                    }
                 })
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('tanggal-libur.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-danger" title="Hapus " data-toggle="modal" data-target="#modalContainer" data-title="Hapus" href="' . route('tanggal-libur.show', $item->id) . '"><i class="fas fa-trash fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('tanggal-libur.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('tanggal-libur.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
                 ->addIndexColumn()
                 ->make(true);
