@@ -1,27 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Sanksi Administrasi')
+@section('title', 'Sanksi Bunga')
 
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Sanksi Administrasi</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sanksi Bunga</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Sanksi Administrasi" data-toggle="modal"
-            data-target="#modalContainer" data-title="Tambah Sanksi Administrasi"
-            href="{{ route('sanksi-administrasi.create') }}"><i class="fa fa-plus fa-fw"></i>
+        <a class="btn btn-outline-primary btn-sm" title="Tambah Sanksi Bunga" data-toggle="modal"
+            data-target="#modalContainer" data-title="Tambah Sanksi Bunga" href="{{ route('sanksi-bunga.create') }}"><i
+                class="fa fa-plus fa-fw"></i>
             Tambah
-            Sanksi Administrasi</a>
+            Sanksi Bunga</a>
         <div class="table-responsive mt-3">
-            <table id="sanksi-administrasiTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="sanksi-bungaTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
                         <th>No.</th>
-                        <th>Sanksi Administrasi</th>
-                        <th>Tanggal Penetapan (per bulan)</th>
-                        <th>Dikenakan Sejak (hari kerja)</th>
+                        <th>Sanksi Bunga</th>
+                        <th>Batas Hari Minimum dikenakan Denda</th>
+                        <th>Batas Hari Maksimum dikenakan Denda</th>
+                        <th>Jumlah Hari per Bulan</th>
                         <th>Berlaku Mulai</th>
                         <th>Keterangan</th>
                     </tr>
@@ -103,17 +104,18 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#sanksi-administrasiTable').DataTable({
+    tableDokumen = $('#sanksi-bungaTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('sanksi-administrasi.index') !!}',
+        ajax: '{!! route('sanksi-bunga.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'nilai', name: 'nilai',  className: 'text-right' },
-            { data: 'tgl_batas', name: 'tgl_batas',  className: 'text-center' },
             { data: 'hari_min', name: 'hari_min',  className: 'text-center' },
+            { data: 'hari_max', name: 'hari_max',  className: 'text-center' },
+            { data: 'hari_pembagi', name: 'hari_pembagi',  className: 'text-center' },
             { data: 'tgl_berlaku', name: 'tgl_berlaku', className: 'text-center' },
             { data: 'keterangan', name: 'keterangan' },
         ],
