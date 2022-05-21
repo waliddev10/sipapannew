@@ -1,16 +1,20 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <th width="1%">Tanggal Penetapan</th>
-            <td>{{ $item->tgl_batas }} per bulan</td>
+            <th width="1%">Nilai</th>
+            <td>{{ $item->nilai * 100 }}%</td>
         </tr>
         <tr>
-            <th>Dikenakan Sejak</th>
+            <th>Batas minimum hari kerja sejak pelaporan</th>
             <td>{{ $item->hari_min }} hari kerja</td>
         </tr>
         <tr>
-            <th>Nilai</th>
-            <td>{{ 'Rp ' . number_format($item->nilai, 0, ',', '.') }}</td>
+            <th>Batas maksimal hari kerja sejak pelaporan</th>
+            <td>{{ $item->hari_max }} hari kerja</td>
+        </tr>
+        <tr>
+            <th>Jumlah hari per bulan</th>
+            <td>{{ $item->hari_max }} hari per bulan</td>
         </tr>
         <tr>
             <th>Berlaku Mulai</th>
