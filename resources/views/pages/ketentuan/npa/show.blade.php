@@ -27,7 +27,7 @@ else {
             </tr>
             <tr>
                 <th width="1%">NPA</th>
-                <td>{{ $item->nilai }}</td>
+                <td>{{ number_format($item->nilai, 2, ',', '.'); }}</td>
             </tr>
             <tr>
                 <th width="1%">Berlaku mulai tanggal:</th>
