@@ -48,53 +48,59 @@
 
 @push('styles')
 <link href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 @endpush
 
 @push('scripts')
 <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.12.0/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script type="text/javascript">
-    $(function() {
-        function showLoading() {
-            $('.preloader').fadeIn();
-        }
-
-        function hideLoading() {
-            $('.preloader').fadeOut();
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+    function initSelect2() {
+        $('select.select2:not(.select2-hidden-accessible)').select2({
+            allowClear: false,
+            width: '100%'
         });
-        $(document).ajaxError(function(event, xhr, settings, thrownError) {
-            if (xhr.status == 422) {
-                message = '';
-                type = 'warning';
+    }
+    function showLoading() {
+        $('.preloader').fadeIn();
+    }
 
-                $('.form.needs-validation').find('input, select, textarea').removeClass('is-invalid');
-                $('.form.needs-validation').find('.select2').removeClass('border border-danger');
-                $('.invalid-feedback').remove();
-                $.each(xhr.responseJSON.errors, function(name, message) {
-                    $('[name="' + name + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + message  + '</div>');
-                    $('.select2[name="' + name + '"]').next('.select2').addClass(
-                        'border border-danger').after('<div class="invalid-feedback">' + message  + '</div>');
-                });
-            } else if (xhr.status == 401 || xhr.status == 419) {
-                message = 'Sesi login habis, silakan muat ulang browser Anda dan login kembali.';
-                type = 'warning';
-                $('.modal').modal('hide');
-                showAlert(message, type);
-            } else if (xhr.status == 500) {
-                message = 'Terjadi kesalahan, silakan muat ulang browser Anda dan hubungi Admin.';
-                type = 'danger';
-                $('.modal').modal('hide');
-                showAlert(message, type);
-            }
-            hideLoading();
-        });
+    function hideLoading() {
+        $('.preloader').fadeOut();
+    }
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(document).ajaxError(function(event, xhr, settings, thrownError) {
+        if (xhr.status == 422) {
+            message = '';
+            type = 'warning';
+
+            $('.form.needs-validation').find('input, select, textarea').removeClass('is-invalid');
+            $('.form.needs-validation').find('.select2').removeClass('border border-danger');
+            $('.invalid-feedback').remove();
+            $.each(xhr.responseJSON.errors, function(name, message) {
+                $('[name="' + name + '"]').addClass('is-invalid').after('<div class="invalid-feedback">' + message  + '</div>');
+                $('.select2[name="' + name + '"]').next('.select2').addClass(
+                    'border border-danger').after('<div class="invalid-feedback">' + message  + '</div>');
+            });
+        } else if (xhr.status == 401 || xhr.status == 419) {
+            message = 'Sesi login habis, silakan muat ulang browser Anda dan login kembali.';
+            type = 'warning';
+            $('.modal').modal('hide');
+            showAlert(message, type);
+        } else if (xhr.status == 500) {
+            message = 'Terjadi kesalahan, silakan muat ulang browser Anda dan hubungi Admin.';
+            type = 'danger';
+            $('.modal').modal('hide');
+            showAlert(message, type);
+        }
+        hideLoading();
     });
 </script>
 @endpush

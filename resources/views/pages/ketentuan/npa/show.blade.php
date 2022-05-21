@@ -1,22 +1,55 @@
-<table class="table table-bordered">
-    <tbody>
-        <tr>
-            <th width="1%">Cara Pelaporan</th>
-            <td>{{ $item->nama }}</td>
-        </tr>
-    </tbody>
-</table>
+@php
+if (is_null($item->volume_min)) {
+$volume = '< ' . $item->volume_max; 
+} 
+else {
+                if (is_null($item->volume_max)) {
+                    if ($item->volume_min != 0){ 
+                        $volume = '> ' . ($item->volume_min - 1);
+    } else {
+    $volume= 'Semua';
+    }
+    } else {
+    $volume= $item->volume_min . ' - ' . $item->volume_max;
+    }
+    }
+    @endphp
 
-<div class="form-group row text-right">
-    <div class="col-12">
-        <a href="{{ route('npa.destroy', $item->id) }}" class="btn btn-danger delete"
-            data-target-table="tableDokumen"><i class="fa fa-trash"></i>
-            Hapus</a>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th width="1%">Jenis Usaha</th>
+                <td>{{ $item->jenis_usaha->nama }}</td>
+            </tr>
+            <tr>
+                <th width="1%">Volume</th>
+                <td>{{ $volume }}</td>
+            </tr>
+            <tr>
+                <th width="1%">NPA</th>
+                <td>{{ $item->npa }}</td>
+            </tr>
+            <tr>
+                <th width="1%">Berlaku mulai tanggal:</th>
+                <td>{{ $item->tgl_berlaku }}</td>
+            </tr>
+            <tr>
+                <th width="1%">Keterangan</th>
+                <td>{{ $item->keterangan }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="form-group row text-right">
+        <div class="col-12">
+            <a href="{{ route('npa.destroy', $item->id) }}" class="btn btn-danger delete"
+                data-target-table="tableDokumen"><i class="fa fa-trash"></i>
+                Hapus</a>
+        </div>
     </div>
-</div>
 
-<script type="text/javascript">
-    // script delete
+    <script type="text/javascript">
+        // script delete
     $('body').on("click", ".delete", function(event){
         event.preventDefault();
         var href = $(this).attr("href");
@@ -48,4 +81,4 @@
             }
         })
     });
-</script>
+    </script>

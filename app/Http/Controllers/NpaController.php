@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JenisUsaha;
 use App\Models\Npa;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -60,7 +61,8 @@ class NpaController extends Controller
      */
     public function create()
     {
-        return view('pages.ketentuan.npa.create');
+        $jenis_usaha = JenisUsaha::all();
+        return view('pages.ketentuan.npa.create', ['jenis_usaha' => $jenis_usaha]);
     }
 
     /**
@@ -72,12 +74,20 @@ class NpaController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'nilai' => 'required|numeric',
+            'jenis_usaha_id' => 'required',
+            'tgl_berlaku' => 'required|date',
+            'keterangan' => 'required'
         ]);
 
         $data = Npa::create([
             'id' => Uuid::uuid4(),
-            'nama' => $request->nama
+            'volume_min' => ($request->volume_min === '0') ? 0 : $request->volume_min,
+            'volume_max' => ($request->volume_max === '0') ? 0 : $request->volume_max,
+            'nilai' => $request->nilai,
+            'jenis_usaha_id' => $request->jenis_usaha_id,
+            'tgl_berlaku' => $request->tgl_berlaku,
+            'keterangan' => $request->keterangan,
         ]);
 
         return response()->json([
@@ -93,8 +103,9 @@ class NpaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Npa $npa)
+    public function show($id)
     {
+        $npa = Npa::with('jenis_usaha')->findOrFail($id);
         return view('pages.ketentuan.npa.show', ['item' => $npa]);
     }
 
@@ -106,7 +117,8 @@ class NpaController extends Controller
      */
     public function edit(Npa $npa)
     {
-        return view('pages.ketentuan.npa.edit', ['item' => $npa]);
+        $jenis_usaha = JenisUsaha::all();
+        return view('pages.ketentuan.npa.edit', ['item' => $npa, 'jenis_usaha' => $jenis_usaha]);
     }
 
     /**
@@ -119,13 +131,19 @@ class NpaController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'nilai' => 'sometimes|required|numeric',
+            'jenis_usaha_id' => 'sometimes|required',
+            'tgl_berlaku' => 'sometimes|required|date',
+            'keterangan' => 'sometimes|required'
         ]);
 
         $data = Npa::findOrFail($id);
-        $data->update($request->only([
-            'nama'
-        ]));
+        $data->volume_min = ($request->volume_min === '0') ? 0 : $request->volume_min;
+        $data->volume_max = ($request->volume_max === '0') ? 0 : $request->volume_max;
+        $data->nilai = $request->nilai;
+        $data->jenis_usaha_id = $request->jenis_usaha_id;
+        $data->tgl_berlaku = $request->tgl_berlaku;
+        $data->keterangan = $request->keterangan;
 
         return response()->json([
             'status' => 'success',

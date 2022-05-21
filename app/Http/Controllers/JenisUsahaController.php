@@ -27,7 +27,7 @@ class JenisUsahaController extends Controller
                 ->make(true);
         }
 
-        return view('pages.setting.jenis-usaha.index');
+        return view('pages.ketentuan.jenis-usaha.index');
     }
 
     /**
@@ -37,7 +37,7 @@ class JenisUsahaController extends Controller
      */
     public function create()
     {
-        return view('pages.setting.jenis-usaha.create');
+        return view('pages.ketentuan.jenis-usaha.create');
     }
 
     /**
@@ -72,7 +72,7 @@ class JenisUsahaController extends Controller
      */
     public function show(JenisUsaha $jenis_usaha)
     {
-        return view('pages.setting.jenis-usaha.show', ['item' => $jenis_usaha]);
+        return view('pages.ketentuan.jenis-usaha.show', ['item' => $jenis_usaha]);
     }
 
     /**
@@ -83,7 +83,7 @@ class JenisUsahaController extends Controller
      */
     public function edit(JenisUsaha $jenis_usaha)
     {
-        return view('pages.setting.jenis-usaha.edit', ['item' => $jenis_usaha]);
+        return view('pages.ketentuan.jenis-usaha.edit', ['item' => $jenis_usaha]);
     }
 
     /**
