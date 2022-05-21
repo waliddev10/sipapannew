@@ -20,6 +20,7 @@
                         <th></th>
                         <th>No.</th>
                         <th>Nama Perusahaan</th>
+                        <th>Tgl Penetapan PKP</th>
                         <th>Alamat</th>
                         <th>No. HP</th>
                         <th>Nama Kontak</th>
@@ -116,6 +117,7 @@
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'nama', name: 'nama' },
+            { data: 'tgl_penetapan', name: 'tgl_penetapan' },
             { data: 'alamat', name: 'alamat' },
             { data: 'hp_pj', name: 'hp_pj' },
             { data: 'nama_pj', name: 'nama_pj' },
