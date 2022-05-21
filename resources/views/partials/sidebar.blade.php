@@ -74,7 +74,7 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Nilai Perolehan Air',
-'route' => 'dashboard'
+'route' => 'npa.index'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #

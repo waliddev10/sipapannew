@@ -4,6 +4,7 @@ use App\Http\Controllers\CaraPelaporanController;
 use App\Http\Controllers\JenisUsahaController;
 use App\Http\Controllers\KotaPenandatanganController;
 use App\Http\Controllers\MasaPajakController;
+use App\Http\Controllers\NpaController;
 use App\Http\Controllers\PenandatanganController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\SanksiAdministrasiController;
@@ -71,13 +72,14 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/perusahaan', PerusahaanController::class);
     });
     Route::prefix('ketentuan')->group(function () {
+        Route::resource('/jenis-usaha', JenisUsahaController::class);
         Route::resource('/cara-pelaporan', CaraPelaporanController::class);
         Route::resource('/tarif-pajak', TarifPajakController::class);
+        Route::resource('/npa', NpaController::class);
         Route::resource('/sanksi-administrasi', SanksiAdministrasiController::class);
         Route::resource('/sanksi-bunga', SanksiBungaController::class);
     });
     Route::prefix('setting')->group(function () {
-        Route::resource('/jenis-usaha', JenisUsahaController::class);
         Route::resource('/penandatangan', PenandatanganController::class);
         Route::resource('/kota-penandatangan', KotaPenandatanganController::class);
     });
