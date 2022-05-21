@@ -144,6 +144,7 @@ class NpaController extends Controller
         $data->jenis_usaha_id = $request->jenis_usaha_id;
         $data->tgl_berlaku = $request->tgl_berlaku;
         $data->keterangan = $request->keterangan;
+        $data->save();
 
         return response()->json([
             'status' => 'success',
