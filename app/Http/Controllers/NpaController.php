@@ -22,7 +22,7 @@ class NpaController extends Controller
                 DataTables::of(
                     Npa::with('jenis_usaha')
                         ->orderBy('jenis_usaha_id', 'asc')
-                        ->orderBy('hari_min', 'asc')
+                        ->orderBy('volume_min', 'asc')
                         ->get()
                 )
                 ->addColumn('action', function ($item) {
