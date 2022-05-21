@@ -27,7 +27,7 @@ else {
             </tr>
             <tr>
                 <th width="1%">NPA</th>
-                <td>{{ $item->npa }}</td>
+                <td>{{ $item->nilai }}</td>
             </tr>
             <tr>
                 <th width="1%">Berlaku mulai tanggal:</th>
