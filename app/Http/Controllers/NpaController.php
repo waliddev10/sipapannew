@@ -18,7 +18,13 @@ class NpaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Npa::with('jenis_usaha')->orderBy('created_at', 'desc')->get())
+            return
+                DataTables::of(
+                    Npa::with('jenis_usaha')
+                        ->orderBy('jenis_usaha_id', 'asc')
+                        ->orderBy('hari_min', 'asc')
+                        ->get()
+                )
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('npa.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('npa.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
