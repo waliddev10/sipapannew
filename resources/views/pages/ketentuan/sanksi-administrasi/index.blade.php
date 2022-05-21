@@ -1,27 +1,28 @@
 @extends('layouts.app')
 
-@section('title', 'Tanggal Libur')
+@section('title', 'Sanksi Administrasi')
 
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Tanggal Libur</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Sanksi Administrasi</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Tanggal Libur" data-toggle="modal"
-            data-target="#modalContainer" data-title="Tambah Tanggal Libur"
-            href="{{ route('tanggal-libur.create') }}"><i class="fa fa-plus fa-fw"></i>
+        <a class="btn btn-outline-primary btn-sm" title="Tambah Sanksi Administrasi" data-toggle="modal"
+            data-target="#modalContainer" data-title="Tambah Sanksi Administrasi"
+            href="{{ route('sanksi-administrasi.create') }}"><i class="fa fa-plus fa-fw"></i>
             Tambah
-            Tanggal Libur</a>
+            Sanksi Administrasi</a>
         <div class="table-responsive mt-3">
-            <table id="tanggal-liburTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="sanksi-administrasiTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
                         <th>No.</th>
-                        <th>Tanggal</th>
-                        <th>Bulan</th>
-                        <th>Hari</th>
+                        <th>Tanggal Penetapan (per bulan)</th>
+                        <th>Dikenakan Sejak (hari kerja)</th>
+                        <th>Sanksi Administrasi</th>
+                        <th>Berlaku Mulai</th>
                         <th>Keterangan</th>
                     </tr>
                 </thead>
@@ -102,17 +103,18 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#tanggal-liburTable').DataTable({
+    tableDokumen = $('#sanksi-administrasiTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('tanggal-libur.index') !!}',
+        ajax: '{!! route('sanksi-administrasi.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
-            { data: 'tgl_libur', name: 'tgl_libur' },
-            { data: 'bulan', name: 'bulan' },
-            { data: 'hari', name: 'hari' },
+            { data: 'tgl_batas', name: 'tgl_batas',  className: 'text-center' },
+            { data: 'hari_min', name: 'hari_min',  className: 'text-center' },
+            { data: 'nilai', name: 'nilai',  className: 'text-right' },
+            { data: 'tgl_berlaku', name: 'tgl_berlaku', className: 'text-center' },
             { data: 'keterangan', name: 'keterangan' },
         ],
     });

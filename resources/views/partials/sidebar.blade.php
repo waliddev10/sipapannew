@@ -92,7 +92,7 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 (object) [
 'title' => 'Sanksi Administrasi',
-'route' => 'dashboard'
+'route' => 'sanksi-administrasi.index'
 ],
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #

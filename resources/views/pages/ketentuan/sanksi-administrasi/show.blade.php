@@ -1,37 +1,31 @@
 <table class="table table-bordered">
     <tbody>
         <tr>
-            <th width="1%">Tanggal Libur</th>
-            <td>{{ $item->tgl_libur }}
-            </td>
+            <th width="1%">Tanggal Penetapan</th>
+            <td>{{ $item->tgl_batas }} per bulan</td>
         </tr>
         <tr>
-            <th width="1%">Bulan</th>
-            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->monthName }}</td>
+            <th>Dikenakan Sejak</th>
+            <td>{{ $item->hari_min }} hari kerja</td>
         </tr>
         <tr>
-            <th width="1%">Hari</th>
-            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->format('l') }}
-                @if(\Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 0 ||
-                \Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 6) <i
-                    class="fas fa-exclamation-circle text-danger"></i> @endif</td>
+            <th>Nilai</th>
+            <td>{{ 'Rp ' . number_format($item->nilai, 0, ',', '.') }}</td>
         </tr>
         <tr>
-            <th width="1%">Keterangan</th>
-            <td>{{ $item->keterangan }}
-            </td>
+            <th>Berlaku Mulai</th>
+            <td>{{ $item->tgl_berlaku }}</td>
         </tr>
         <tr>
-            <th width="1%">Dasar Hukum</th>
-            <td>{{ $item->dasar_hukum }}
-            </td>
+            <th>Keterangan</th>
+            <td>{{ $item->keterangan }}</td>
         </tr>
     </tbody>
 </table>
 
 <div class="form-group row text-right">
     <div class="col-12">
-        <a href="{{ route('tanggal-libur.destroy', $item->id) }}" class="btn btn-danger delete"
+        <a href="{{ route('sanksi-administrasi.destroy', $item->id) }}" class="btn btn-danger delete"
             data-target-table="tableDokumen"><i class="fa fa-trash"></i>
             Hapus</a>
     </div>
