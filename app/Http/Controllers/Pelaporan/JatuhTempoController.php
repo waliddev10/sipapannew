@@ -35,7 +35,7 @@ class JatuhTempoController extends Controller
             foreach ($masa_pajak as $mp) {
                 foreach ($perusahaan as $p) {
                     $tgl_batas = $sanksi_administrasi->sortBy([
-                        fn ($a, $b) => $a->tgl_berlaku <=> $b->tgl_berlaku
+                        fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
                     ])->first(function ($value, $key) use ($p) {
                         return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
                     })->tgl_batas;
@@ -55,7 +55,10 @@ class JatuhTempoController extends Controller
                 }
             }
 
-            return DataTables::of(collect($jatuh_tempo))
+            return DataTables::of(collect($jatuh_tempo)->sortBy([
+                fn ($a, $b) => $b->tgl_jatuh_tempo <=> $a->tgl_jatuh_tempo,
+                fn ($a, $b) => $a->nama <=> $b->nama,
+            ]))
                 ->addColumn('periode', function ($item) {
                     return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
                 })
