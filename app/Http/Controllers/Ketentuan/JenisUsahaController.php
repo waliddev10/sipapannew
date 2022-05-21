@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
-use App\Models\Penandatangan;
+use App\Http\Controllers\Controller;
+use App\Models\JenisUsaha;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class PenandatanganController extends Controller
+class JenisUsahaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,16 +19,16 @@ class PenandatanganController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(Penandatangan::orderBy('updated_at', 'desc')->get())
+            return DataTables::of(JenisUsaha::orderBy('created_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('penandatangan.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('jenis-usaha.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('jenis-usaha.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.setting.penandatangan.index');
+        return view('pages.ketentuan.jenis-usaha.index');
     }
 
     /**
@@ -37,7 +38,7 @@ class PenandatanganController extends Controller
      */
     public function create()
     {
-        return view('pages.setting.penandatangan.create');
+        return view('pages.ketentuan.jenis-usaha.create');
     }
 
     /**
@@ -49,22 +50,18 @@ class PenandatanganController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required',
-            'jabatan' => 'required',
-            'nip' => 'required',
+            'nama' => 'required'
         ]);
 
-        $data = Penandatangan::create([
+        $data = JenisUsaha::create([
             'id' => Uuid::uuid4(),
-            'nama' => $request->nama,
-            'jabatan' => $request->jabatan,
-            'nip' => $request->nip
+            'nama' => $request->nama
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Penandatangan berhasil ditambah.',
-            'penandatangan' => $data
+            'message' => 'Jenis Usaha berhasil ditambah.',
+            'jenis_usaha' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -74,9 +71,9 @@ class PenandatanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Penandatangan $penandatangan)
+    public function show(JenisUsaha $jenis_usaha)
     {
-        return view('pages.setting.penandatangan.show', ['item' => $penandatangan]);
+        return view('pages.ketentuan.jenis-usaha.show', ['item' => $jenis_usaha]);
     }
 
     /**
@@ -85,9 +82,9 @@ class PenandatanganController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Penandatangan $penandatangan)
+    public function edit(JenisUsaha $jenis_usaha)
     {
-        return view('pages.setting.penandatangan.edit', ['item' => $penandatangan]);
+        return view('pages.ketentuan.jenis-usaha.edit', ['item' => $jenis_usaha]);
     }
 
     /**
@@ -100,22 +97,18 @@ class PenandatanganController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'nama' => 'required',
-            'jabatan' => 'required',
-            'nip' => 'required'
+            'nama' => 'required'
         ]);
 
-        $data = Penandatangan::findOrFail($id);
+        $data = JenisUsaha::findOrFail($id);
         $data->update($request->only([
-            'nama',
-            'jabatan',
-            'nip'
+            'nama'
         ]));
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Penandatangan berhasil diubah.',
-            'penandatangan' => $data
+            'message' => 'Jenis Usaha berhasil diubah.',
+            'jenis-usaha' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -127,12 +120,12 @@ class PenandatanganController extends Controller
      */
     public function destroy($id)
     {
-        $data = Penandatangan::findOrFail($id);
+        $data = JenisUsaha::findOrFail($id);
         $data->delete();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Penandatangan berhasil dihapus.'
+            'message' => 'Jenis Usaha berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

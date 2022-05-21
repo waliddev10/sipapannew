@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
-use App\Models\SanksiBunga;
+use App\Http\Controllers\Controller;
+use App\Models\SanksiAdministrasi;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class SanksiBungaController extends Controller
+class SanksiAdministrasiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +19,19 @@ class SanksiBungaController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(SanksiBunga::orderBy('created_at', 'desc')->get())
+            return DataTables::of(SanksiAdministrasi::orderBy('created_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-bunga.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-bunga.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-administrasi.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-administrasi.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
                 ->editColumn('nilai', function ($item) {
-                    return $item->nilai * 100 . '%';
+                    return 'Rp ' . number_format($item->nilai, 0, ',', '.');
                 })
                 ->rawColumns(['action', 'nilai'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.ketentuan.sanksi-bunga.index');
+        return view('pages.ketentuan.sanksi-administrasi.index');
     }
 
     /**
@@ -40,7 +41,7 @@ class SanksiBungaController extends Controller
      */
     public function create()
     {
-        return view('pages.ketentuan.sanksi-bunga.create');
+        return view('pages.ketentuan.sanksi-administrasi.create');
     }
 
     /**
@@ -53,27 +54,25 @@ class SanksiBungaController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'required|numeric',
+            'tgl_batas' => 'required|numeric',
             'hari_min' => 'required|numeric',
-            'hari_max' => 'required|numeric',
-            'hari_pembagi' => 'required|numeric',
             'tgl_berlaku' => 'required|date',
             'keterangan' => 'required'
         ]);
 
-        $data = SanksiBunga::create([
+        $data = SanksiAdministrasi::create([
             'id' => Uuid::uuid4(),
-            'nilai' => $request->nilai / 100,
+            'nilai' => $request->nilai,
+            'tgl_batas' => $request->tgl_batas,
             'hari_min' => $request->hari_min,
-            'hari_max' => $request->hari_max,
-            'hari_pembagi' => $request->hari_pembagi,
             'tgl_berlaku' => $request->tgl_berlaku,
             'keterangan' => $request->keterangan,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Bunga berhasil ditambah.',
-            'sanksi_bunga' => $data
+            'message' => 'Sanksi Administrasi berhasil ditambah.',
+            'sanksi_administrasi' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -83,9 +82,9 @@ class SanksiBungaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(SanksiBunga $sanksi_bunga)
+    public function show(SanksiAdministrasi $sanksi_administrasi)
     {
-        return view('pages.ketentuan.sanksi-bunga.show', ['item' => $sanksi_bunga]);
+        return view('pages.ketentuan.sanksi-administrasi.show', ['item' => $sanksi_administrasi]);
     }
 
     /**
@@ -94,9 +93,9 @@ class SanksiBungaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SanksiBunga $sanksi_bunga)
+    public function edit(SanksiAdministrasi $sanksi_administrasi)
     {
-        return view('pages.ketentuan.sanksi-bunga.edit', ['item' => $sanksi_bunga]);
+        return view('pages.ketentuan.sanksi-administrasi.edit', ['item' => $sanksi_administrasi]);
     }
 
     /**
@@ -110,26 +109,25 @@ class SanksiBungaController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'sometimes|required|numeric',
+            'tgl_batas' => 'sometimes|required|numeric',
             'hari_min' => 'sometimes|required|numeric',
-            'hari_max' => 'sometimes|required|numeric',
-            'hari_pembagi' => 'sometimes|required|numeric',
             'tgl_berlaku' => 'sometimes|required|date',
             'keterangan' => 'sometimes|required'
         ]);
 
-        $data = SanksiBunga::findOrFail($id);
-        $data->nilai = $request->nilai / 100;
-        $data->hari_min = $request->hari_min;
-        $data->hari_max = $request->hari_max;
-        $data->hari_pembagi = $request->hari_pembagi;
-        $data->tgl_berlaku = $request->tgl_berlaku;
-        $data->keterangan = $request->keterangan;
-        $data->save();
+        $data = SanksiAdministrasi::findOrFail($id);
+        $data->update($request->only([
+            'nilai',
+            'tgl_batas',
+            'hari_min',
+            'tgl_berlaku',
+            'keterangan',
+        ]));
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Bunga berhasil diubah.',
-            'sanksi_bunga' => $data
+            'message' => 'Sanksi Administrasi berhasil diubah.',
+            'sanksi_administrasi' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -141,12 +139,12 @@ class SanksiBungaController extends Controller
      */
     public function destroy($id)
     {
-        $data = SanksiBunga::findOrFail($id);
+        $data = SanksiAdministrasi::findOrFail($id);
         $data->delete();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Bunga berhasil dihapus.'
+            'message' => 'Sanksi Administrasi berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

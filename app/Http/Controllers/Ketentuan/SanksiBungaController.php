@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
-use App\Models\TarifPajak;
+use App\Http\Controllers\Controller;
+use App\Models\SanksiBunga;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class TarifPajakController extends Controller
+class SanksiBungaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +19,19 @@ class TarifPajakController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(TarifPajak::orderBy('created_at', 'desc')->get())
+            return DataTables::of(SanksiBunga::orderBy('created_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('tarif-pajak.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('tarif-pajak.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-bunga.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-bunga.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
                 ->editColumn('nilai', function ($item) {
                     return $item->nilai * 100 . '%';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'nilai'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.ketentuan.tarif-pajak.index');
+        return view('pages.ketentuan.sanksi-bunga.index');
     }
 
     /**
@@ -40,7 +41,7 @@ class TarifPajakController extends Controller
      */
     public function create()
     {
-        return view('pages.ketentuan.tarif-pajak.create');
+        return view('pages.ketentuan.sanksi-bunga.create');
     }
 
     /**
@@ -53,21 +54,27 @@ class TarifPajakController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'required|numeric',
+            'hari_min' => 'required|numeric',
+            'hari_max' => 'required|numeric',
+            'hari_pembagi' => 'required|numeric',
             'tgl_berlaku' => 'required|date',
             'keterangan' => 'required'
         ]);
 
-        $data = TarifPajak::create([
+        $data = SanksiBunga::create([
             'id' => Uuid::uuid4(),
             'nilai' => $request->nilai / 100,
+            'hari_min' => $request->hari_min,
+            'hari_max' => $request->hari_max,
+            'hari_pembagi' => $request->hari_pembagi,
             'tgl_berlaku' => $request->tgl_berlaku,
             'keterangan' => $request->keterangan,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tarif Pajak berhasil ditambah.',
-            'tarif_pajak' => $data
+            'message' => 'Sanksi Bunga berhasil ditambah.',
+            'sanksi_bunga' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -77,9 +84,9 @@ class TarifPajakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(TarifPajak $tarif_pajak)
+    public function show(SanksiBunga $sanksi_bunga)
     {
-        return view('pages.ketentuan.tarif-pajak.show', ['item' => $tarif_pajak]);
+        return view('pages.ketentuan.sanksi-bunga.show', ['item' => $sanksi_bunga]);
     }
 
     /**
@@ -88,9 +95,9 @@ class TarifPajakController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(TarifPajak $tarif_pajak)
+    public function edit(SanksiBunga $sanksi_bunga)
     {
-        return view('pages.ketentuan.tarif-pajak.edit', ['item' => $tarif_pajak]);
+        return view('pages.ketentuan.sanksi-bunga.edit', ['item' => $sanksi_bunga]);
     }
 
     /**
@@ -104,20 +111,26 @@ class TarifPajakController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'sometimes|required|numeric',
+            'hari_min' => 'sometimes|required|numeric',
+            'hari_max' => 'sometimes|required|numeric',
+            'hari_pembagi' => 'sometimes|required|numeric',
             'tgl_berlaku' => 'sometimes|required|date',
             'keterangan' => 'sometimes|required'
         ]);
 
-        $data = TarifPajak::findOrFail($id);
+        $data = SanksiBunga::findOrFail($id);
         $data->nilai = $request->nilai / 100;
+        $data->hari_min = $request->hari_min;
+        $data->hari_max = $request->hari_max;
+        $data->hari_pembagi = $request->hari_pembagi;
         $data->tgl_berlaku = $request->tgl_berlaku;
         $data->keterangan = $request->keterangan;
         $data->save();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tarif Pajak berhasil diubah.',
-            'tarif_pajak' => $data
+            'message' => 'Sanksi Bunga berhasil diubah.',
+            'sanksi_bunga' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -129,12 +142,12 @@ class TarifPajakController extends Controller
      */
     public function destroy($id)
     {
-        $data = TarifPajak::findOrFail($id);
+        $data = SanksiBunga::findOrFail($id);
         $data->delete();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Tarif Pajak berhasil dihapus.'
+            'message' => 'Sanksi Bunga berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

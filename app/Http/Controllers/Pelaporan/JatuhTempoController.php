@@ -1,14 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pelaporan;
 
+use App\Http\Controllers\Controller;
 use App\Models\KotaPenandatangan;
+use App\Models\MasaPajak;
+use App\Models\Pelaporan;
+use App\Models\Perusahaan;
+use App\Models\SanksiAdministrasi;
+use App\Models\TarifPajak;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class KotaPenandatanganController extends Controller
+class JatuhTempoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,16 +24,53 @@ class KotaPenandatanganController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(KotaPenandatangan::orderBy('updated_at', 'desc')->get())
+            $masa_pajak = MasaPajak::orderBy('tahun', 'desc')
+                ->orderBy('bulan', 'desc')
+                ->get();
+            $perusahaan = Perusahaan::all();
+            $sanksi_administrasi = collect(SanksiAdministrasi::all());
+            $pelaporan = Pelaporan::all();
+
+            $jatuh_tempo = [];
+            foreach ($masa_pajak as $mp) {
+                foreach ($perusahaan as $p) {
+                    $tgl_batas = $sanksi_administrasi->sortBy([
+                        fn ($a, $b) => $a->tgl_berlaku <=> $b->tgl_berlaku
+                    ])->first(function ($value, $key) use ($p) {
+                        return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
+                    })->tgl_batas;
+
+                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan, $tgl_batas, $mp->tahun));
+
+                    $item = (object) [
+                        'masa_pajak_id' => $mp->id,
+                        'perusahaan_id' => $p->id,
+                        'tgl_jatuh_tempo' => $tgl_jatuh_tempo,
+                        'bulan' => $mp->bulan,
+                        'tahun' => $mp->tahun,
+                        'nama' => $p->nama,
+                    ];
+
+                    array_push($jatuh_tempo, $item);
+                }
+            }
+
+            return DataTables::of(collect($jatuh_tempo))
+                ->addColumn('periode', function ($item) {
+                    return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
+                })
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('kota-penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('kota-penandatangan.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-success" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('jatuh-tempo.create', [
+                        'masa_pajak_id' => $item->masa_pajak_id,
+                        'perusahaan_id' => $item->perusahaan_id
+                    ]) . '"><i class="fas fa-upload fa-fw"></i></a></div>';
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.setting.kota-penandatangan.index');
+        return view('pages.pelaporan.jatuh-tempo.index');
     }
 
     /**
@@ -37,7 +80,7 @@ class KotaPenandatanganController extends Controller
      */
     public function create()
     {
-        return view('pages.setting.kota-penandatangan.create');
+        return view('pages.pelaporan.jatuh-tempo.create');
     }
 
     /**
@@ -72,7 +115,7 @@ class KotaPenandatanganController extends Controller
      */
     public function show(KotaPenandatangan $kota_penandatangan)
     {
-        return view('pages.setting.kota-penandatangan.show', ['item' => $kota_penandatangan]);
+        return view('pages.pelaporan.jatuh-tempo.show', ['item' => $kota_penandatangan]);
     }
 
     /**
@@ -83,7 +126,7 @@ class KotaPenandatanganController extends Controller
      */
     public function edit(KotaPenandatangan $kota_penandatangan)
     {
-        return view('pages.setting.kota-penandatangan.edit', ['item' => $kota_penandatangan]);
+        return view('pages.pelaporan.jatuh-tempo.edit', ['item' => $kota_penandatangan]);
     }
 
     /**
@@ -107,7 +150,7 @@ class KotaPenandatanganController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Kota Penandatangan berhasil diubah.',
-            'kota-penandatangan' => $data
+            'jatuh-tempo' => $data
         ], Response::HTTP_ACCEPTED);
     }
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
+use App\Http\Controllers\Controller;
 use App\Models\JenisUsaha;
 use App\Models\Npa;
 use Illuminate\Http\Request;

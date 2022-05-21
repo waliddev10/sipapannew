@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
-use App\Models\SanksiAdministrasi;
+use App\Http\Controllers\Controller;
+use App\Models\TarifPajak;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class SanksiAdministrasiController extends Controller
+class TarifPajakController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,19 +19,19 @@ class SanksiAdministrasiController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return DataTables::of(SanksiAdministrasi::orderBy('created_at', 'desc')->get())
+            return DataTables::of(TarifPajak::orderBy('created_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-administrasi.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-administrasi.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('tarif-pajak.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('tarif-pajak.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
                 })
                 ->editColumn('nilai', function ($item) {
-                    return 'Rp ' . number_format($item->nilai, 0, ',', '.');
+                    return $item->nilai * 100 . '%';
                 })
-                ->rawColumns(['action', 'nilai'])
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.ketentuan.sanksi-administrasi.index');
+        return view('pages.ketentuan.tarif-pajak.index');
     }
 
     /**
@@ -40,7 +41,7 @@ class SanksiAdministrasiController extends Controller
      */
     public function create()
     {
-        return view('pages.ketentuan.sanksi-administrasi.create');
+        return view('pages.ketentuan.tarif-pajak.create');
     }
 
     /**
@@ -53,25 +54,21 @@ class SanksiAdministrasiController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'required|numeric',
-            'tgl_batas' => 'required|numeric',
-            'hari_min' => 'required|numeric',
             'tgl_berlaku' => 'required|date',
             'keterangan' => 'required'
         ]);
 
-        $data = SanksiAdministrasi::create([
+        $data = TarifPajak::create([
             'id' => Uuid::uuid4(),
-            'nilai' => $request->nilai,
-            'tgl_batas' => $request->tgl_batas,
-            'hari_min' => $request->hari_min,
+            'nilai' => $request->nilai / 100,
             'tgl_berlaku' => $request->tgl_berlaku,
             'keterangan' => $request->keterangan,
         ]);
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Administrasi berhasil ditambah.',
-            'sanksi_administrasi' => $data
+            'message' => 'Tarif Pajak berhasil ditambah.',
+            'tarif_pajak' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -81,9 +78,9 @@ class SanksiAdministrasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(SanksiAdministrasi $sanksi_administrasi)
+    public function show(TarifPajak $tarif_pajak)
     {
-        return view('pages.ketentuan.sanksi-administrasi.show', ['item' => $sanksi_administrasi]);
+        return view('pages.ketentuan.tarif-pajak.show', ['item' => $tarif_pajak]);
     }
 
     /**
@@ -92,9 +89,9 @@ class SanksiAdministrasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(SanksiAdministrasi $sanksi_administrasi)
+    public function edit(TarifPajak $tarif_pajak)
     {
-        return view('pages.ketentuan.sanksi-administrasi.edit', ['item' => $sanksi_administrasi]);
+        return view('pages.ketentuan.tarif-pajak.edit', ['item' => $tarif_pajak]);
     }
 
     /**
@@ -108,25 +105,20 @@ class SanksiAdministrasiController extends Controller
     {
         $this->validate($request, [
             'nilai' => 'sometimes|required|numeric',
-            'tgl_batas' => 'sometimes|required|numeric',
-            'hari_min' => 'sometimes|required|numeric',
             'tgl_berlaku' => 'sometimes|required|date',
             'keterangan' => 'sometimes|required'
         ]);
 
-        $data = SanksiAdministrasi::findOrFail($id);
-        $data->update($request->only([
-            'nilai',
-            'tgl_batas',
-            'hari_min',
-            'tgl_berlaku',
-            'keterangan',
-        ]));
+        $data = TarifPajak::findOrFail($id);
+        $data->nilai = $request->nilai / 100;
+        $data->tgl_berlaku = $request->tgl_berlaku;
+        $data->keterangan = $request->keterangan;
+        $data->save();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Administrasi berhasil diubah.',
-            'sanksi_administrasi' => $data
+            'message' => 'Tarif Pajak berhasil diubah.',
+            'tarif_pajak' => $data
         ], Response::HTTP_ACCEPTED);
     }
 
@@ -138,12 +130,12 @@ class SanksiAdministrasiController extends Controller
      */
     public function destroy($id)
     {
-        $data = SanksiAdministrasi::findOrFail($id);
+        $data = TarifPajak::findOrFail($id);
         $data->delete();
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Sanksi Administrasi berhasil dihapus.'
+            'message' => 'Tarif Pajak berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

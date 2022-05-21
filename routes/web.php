@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\CaraPelaporanController;
-use App\Http\Controllers\JenisUsahaController;
-use App\Http\Controllers\KotaPenandatanganController;
-use App\Http\Controllers\MasaPajakController;
-use App\Http\Controllers\NpaController;
-use App\Http\Controllers\PenandatanganController;
-use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\SanksiAdministrasiController;
-use App\Http\Controllers\SanksiBungaController;
-use App\Http\Controllers\TanggalLiburController;
-use App\Http\Controllers\TarifPajakController;
+use App\Http\Controllers\Database\MasaPajakController;
+use App\Http\Controllers\Database\PerusahaanController;
+use App\Http\Controllers\Database\TanggalLiburController;
+use App\Http\Controllers\Ketentuan\CaraPelaporanController;
+use App\Http\Controllers\Ketentuan\JenisUsahaController;
+use App\Http\Controllers\Ketentuan\NpaController;
+use App\Http\Controllers\Ketentuan\SanksiAdministrasiController;
+use App\Http\Controllers\Ketentuan\SanksiBungaController;
+use App\Http\Controllers\Ketentuan\TarifPajakController;
+use App\Http\Controllers\Pelaporan\JatuhTempoController;
+use App\Http\Controllers\Setting\KotaPenandatanganController;
+use App\Http\Controllers\Setting\PenandatanganController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,9 @@ use Illuminate\Support\Facades\Route;
 // setup
 
 Route::get('/migrate', function () {
+    return Artisan::call('migrate');
+});
+Route::get('/migrate/fresh', function () {
     return Artisan::call('migrate:fresh');
 });
 Route::get('/seed', function () {
@@ -42,36 +46,25 @@ Route::get('/symlink', function () {
 // router
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->middleware(['auth'])->name('dashboard');
-
-
-
-
-Route::get('/database/perusahaan', function () {
-    return view('pages.database.perusahaan');
-})->middleware(['auth'])->name('database.perusahaan');
-
-Route::get('/database/masa-pajak', function () {
-    return view('pages.database.masa-pajak');
-})->middleware(['auth'])->name('database.masa-pajak');
-
-Route::get('/database/tanggal-libur', function () {
-    return view('pages.database.tanggal-libur');
-})->middleware(['auth'])->name('database.tanggal-libur');
-
-
 Route::middleware(['auth'])->group(function () {
-    Route::prefix('database')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('pages.dashboard');
+    })->name('dashboard');
+
+    Route::prefix('/pelaporan')->group(function () {
+        Route::resource('/jatuh-tempo', JatuhTempoController::class);
+    });
+
+    Route::prefix('/database')->group(function () {
         Route::resource('/tanggal-libur', TanggalLiburController::class);
         Route::resource('/masa-pajak', MasaPajakController::class);
         Route::resource('/perusahaan', PerusahaanController::class);
     });
-    Route::prefix('ketentuan')->group(function () {
+    Route::prefix('/ketentuan')->group(function () {
         Route::resource('/jenis-usaha', JenisUsahaController::class);
         Route::resource('/cara-pelaporan', CaraPelaporanController::class);
         Route::resource('/tarif-pajak', TarifPajakController::class);
@@ -79,24 +72,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/sanksi-administrasi', SanksiAdministrasiController::class);
         Route::resource('/sanksi-bunga', SanksiBungaController::class);
     });
-    Route::prefix('setting')->group(function () {
+    Route::prefix('/setting')->group(function () {
         Route::resource('/penandatangan', PenandatanganController::class);
         Route::resource('/kota-penandatangan', KotaPenandatanganController::class);
     });
-});
-
-Route::get('/setting/kota', function () {
-    return view('pages.setting.kota');
-})->middleware(['auth'])->name('setting.kota');
-
-
-
-Route::get('/migrate', function () {
-    return Artisan::call('migrate:fresh');
-});
-
-Route::get('/seed', function () {
-    return Artisan::call('db:seed');
 });
 
 require __DIR__ . '/auth.php';

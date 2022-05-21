@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ketentuan;
 
+use App\Http\Controllers\Controller;
 use App\Models\CaraPelaporan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

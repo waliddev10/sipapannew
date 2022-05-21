@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Database;
 
+use App\Http\Controllers\Controller;
 use App\Models\MasaPajak;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
