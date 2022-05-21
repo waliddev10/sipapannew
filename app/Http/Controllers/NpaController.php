@@ -25,7 +25,7 @@ class NpaController extends Controller
                 ->addColumn('volume', function ($item) {
                     if (is_null($item->volume_min)) return '< ' . $item->volume_max;
                     if (is_null($item->volume_max)) {
-                        if ($item->volume_min !== 0) return '> ' . ($item->volume_min - 1);
+                        if ($item->volume_min != 0) return '> ' . ($item->volume_min - 1);
                         return '> ' . $item->volume_min;
                     }
                     return $item->volume_min . ' - ' . $item->volume_max;
