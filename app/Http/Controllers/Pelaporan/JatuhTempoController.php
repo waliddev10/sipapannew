@@ -49,7 +49,7 @@ class JatuhTempoController extends Controller
                     $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan + 1 /* jatuh tempo di bulan berikutnya dari masa pajak */, $sanksi->tgl_batas, $mp->tahun));
 
 
-                    while (Carbon::parse($tgl_jatuh_tempo)->dayOfWeek == 0 || Carbon::parse($tgl_jatuh_tempo)->dayOfWeek == 6) {
+                    while (Carbon::parse($tgl_jatuh_tempo)->isWeekend()) {
                         $tgl_jatuh_tempo = Carbon::parse($tgl_jatuh_tempo)->addDay()->format('Y-m-d');
                     }
 
@@ -67,24 +67,6 @@ class JatuhTempoController extends Controller
                         $tgl_batas_pelaporan = Carbon::parse($tgl_batas_pelaporan)->addWeekday()->format('Y-m-d');
                         $counter_hari++;
                     }
-
-                    /*
-
-                    $tgl_libur_masa_pajak_count = $tgl_libur
-                        ->filter(function ($value, $key) use ($tgl_jatuh_tempo, $sanksi) {
-                            // tanggal libur lebih dari tgl jatuh tempo
-                            return Carbon::parse($value->tgl_libur) > Carbon::parse($tgl_jatuh_tempo)
-                                // tanggal libur kurang dari tgl jatuh tempo + hari kerja max (hari_min) sanksi administrasi
-                                && Carbon::parse($value->tgl_libur) <= Carbon::parse($tgl_jatuh_tempo)->addDays($sanksi->hari_min)
-                                // tanggal libur bukan hari sabtu atau minggu
-                                &&  Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 0 && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 6;
-                        })->count();
-
-                    $tgl_sanksi_administrasi  = Carbon::parse($tgl_jatuh_tempo)
-                        ->addWeekdays($sanksi->hari_min + $tgl_libur_masa_pajak_count + 1) //ditambah hari kerja max (hari_min) sanksi
-                        ->format('Y-m-d'); 
-                        
-                    */
 
                     $item = (object) [
                         'masa_pajak_id' => $mp->id,
