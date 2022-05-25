@@ -28,5 +28,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         config(['app.locale' => 'id']);
         Carbon::setLocale('id');
+        Carbon::setWeekendDays([Carbon::SUNDAY]);
     }
 }

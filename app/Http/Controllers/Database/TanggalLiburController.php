@@ -22,11 +22,12 @@ class TanggalLiburController extends Controller
         if ($request->ajax()) {
             return DataTables::of(TanggalLibur::orderBy('created_at', 'desc')->orderBy('tgl_libur', 'asc')->get())
                 ->addColumn('hari', function ($item) {
-                    $angkaDalamMinggu = Carbon::parse($item->tgl_libur)->dayOfWeek;
-                    if ($angkaDalamMinggu == 0 || $angkaDalamMinggu == 6) {
-                        return Carbon::parse($item->tgl_libur)->dayName . ' <i class="fas fa-exclamation-circle text-danger"></i>';
+                    $day = Carbon::parse($item->tgl_libur);
+
+                    if ($day->isWeekend()) {
+                        return $day->dayName . ' <i class="fas fa-exclamation-circle text-danger"></i>';
                     } else {
-                        return Carbon::parse($item->tgl_libur)->dayName;
+                        return $day->dayName;
                     }
                 })
                 ->addColumn('bulan', function ($item) {

@@ -46,7 +46,29 @@ class JatuhTempoController extends Controller
                             return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
                         });
 
-                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan, $sanksi->tgl_batas, $mp->tahun));
+                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan + 1 /* jatuh tempo di bulan berikutnya dari masa pajak */, $sanksi->tgl_batas, $mp->tahun));
+
+
+                    while (Carbon::parse($tgl_jatuh_tempo)->dayOfWeek == 0 || Carbon::parse($tgl_jatuh_tempo)->dayOfWeek == 6) {
+                        $tgl_jatuh_tempo = Carbon::parse($tgl_jatuh_tempo)->addDay()->format('Y-m-d');
+                    }
+
+                    $tgl_batas_pelaporan = $tgl_jatuh_tempo; // init tanggal awal
+                    $counter_hari = 0;
+                    $sanksi_hari_counter = $sanksi->hari_min;
+                    while ($counter_hari < $sanksi_hari_counter) {
+                        if ($tgl_libur
+                            ->filter(function ($value, $key) use ($tgl_batas_pelaporan) {
+                                return Carbon::parse($value->tgl_libur) == Carbon::parse($tgl_batas_pelaporan);
+                            })->count()
+                        ) {
+                            $sanksi_hari_counter++;
+                        }
+                        $tgl_batas_pelaporan = Carbon::parse($tgl_batas_pelaporan)->addWeekday()->format('Y-m-d');
+                        $counter_hari++;
+                    }
+
+                    /*
 
                     $tgl_libur_masa_pajak_count = $tgl_libur
                         ->filter(function ($value, $key) use ($tgl_jatuh_tempo, $sanksi) {
@@ -60,14 +82,16 @@ class JatuhTempoController extends Controller
 
                     $tgl_sanksi_administrasi  = Carbon::parse($tgl_jatuh_tempo)
                         ->addWeekdays($sanksi->hari_min + $tgl_libur_masa_pajak_count + 1) //ditambah hari kerja max (hari_min) sanksi
-                        ->format('Y-m-d');
+                        ->format('Y-m-d'); 
+                        
+                    */
 
                     $item = (object) [
                         'masa_pajak_id' => $mp->id,
                         'perusahaan_id' => $p->id,
                         'tgl_jatuh_tempo' => $tgl_jatuh_tempo,
                         'hari_min' => $sanksi->hari_min,
-                        'tgl_sanksi_administrasi' => $tgl_sanksi_administrasi,
+                        'tgl_batas_pelaporan' => $tgl_batas_pelaporan,
                         'bulan' => $mp->bulan,
                         'tahun' => $mp->tahun,
                         'nama' => $p->nama,
@@ -84,13 +108,17 @@ class JatuhTempoController extends Controller
                 ->addColumn('periode', function ($item) {
                     return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
                 })
+                ->addColumn('status', function ($item) {
+                    $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
+                    return  '<span class="badge badge-warning">' . $diff . ' hari lagi</span> ' . '<span class="badge badge-info">' . $item->hari_min . ' HK</span>';
+                })
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-success" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('jatuh-tempo.create', [
                         'masa_pajak_id' => $item->masa_pajak_id,
                         'perusahaan_id' => $item->perusahaan_id
                     ]) . '"><i class="fas fa-upload fa-fw"></i></a></div>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'status'])
                 ->addIndexColumn()
                 ->make(true);
         }

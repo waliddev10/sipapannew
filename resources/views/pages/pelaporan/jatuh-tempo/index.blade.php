@@ -14,11 +14,11 @@
                     <tr>
                         <th></th>
                         <th>No.</th>
-                        <th>Tanggal Jatuh Tempo</th>
+                        <th>Jatuh Tempo</th>
                         <th>Masa Pajak</th>
                         <th>Nama Perusahaan</th>
-                        <th>Mulai Sanksi Administrasi</th>
-                        <th>Batas (Hari Kerja)</th>
+                        <th>Batas Pelaporan</th>
+                        <th></th>
                     </tr>
                 </thead>
             </table>
@@ -115,8 +115,8 @@
             { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
             { data: 'periode', name: 'periode' },
             { data: 'nama', name: 'nama' },
-            { data: 'tgl_sanksi_administrasi', name: 'tgl_sanksi_administrasi' },
-            { data: 'hari_min', name: 'hari_min' },
+            { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
+            { data: 'status', name: 'status' },
         ],
     });
 
