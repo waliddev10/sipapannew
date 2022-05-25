@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Pelaporan;
+namespace App\Http\Controllers\Penatausahaan;
 
 use App\Http\Controllers\Controller;
 use App\Models\CaraPelaporan;
@@ -10,14 +10,13 @@ use App\Models\Pelaporan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
 use App\Models\TanggalLibur;
-use App\Models\TarifPajak;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
-class JatuhTempoController extends Controller
+class PelaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -98,7 +97,7 @@ class JatuhTempoController extends Controller
                     return  '<small>' . $diff . ' hari lagi</small><br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' HK</small>';
                 })
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-success" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('jatuh-tempo.create', [
+                    return '<div class="btn-group"><a class="btn btn-xs btn-success" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('pelaporan.create', [
                         'masa_pajak_id' => $item->masa_pajak_id,
                         'perusahaan_id' => $item->perusahaan_id
                     ]) . '"><i class="fas fa-upload fa-fw"></i></a></div>';
@@ -108,7 +107,7 @@ class JatuhTempoController extends Controller
                 ->make(true);
         }
 
-        return view('pages.pelaporan.jatuh-tempo.index');
+        return view('pages.penatausahaan.pelaporan.index');
     }
 
     /**
@@ -121,7 +120,7 @@ class JatuhTempoController extends Controller
         $cara_pelaporan = CaraPelaporan::all();
         $masa_pajak_id = $request->masa_pajak_id;
         $perusahaan_id = $request->perusahaan_id;
-        return view('pages.pelaporan.jatuh-tempo.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id'));
+        return view('pages.penatausahaan.pelaporan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id'));
     }
 
     /**
@@ -143,7 +142,7 @@ class JatuhTempoController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kota Penandatangan berhasil ditambah.',
+            'message' => 'Pelaporan berhasil ditambah.',
             'kota_penandatangan' => $data
         ], Response::HTTP_CREATED);
     }
@@ -156,7 +155,7 @@ class JatuhTempoController extends Controller
      */
     public function show(KotaPenandatangan $kota_penandatangan)
     {
-        return view('pages.pelaporan.jatuh-tempo.show', ['item' => $kota_penandatangan]);
+        return view('pages.penatausahaan.pelaporan.show', ['item' => $kota_penandatangan]);
     }
 
     /**
@@ -167,7 +166,7 @@ class JatuhTempoController extends Controller
      */
     public function edit(KotaPenandatangan $kota_penandatangan)
     {
-        return view('pages.pelaporan.jatuh-tempo.edit', ['item' => $kota_penandatangan]);
+        return view('pages.penatausahaan.pelaporan.edit', ['item' => $kota_penandatangan]);
     }
 
     /**
@@ -190,7 +189,7 @@ class JatuhTempoController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kota Penandatangan berhasil diubah.',
+            'message' => 'Pelaporan berhasil diubah.',
             'jatuh-tempo' => $data
         ], Response::HTTP_ACCEPTED);
     }
@@ -208,7 +207,7 @@ class JatuhTempoController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Kota Penandatangan berhasil dihapus.'
+            'message' => 'Pelaporan berhasil dihapus.'
         ], Response::HTTP_ACCEPTED);
     }
 }

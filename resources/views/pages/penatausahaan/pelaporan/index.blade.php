@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
-@section('title', 'Jatuh Tempo')
+@section('title', 'Pelaporan')
 
 @section('content')
-<div class="card shadow mb-4">
+<div class="card shadow">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Jatuh Tempo</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Pelaporan</h6>
     </div>
     <div class="card-body">
         <div class="table-responsive mt-3">
-            <table id="jatuh-tempoTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="pelaporanTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
@@ -105,11 +105,11 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#jatuh-tempoTable').DataTable({
+    tableDokumen = $('#pelaporanTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('jatuh-tempo.index') !!}',
+        ajax: '{!! route('pelaporan.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},

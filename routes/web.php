@@ -9,7 +9,7 @@ use App\Http\Controllers\Ketentuan\NpaController;
 use App\Http\Controllers\Ketentuan\SanksiAdministrasiController;
 use App\Http\Controllers\Ketentuan\SanksiBungaController;
 use App\Http\Controllers\Ketentuan\TarifPajakController;
-use App\Http\Controllers\Pelaporan\JatuhTempoController;
+use App\Http\Controllers\Penatausahaan\PelaporanController;
 use App\Http\Controllers\Setting\KotaPenandatanganController;
 use App\Http\Controllers\Setting\PenandatanganController;
 use App\Models\Perusahaan;
@@ -57,8 +57,8 @@ Route::middleware(['auth'])->group(function () {
         return view('pages.dashboard', compact('perusahaan_count'));
     })->name('dashboard');
 
-    Route::prefix('/pelaporan')->group(function () {
-        Route::resource('/jatuh-tempo', JatuhTempoController::class);
+    Route::prefix('/penatausahaan')->group(function () {
+        Route::resource('/pelaporan', PelaporanController::class);
     });
 
     Route::prefix('/database')->group(function () {

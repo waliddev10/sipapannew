@@ -49,6 +49,33 @@ $menu = collect([
 # --- menu 2 --- #
 # --- menu 3 --- #
 (object) [
+'title' => 'Penatausahaan',
+'icon' => 'fas fa-fw fa-paper-plane',
+'route' => null,
+'submenu' => [
+## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Aplikasi',
+// 'route' => null
+// ],
+## --- submenu 3.1 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Pelaporan',
+'route' => 'pelaporan.index'
+],
+## --- submenu 3.2 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Penetapan',
+'route' => 'dashboard'
+],
+## --- submenu 3.2 --- #
+]
+],
+# --- menu 2 --- #
+# --- menu 3 --- #
+(object) [
 'title' => 'Ketentuan',
 'icon' => 'fas fa-fw fa-book',
 'route' => null,
@@ -99,33 +126,6 @@ $menu = collect([
 (object) [
 'title' => 'Sanksi Bunga',
 'route' => 'sanksi-bunga.index'
-],
-## --- submenu 3.2 --- #
-]
-],
-# --- menu 2 --- #
-# --- menu 3 --- #
-(object) [
-'title' => 'Penatausahaan',
-'icon' => 'fas fa-fw fa-paper-plane',
-'route' => null,
-'submenu' => [
-## --- submenu 3.2 --- #
-// (object) [
-// 'title' => 'Aplikasi',
-// 'route' => null
-// ],
-## --- submenu 3.1 --- #
-## --- submenu 3.2 --- #
-(object) [
-'title' => 'Jatuh Tempo',
-'route' => 'jatuh-tempo.index'
-],
-## --- submenu 3.2 --- #
-## --- submenu 3.2 --- #
-(object) [
-'title' => 'Penetapan',
-'route' => 'dashboard'
 ],
 ## --- submenu 3.2 --- #
 ]

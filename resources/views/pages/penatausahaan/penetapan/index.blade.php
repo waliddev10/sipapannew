@@ -1,29 +1,25 @@
 @extends('layouts.app')
 
-@section('title', 'Perusahaan')
+@section('title', 'Jatuh Tempo')
 
 @section('content')
 <div class="card shadow">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Perusahaan</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Jatuh Tempo</h6>
     </div>
     <div class="card-body">
-        <a class="btn btn-outline-primary btn-sm" title="Tambah Perusahaan" data-toggle="modal"
-            data-target="#modalContainer" data-title="Tambah Perusahaan" href="{{ route('perusahaan.create') }}"><i
-                class="fa fa-plus fa-fw"></i>
-            Tambah
-            Perusahaan</a>
         <div class="table-responsive mt-3">
-            <table id="perusahaanTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="jatuh-tempoTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
                         <th>No.</th>
+                        <th>Jatuh Tempo</th>
+                        <th>Masa Pajak</th>
+                        <th>Status</th>
                         <th>Nama Perusahaan</th>
-                        <th>Tgl Penetapan PKP</th>
-                        <th>Alamat</th>
-                        <th>No. HP</th>
-                        <th>Nama Kontak</th>
+                        <th>Batas Pelaporan</th>
+                        <th>Keterangan</th>
                     </tr>
                 </thead>
             </table>
@@ -69,6 +65,7 @@
     function showLoading() {
         $('.preloader').fadeIn();
     }
+
     function hideLoading() {
         $('.preloader').fadeOut();
     }
@@ -108,19 +105,20 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#perusahaanTable').DataTable({
+    tableDokumen = $('#jatuh-tempoTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('perusahaan.index') !!}',
+        ajax: '{!! route('jatuh-tempo.index') !!}',
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
+            { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
+            { data: 'periode', name: 'periode' },
+            { data: 'status', name: 'status' },
             { data: 'nama', name: 'nama' },
-            { data: 'tgl_penetapan', name: 'tgl_penetapan' },
-            { data: 'alamat', name: 'alamat' },
-            { data: 'hp_pj', name: 'hp_pj' },
-            { data: 'nama_pj', name: 'nama_pj' },
+            { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
+            { data: 'keterangan', name: 'keterangan' },
         ],
     });
 
