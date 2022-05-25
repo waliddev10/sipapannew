@@ -16,9 +16,10 @@
                         <th>No.</th>
                         <th>Jatuh Tempo</th>
                         <th>Masa Pajak</th>
+                        <th>Status</th>
                         <th>Nama Perusahaan</th>
                         <th>Batas Pelaporan</th>
-                        <th></th>
+                        <th>Keterangan</th>
                     </tr>
                 </thead>
             </table>
@@ -114,9 +115,10 @@
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
             { data: 'periode', name: 'periode' },
+            { data: 'status', name: 'status' },
             { data: 'nama', name: 'nama' },
             { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
-            { data: 'status', name: 'status' },
+            { data: 'keterangan', name: 'keterangan' },
         ],
     });
 

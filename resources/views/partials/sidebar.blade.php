@@ -106,7 +106,7 @@ $menu = collect([
 # --- menu 2 --- #
 # --- menu 3 --- #
 (object) [
-'title' => 'Pelaporan',
+'title' => 'Penatausahaan',
 'icon' => 'fas fa-fw fa-paper-plane',
 'route' => null,
 'submenu' => [
@@ -124,40 +124,40 @@ $menu = collect([
 ## --- submenu 3.2 --- #
 ## --- submenu 3.2 --- #
 (object) [
-'title' => 'Pelaporan',
-'route' => 'dashboard'
-],
-## --- submenu 3.2 --- #
-]
-],
-# --- menu 2 --- #
-# --- menu 3 --- #
-(object) [
 'title' => 'Penetapan',
-'icon' => 'fas fa-fw fa-gavel',
-'route' => null,
-'submenu' => [
-## --- submenu 3.2 --- #
-// (object) [
-// 'title' => 'Aplikasi',
-// 'route' => null
-// ],
-## --- submenu 3.1 --- #
-## --- submenu 3.2 --- #
-(object) [
-'title' => 'Surat Ketetapan',
-'route' => 'dashboard'
-],
-## --- submenu 3.2 --- #
-## --- submenu 3.2 --- #
-(object) [
-'title' => 'Pembayaran',
 'route' => 'dashboard'
 ],
 ## --- submenu 3.2 --- #
 ]
 ],
 # --- menu 2 --- #
+// # --- menu 3 --- #
+// (object) [
+// 'title' => 'Penetapan',
+// 'icon' => 'fas fa-fw fa-gavel',
+// 'route' => null,
+// 'submenu' => [
+// ## --- submenu 3.2 --- #
+// // (object) [
+// // 'title' => 'Aplikasi',
+// // 'route' => null
+// // ],
+// ## --- submenu 3.1 --- #
+// ## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Surat Ketetapan',
+// 'route' => 'dashboard'
+// ],
+// ## --- submenu 3.2 --- #
+// ## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Pembayaran',
+// 'route' => 'dashboard'
+// ],
+// ## --- submenu 3.2 --- #
+// ]
+// ],
+// # --- menu 2 --- #
 # --- menu 3 --- #
 (object) [
 'title' => 'Setting',

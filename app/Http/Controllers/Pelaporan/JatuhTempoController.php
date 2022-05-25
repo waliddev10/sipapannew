@@ -109,8 +109,11 @@ class JatuhTempoController extends Controller
                     return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
                 })
                 ->addColumn('status', function ($item) {
+                    return  '<span class="badge badge-warning">Belum Lapor</span>';
+                })
+                ->addColumn('keterangan', function ($item) {
                     $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
-                    return  '<span class="badge badge-warning">' . $diff . ' hari lagi</span> ' . '<span class="badge badge-info">' . $item->hari_min . ' HK</span>';
+                    return  '<small>' . $diff . ' hari lagi</small><br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' HK</small>';
                 })
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group"><a class="btn btn-xs btn-success" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('jatuh-tempo.create', [
@@ -118,7 +121,7 @@ class JatuhTempoController extends Controller
                         'perusahaan_id' => $item->perusahaan_id
                     ]) . '"><i class="fas fa-upload fa-fw"></i></a></div>';
                 })
-                ->rawColumns(['action', 'status'])
+                ->rawColumns(['action', 'status', 'keterangan'])
                 ->addIndexColumn()
                 ->make(true);
         }
