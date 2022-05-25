@@ -53,14 +53,14 @@ class JatuhTempoController extends Controller
                             return Carbon::parse($value->tgl_libur) <= Carbon::parse($tgl_jatuh_tempo)->addDays($sanksi->hari_min) && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 0 && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 6;
                         })->count();
 
-                    $tgl_pelaporan_max  = Carbon::parse($tgl_jatuh_tempo)->addDays($tgl_libur_masa_pajak_count + $sanksi->hari_min)->format('Y-m-d');
+                    $tgl_sanksi_administrasi  = Carbon::parse($tgl_jatuh_tempo)->addDays($tgl_libur_masa_pajak_count + $sanksi->hari_min)->format('Y-m-d');
 
                     $item = (object) [
                         'masa_pajak_id' => $mp->id,
                         'perusahaan_id' => $p->id,
                         'tgl_jatuh_tempo' => $tgl_jatuh_tempo,
                         'hari_min' => $sanksi->hari_min,
-                        'tgl_pelaporan_max' => $tgl_pelaporan_max,
+                        'tgl_sanksi_administrasi' => $tgl_sanksi_administrasi,
                         'bulan' => $mp->bulan,
                         'tahun' => $mp->tahun,
                         'nama' => $p->nama,

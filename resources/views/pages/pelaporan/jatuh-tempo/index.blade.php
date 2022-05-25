@@ -17,7 +17,7 @@
                         <th>Tanggal Jatuh Tempo</th>
                         <th>Masa Pajak</th>
                         <th>Nama Perusahaan</th>
-                        <th>Tanggal Batas Administrasi</th>
+                        <th>Mulai Sanksi Administrasi</th>
                         <th>Batas (Hari Kerja)</th>
                     </tr>
                 </thead>
@@ -115,7 +115,7 @@
             { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
             { data: 'periode', name: 'periode' },
             { data: 'nama', name: 'nama' },
-            { data: 'tgl_pelaporan_max', name: 'tgl_pelaporan_max' },
+            { data: 'tgl_sanksi_administrasi', name: 'tgl_sanksi_administrasi' },
             { data: 'hari_min', name: 'hari_min' },
         ],
     });
