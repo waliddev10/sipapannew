@@ -9,7 +9,9 @@ use App\Models\MasaPajak;
 use App\Models\Pelaporan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
+use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
@@ -30,23 +32,35 @@ class JatuhTempoController extends Controller
                 ->get();
             $perusahaan = Perusahaan::all();
             $sanksi_administrasi = collect(SanksiAdministrasi::all());
-            $pelaporan = Pelaporan::all();
+            // $pelaporan = Pelaporan::all();
+
+            $tgl_libur = TanggalLibur::all();
 
             $jatuh_tempo = [];
             foreach ($masa_pajak as $mp) {
                 foreach ($perusahaan as $p) {
-                    $tgl_batas = $sanksi_administrasi->sortBy([
-                        fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
-                    ])->first(function ($value, $key) use ($p) {
-                        return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
-                    })->tgl_batas;
+                    $sanksi = $sanksi_administrasi
+                        ->sortBy([
+                            fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
+                        ])->first(function ($value, $key) use ($p) {
+                            return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
+                        });
 
-                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan, $tgl_batas, $mp->tahun));
+                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $mp->bulan, $sanksi->tgl_batas, $mp->tahun));
+
+                    $tgl_libur_masa_pajak_count = $tgl_libur
+                        ->filter(function ($value, $key) use ($tgl_jatuh_tempo, $sanksi) {
+                            return Carbon::parse($value->tgl_libur) <= Carbon::parse($tgl_jatuh_tempo)->addDays($sanksi->hari_min) && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 0 && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 6;
+                        })->count();
+
+                    $tgl_pelaporan_max  = Carbon::parse($tgl_jatuh_tempo)->addDays($tgl_libur_masa_pajak_count + $sanksi->hari_min)->format('Y-m-d');
 
                     $item = (object) [
                         'masa_pajak_id' => $mp->id,
                         'perusahaan_id' => $p->id,
                         'tgl_jatuh_tempo' => $tgl_jatuh_tempo,
+                        'hari_min' => $sanksi->hari_min,
+                        'tgl_pelaporan_max' => $tgl_pelaporan_max,
                         'bulan' => $mp->bulan,
                         'tahun' => $mp->tahun,
                         'nama' => $p->nama,
