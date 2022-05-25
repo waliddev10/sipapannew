@@ -24,9 +24,9 @@ class TanggalLiburController extends Controller
                 ->addColumn('hari', function ($item) {
                     $angkaDalamMinggu = Carbon::parse($item->tgl_libur)->dayOfWeek;
                     if ($angkaDalamMinggu == 0 || $angkaDalamMinggu == 6) {
-                        return Carbon::parse($item->tgl_libur)->format('l') . ' <i class="fas fa-exclamation-circle text-danger"></i>';
+                        return Carbon::parse($item->tgl_libur)->dayName . ' <i class="fas fa-exclamation-circle text-danger"></i>';
                     } else {
-                        return Carbon::parse($item->tgl_libur)->format('l');
+                        return Carbon::parse($item->tgl_libur)->dayName;
                     }
                 })
                 ->addColumn('bulan', function ($item) {

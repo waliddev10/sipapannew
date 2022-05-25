@@ -50,10 +50,17 @@ class JatuhTempoController extends Controller
 
                     $tgl_libur_masa_pajak_count = $tgl_libur
                         ->filter(function ($value, $key) use ($tgl_jatuh_tempo, $sanksi) {
-                            return Carbon::parse($value->tgl_libur) <= Carbon::parse($tgl_jatuh_tempo)->addDays($sanksi->hari_min) && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 0 && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 6;
+                            // tanggal libur lebih dari tgl jatuh tempo
+                            return Carbon::parse($value->tgl_libur) > Carbon::parse($tgl_jatuh_tempo)
+                                // tanggal libur kurang dari tgl jatuh tempo + hari kerja max (hari_min) sanksi administrasi
+                                && Carbon::parse($value->tgl_libur) <= Carbon::parse($tgl_jatuh_tempo)->addDays($sanksi->hari_min)
+                                // tanggal libur bukan hari sabtu atau minggu
+                                &&  Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 0 && Carbon::parse($tgl_jatuh_tempo)->dayOfWeek != 6;
                         })->count();
 
-                    $tgl_sanksi_administrasi  = Carbon::parse($tgl_jatuh_tempo)->addDays($tgl_libur_masa_pajak_count + $sanksi->hari_min)->format('Y-m-d');
+                    $tgl_sanksi_administrasi  = Carbon::parse($tgl_jatuh_tempo)
+                        ->addWeekdays($sanksi->hari_min + $tgl_libur_masa_pajak_count + 1) //ditambah hari kerja max (hari_min) sanksi
+                        ->format('Y-m-d');
 
                     $item = (object) [
                         'masa_pajak_id' => $mp->id,
