@@ -82,10 +82,12 @@ class JatuhTempoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $cara_pelaporan = CaraPelaporan::all();
-        return view('pages.pelaporan.jatuh-tempo.create', compact('cara_pelaporan'));
+        $masa_pajak_id = $request->masa_pajak_id;
+        $perusahaan_id = $request->perusahaan_id;
+        return view('pages.pelaporan.jatuh-tempo.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id'));
     }
 
     /**

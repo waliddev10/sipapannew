@@ -1,5 +1,7 @@
-<form action="{{ route('kota-penandatangan.store') }}" accept-charset="UTF-8" class="form needs-validation"
-    id="createForm" autocomplete="off">
+<form action="{{ route('jatuh-tempo.store', [
+    'masa_pajak_id' => $masa_pajak_id,
+    'perusahaan_id' => $perusahaan_id
+]) }}" accept-charset="UTF-8" class="form needs-validation" id="createForm" autocomplete="off">
     @csrf
 
     <div class="form-group">
