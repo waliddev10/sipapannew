@@ -14,7 +14,7 @@
             Tambah
             Nilai Perolehan Air</a>
         <div class="table-responsive mt-3">
-            <table id="npaTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="npaTable" class="table table-sm table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>

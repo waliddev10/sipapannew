@@ -9,7 +9,7 @@
     </div>
     <div class="card-body">
         <div class="table-responsive mt-3">
-            <table id="pelaporanTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%" cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>

@@ -11,6 +11,6 @@ class Pelaporan extends Model
     public $incrementing = false;
 
     protected $fillable = [
-        'masa_pajak_id', 'perusahaan_id', 'tgl_pelaporan', 'volume', 'cara_pelaporan_id'
+        'id', 'masa_pajak_id', 'perusahaan_id', 'tgl_pelaporan', 'volume', 'cara_pelaporan_id', 'file'
     ];
 }

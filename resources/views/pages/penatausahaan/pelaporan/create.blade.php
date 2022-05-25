@@ -1,4 +1,4 @@
-<form action="{{ route('pelaporan.store', [
+<form enctype="multipart/form-data" action="{{ route('pelaporan.store', [
     'masa_pajak_id' => $masa_pajak_id,
     'perusahaan_id' => $perusahaan_id
 ]) }}" accept-charset="UTF-8" class="form needs-validation" id="createForm" autocomplete="off">
@@ -45,6 +45,7 @@
         event.preventDefault();
         var form = $(this);
         var formData = new FormData($(this)[0]);
+        formData.append('file', $('input[type=file]')[0].files[0]); 
 
         $.ajax({
             url: form.attr('action'),

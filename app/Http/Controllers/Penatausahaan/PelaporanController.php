@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Penatausahaan;
 
 use App\Http\Controllers\Controller;
 use App\Models\CaraPelaporan;
-use App\Models\KotaPenandatangan;
-use App\Models\MasaPajak;
 use App\Models\Pelaporan;
+use App\Models\MasaPajak;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
 use App\Models\TanggalLibur;
@@ -132,18 +131,32 @@ class PelaporanController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'nama' => 'required'
+            'tgl_pelaporan' => 'required|date',
+            'volume' => 'required',
+            'cara_pelaporan_id' => 'required',
+            'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
         ]);
 
-        $data = KotaPenandatangan::create([
-            'id' => Uuid::uuid4(),
-            'nama' => $request->nama
+        $file = $request->file('file');
+        $id = Uuid::uuid4();
+        $nama_file = $id . "." . $file->extension();
+        $tujuan_upload = storage_path('app') . DIRECTORY_SEPARATOR . 'berkas-pelaporan';
+        $file->move($tujuan_upload, $nama_file);
+
+        $data = Pelaporan::create([
+            'id' => $id,
+            'masa_pajak_id' => $request->masa_pajak_id,
+            'perusahaan_id' => $request->perusahaan_id,
+            'tgl_pelaporan' => $request->tgl_pelaporan,
+            'volume' => $request->volume,
+            'cara_pelaporan_id' => $request->cara_pelaporan_id,
+            'file' => $nama_file,
         ]);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Pelaporan berhasil ditambah.',
-            'kota_penandatangan' => $data
+            'pelaporan' => $data
         ], Response::HTTP_CREATED);
     }
 
@@ -153,9 +166,9 @@ class PelaporanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(KotaPenandatangan $kota_penandatangan)
+    public function show(Pelaporan $pelaporan)
     {
-        return view('pages.penatausahaan.pelaporan.show', ['item' => $kota_penandatangan]);
+        return view('pages.penatausahaan.pelaporan.show', ['item' => $pelaporan]);
     }
 
     /**
@@ -164,9 +177,9 @@ class PelaporanController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(KotaPenandatangan $kota_penandatangan)
+    public function edit(Pelaporan $pelaporan)
     {
-        return view('pages.penatausahaan.pelaporan.edit', ['item' => $kota_penandatangan]);
+        return view('pages.penatausahaan.pelaporan.edit', ['item' => $pelaporan]);
     }
 
     /**
@@ -182,7 +195,7 @@ class PelaporanController extends Controller
             'nama' => 'required'
         ]);
 
-        $data = KotaPenandatangan::findOrFail($id);
+        $data = Pelaporan::findOrFail($id);
         $data->update($request->only([
             'nama'
         ]));
@@ -202,7 +215,7 @@ class PelaporanController extends Controller
      */
     public function destroy($id)
     {
-        $data = KotaPenandatangan::findOrFail($id);
+        $data = Pelaporan::findOrFail($id);
         $data->delete();
 
         return response()->json([

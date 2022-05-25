@@ -13,7 +13,8 @@
             Tambah
             Kota</a>
         <div class="table-responsive mt-3">
-            <table id="kota-penandatanganTable" class="table table-bordered table-hover" width="100%" cellspacing="0">
+            <table id="kota-penandatanganTable" class="table table-sm table-bordered table-hover" width="100%"
+                cellspacing="0">
                 <thead>
                     <tr>
                         <th></th>
