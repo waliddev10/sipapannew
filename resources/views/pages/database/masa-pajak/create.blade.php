@@ -10,8 +10,7 @@
             $bulan = 1;
             @endphp
             @while ($bulan <= 12) <option value="{{ $bulan }}">{{ str_pad($bulan, 2, '0', STR_PAD_LEFT) . ' - ' .
-                date("F", mktime(0,
-                0, 0, $bulan, 1)) }}</option>
+                \Carbon\Carbon::parse(mktime(0, 0, 0, $bulan))->monthName }}</option>
                 @php
                 $bulan++;
                 @endphp

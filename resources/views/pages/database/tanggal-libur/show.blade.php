@@ -11,9 +11,8 @@
         </tr>
         <tr>
             <th width="1%">Hari</th>
-            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->format('l') }}
-                @if(\Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 0 ||
-                \Carbon\Carbon::parse($item->tgl_libur)->dayOfWeek == 6) <i
+            <td>{{ \Carbon\Carbon::parse($item->tgl_libur)->dayName }}
+                @if(\Carbon\Carbon::parse($item->tgl_libur)->isWeekend()) <i
                     class="fas fa-exclamation-circle text-danger"></i> @endif</td>
         </tr>
         <tr>

@@ -2,7 +2,7 @@
     <tbody>
         <tr>
             <th width="1%">Periode</th>
-            <td>{{ str_pad($item->bulan, 2, '0', STR_PAD_LEFT) . ' ' . date("F", mktime(0, 0, 0, $item->bulan, 1)) }}
+            <td>{{ \Carbon\Carbon::parse(mktime(0, 0, 0, $item->bulan))->monthName }}
             </td>
         </tr>
         <tr>
