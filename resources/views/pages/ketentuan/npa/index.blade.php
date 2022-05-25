@@ -119,6 +119,7 @@
             { data: 'volume', name: 'volume' },
             { data: 'nilai', name: 'nilai', className: 'text-right' },
         ],
+        pageLength: 25
     });
 
     // Global Settings DataTables Search

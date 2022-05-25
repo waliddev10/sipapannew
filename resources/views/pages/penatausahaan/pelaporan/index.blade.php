@@ -120,6 +120,7 @@
             { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
             { data: 'keterangan', name: 'keterangan' },
         ],
+        pageLength: 50
     });
 
     // Global Settings DataTables Search

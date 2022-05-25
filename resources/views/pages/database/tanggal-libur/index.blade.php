@@ -116,6 +116,7 @@
             { data: 'hari', name: 'hari' },
             { data: 'keterangan', name: 'keterangan' },
         ],
+        pageLength: 25
     });
 
     // Global Settings DataTables Search
