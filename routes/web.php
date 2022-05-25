@@ -12,6 +12,7 @@ use App\Http\Controllers\Ketentuan\TarifPajakController;
 use App\Http\Controllers\Pelaporan\JatuhTempoController;
 use App\Http\Controllers\Setting\KotaPenandatanganController;
 use App\Http\Controllers\Setting\PenandatanganController;
+use App\Models\Perusahaan;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -52,7 +53,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
-        return view('pages.dashboard');
+        $perusahaan_count = Perusahaan::all()->count();
+        return view('pages.dashboard', compact('perusahaan_count'));
     })->name('dashboard');
 
     Route::prefix('/pelaporan')->group(function () {

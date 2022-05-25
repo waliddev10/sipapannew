@@ -3,9 +3,21 @@
     @csrf
     @method('PUT')
     <div class="form-group">
-        <label class="font-weight-semibold">Nama Kota</label>
-        <input type="text" name="nama" class="form-control" value="{{ $item->nama }}" />
-
+        <label class="font-weight-semibold">Volume Meter</label>
+        <div class="input-group">
+            <input type="text" name="volume" class="form-control" />
+            <div class="input-group-append">
+                <span class="input-group-text"><small>M3</small></span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="font-weight-semibold">Meter Penggunaan</label>
+        <input type="text" name="nama" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label class="font-weight-semibold">Tanggal Pelaporan Meter</label>
+        <input type="date" name="tgl_pelaporan" class="form-control" />
     </div>
 
     <div class="form-group row text-right">

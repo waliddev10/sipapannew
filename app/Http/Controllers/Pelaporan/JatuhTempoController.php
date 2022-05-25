@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pelaporan;
 
 use App\Http\Controllers\Controller;
+use App\Models\CaraPelaporan;
 use App\Models\KotaPenandatangan;
 use App\Models\MasaPajak;
 use App\Models\Pelaporan;
@@ -83,7 +84,8 @@ class JatuhTempoController extends Controller
      */
     public function create()
     {
-        return view('pages.pelaporan.jatuh-tempo.create');
+        $cara_pelaporan = CaraPelaporan::all();
+        return view('pages.pelaporan.jatuh-tempo.create', compact('cara_pelaporan'));
     }
 
     /**
