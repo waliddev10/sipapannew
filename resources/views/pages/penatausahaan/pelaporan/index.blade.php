@@ -115,7 +115,7 @@
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
             { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
             { data: 'periode', name: 'periode' },
-            { data: 'status', name: 'status' },
+            { data: 'status', name: 'status', className: 'text-center' },
             { data: 'nama', name: 'nama' },
             { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
             { data: 'keterangan', name: 'keterangan' },

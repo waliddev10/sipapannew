@@ -5,6 +5,11 @@
 
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <select class="form-control form-control-sm mt-3 mr-2">
+                <option>2022</option>
+            </select>
+        </li>
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">

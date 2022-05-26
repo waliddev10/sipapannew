@@ -13,7 +13,7 @@
         <div class="input-group">
             <input type="text" name="volume" class="form-control" />
             <div class="input-group-append">
-                <span class="input-group-text"><small>M3</small></span>
+                <span class="input-group-text"><small>m<sup>3</sup></small></span>
             </div>
         </div>
     </div>
