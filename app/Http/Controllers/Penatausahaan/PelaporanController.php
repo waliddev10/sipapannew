@@ -54,7 +54,7 @@ class PelaporanController extends Controller
 
                     // tgl_jatuh_tempo 
                     $bulan = $mp->bulan + 1; // jatuh tempo di bulan berikutnya dari masa pajak
-                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $bulan + 1, $sanksi->tgl_batas, $mp->tahun));
+                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $bulan, $sanksi->tgl_batas, $mp->tahun));
 
                     // mencari tanggal jaatuh tempo,  jika weekend maka ditambah +1 hari
                     while (Carbon::parse($tgl_jatuh_tempo)->isWeekend()) {
