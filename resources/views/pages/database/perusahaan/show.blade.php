@@ -38,9 +38,9 @@
 
 <div class="form-group row text-right">
     <div class="col-12">
-        <a href="{{ route('tanggal-libur.destroy', $item->id) }}" class="btn btn-danger delete"
+        <button href="{{ route('perusahaan.destroy', $item->id) }}" class="btn btn-danger delete"
             data-target-table="tableDokumen"><i class="fa fa-trash"></i>
-            Hapus</a>
+            Hapus</button>
     </div>
 </div>
 
