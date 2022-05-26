@@ -33,7 +33,7 @@
             <tr>
                 <td style="width: 20%;">Nama</td>
                 <td style="width: 3%">:</td>
-                <td style="font-weight: bold">{{ $pelaporan->perusahaan->nama }}</td>
+                <td style="font-weight: bold">{{ Str::upper($pelaporan->perusahaan->nama) }}</td>
             </tr>
             <tr>
                 <td>Alamat</td>
@@ -68,9 +68,11 @@
         <table class="tabel-perhitungan" style="width: 100%; border-collapse: collapse; margin-bottom: 5pt; ">
             <tr style="border: 0.5pt solid black;">
                 <th style="border: 0.5pt solid black;">JENIS<br />PUNGUTAN</th>
+                @if (collect($npa_dokumen)->count() > 1)
                 <th style="border: 0.5pt solid black;">VOLUME<br />STANDAR</th>
+                @endif
                 <th style="border: 0.5pt solid black;">VOLUME<br />PEMAKAIAN</th>
-                <th style="border: 0.5pt solid black;">NPA<br />NIAGA BESAR</th>
+                <th style="border: 0.5pt solid black;">NPA<br />{{ Str::upper($npa->first()->jenis_usaha->nama) }}</th>
                 <th style="border: 0.5pt solid black;">JUMLAH<br />(NPA x V)</th>
                 <th style="border: 0.5pt solid black;">TARIF<br />PAJAK</th>
                 <th style="border: 0.5pt solid black;">PAJAK TERUTANG<br />(Rp)</th>
@@ -80,7 +82,9 @@
                 @if ($loop->first)
                 <td rowspan="{{ count($npa_dokumen) }}" style="text-align: center; border: 0.5pt solid black;">PAP</td>
                 @endif
+                @if (collect($npa_dokumen)->count() > 1)
                 <td style="text-align: center; border: 0.5pt solid black;">{{ $npad->volume_standar }}</td>
+                @endif
                 <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->volume_pemakaian, 0,
                     ',', '.') }}</td>
                 <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->npa, 0, ',', '.') }}
@@ -97,7 +101,9 @@
             </tr>
             @endforeach
             <tr>
-                <td colspan="2" style="border: 0.5pt solid black;">Jumlah Pemakaian</td>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 2 @endif" style="border: 0.5pt solid black;">
+                    Jumlah
+                    Pemakaian</td>
                 <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_volume_pemakaian, 0,
                     ',', '.') }}</td>
                 <td colspan="3" style="font-weight: bold; border: 0.5pt solid black;">JUMLAH PAJAK TERUTANG</td>
@@ -105,20 +111,21 @@
                     ',', '.') }}</td>
             </tr>
             <tr>
-                <td colspan="6" style="padding-left: 4.75cm;">Sanksi Bunga/Denda <span
-                        style="margin-left: 1.5cm">0%</span>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">
+                    Sanksi Bunga/Denda <span style="margin-left: 1.5cm">0%</span>
                 </td>
                 <td style="text-align: right; border: 0.5pt solid black;">-</td>
             </tr>
             <tr>
-                <td colspan="6" style="padding-left: 4.75cm;">Sanksi Administrasi <span
-                        style="margin-left: 1.5cm"></span>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">
+                    Sanksi Administrasi <span style="margin-left: 1.5cm"></span>
                 </td>
                 <td style="text-align: right; border: 0.5pt solid black;">{{
                     $nilai_sanksi_administrasi ? number_format($nilai_sanksi_administrasi, 0, ',', '.') : '-' }}</td>
             </tr>
             <tr>
-                <td colspan="6" style="padding-left: 4.75cm; font-weight: bold">Jumlah Pajak, Denda, dan Sanksi Air
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif"
+                    style="padding-left: 4.75cm; font-weight: bold">Jumlah Pajak, Denda, dan Sanksi Air
                     Permukaan
                     sebesar
                 </td>
