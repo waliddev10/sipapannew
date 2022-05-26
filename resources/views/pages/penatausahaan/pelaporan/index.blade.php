@@ -8,22 +8,59 @@
         <h6 class="m-0 font-weight-bold text-primary">Pelaporan</h6>
     </div>
     <div class="card-body">
-        <div class="table-responsive mt-3">
-            <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>No.</th>
-                        <th>Jatuh Tempo</th>
-                        <th>Masa Pajak</th>
-                        <th>Status</th>
-                        <th>Nama Perusahaan</th>
-                        <th>Batas Pelaporan</th>
-                        <th>Keterangan</th>
-                    </tr>
-                </thead>
-            </table>
+        <div class="row">
+            <div class="col-12">
+                <ul class="nav nav-pills nav-fill" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="ta-pelaporan-tab" data-toggle="tab" href="#pelaporan-tab"
+                            role="tab" aria-controls="pelaporan" aria-selected="true"><i class="fas fa-paper-plane"></i>
+                            Pelaporan</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="ta-penetapan-tab" data-toggle="tab" href="#penetapan-tab" role="tab"
+                            aria-controls="penetapan" aria-selected="true"><i class="fas fa-gavel"></i> Penetapan</a>
+                    </li>
+                </ul>
+                <div id="ta-pelaporan-content" class="tab-content">
+                    <div class="tab-pane active" id="pelaporan-tab" role="tabpanel" aria-labelledby="pelaporan-tab">
+                        <div class="table-responsive mt-3">
+                            <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%"
+                                cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Jatuh Tempo</th>
+                                        <th>Masa Pajak</th>
+                                        <th>Status</th>
+                                        <th>Nama Perusahaan</th>
+                                        <th>Batas Pelaporan</th>
+                                        <th>Keterangan</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="penetapan-tab" role="tabpanel" aria-labelledby="penetapan-tab">
+                        <div class="table-responsive mt-3">
+                            <table class="table table-bordered" id="table-rincian" width="100%">
+                                <thead class="bg-dark text-center">
+                                    <tr>
+                                        <th class="text-white"></th>
+                                        <th class="text-white">No</th>
+                                        <th class="text-white">No SP2D</th>
+                                        <th class="text-white">Tgl SP2D</th>
+                                        <th class="text-white">Uraian</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
+
     </div>
 </div>
 <div class="modal fade" id="modalContainer" data-backdrop="static" data-keyboard="false" role="dialog"

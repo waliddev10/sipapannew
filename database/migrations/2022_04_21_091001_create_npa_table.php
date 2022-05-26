@@ -22,6 +22,11 @@ class CreateNpaTable extends Migration
             $table->date('tgl_berlaku');                                    // tgl diberlakukannya NPA
             $table->string('keterangan')->nullable();                       // keterangan
             $table->timestamps();
+
+            $table->foreign('jenis_usaha_id')
+                ->references('id')
+                ->on('jenis_usaha')
+                ->onDelete('cascade');
         });
     }
 

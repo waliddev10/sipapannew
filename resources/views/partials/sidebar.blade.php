@@ -50,7 +50,7 @@ $menu = collect([
 # --- menu 3 --- #
 (object) [
 'title' => 'Penatausahaan',
-'icon' => 'fas fa-fw fa-paper-plane',
+'icon' => 'fas fa-fw fa-file-alt',
 'route' => null,
 'submenu' => [
 ## --- submenu 3.2 --- #
@@ -65,12 +65,12 @@ $menu = collect([
 'route' => 'pelaporan.index'
 ],
 ## --- submenu 3.2 --- #
-## --- submenu 3.2 --- #
-(object) [
-'title' => 'Penetapan',
-'route' => 'dashboard'
-],
-## --- submenu 3.2 --- #
+// ## --- submenu 3.2 --- #
+// (object) [
+// 'title' => 'Penetapan',
+// 'route' => 'dashboard'
+// ],
+// ## --- submenu 3.2 --- #
 ]
 ],
 # --- menu 2 --- #

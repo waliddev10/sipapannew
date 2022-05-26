@@ -23,6 +23,11 @@ class CreatePerusahaanTable extends Migration
             $table->string('jenis_usaha_id', 36);   // jenis usaha perusahaan
             $table->string('email', 64);            // alamat email perusahaan
             $table->timestamps();
+
+            $table->foreign('jenis_usaha_id')
+                ->references('id')
+                ->on('jenis_usaha')
+                ->onDelete('cascade');
         });
     }
 

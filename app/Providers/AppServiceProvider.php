@@ -26,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        setlocale(LC_TIME, 'id_ID');
         config(['app.locale' => 'id']);
         Carbon::setLocale('id');
         Carbon::setWeekendDays([Carbon::SUNDAY]);
