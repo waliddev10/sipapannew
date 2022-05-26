@@ -101,12 +101,15 @@
             </tr>
             @endforeach
             <tr>
-                <td colspan="@if (collect($npa_dokumen)->count() > 1) 2 @endif" style="border: 0.5pt solid black;">
+                @if (collect($npa_dokumen)->count() > 1)
+                <td colspan="2" style="border: 0.5pt solid black;">
                     Jumlah
                     Pemakaian</td>
                 <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_volume_pemakaian, 0,
                     ',', '.') }}</td>
-                <td colspan="3" style="font-weight: bold; border: 0.5pt solid black;">JUMLAH PAJAK TERUTANG</td>
+                @endif
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 3 @else 5 @endif"
+                    style="font-weight: bold; border: 0.5pt solid black;">JUMLAH PAJAK TERUTANG</td>
                 <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_pajak_terutang, 0,
                     ',', '.') }}</td>
             </tr>
