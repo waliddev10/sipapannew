@@ -8,8 +8,6 @@ class JenisUsaha extends Model
 {
     protected $table = 'jenis_usaha';
 
-    public $incrementing = false;
-
     protected $fillable = [
         'id', 'nama'
     ];

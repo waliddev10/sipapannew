@@ -54,7 +54,6 @@ class KotaPenandatanganController extends Controller
         ]);
 
         $data = KotaPenandatangan::create([
-            'id' => Uuid::uuid4(),
             'nama' => $request->nama
         ]);
 

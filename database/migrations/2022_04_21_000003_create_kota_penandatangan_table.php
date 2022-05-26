@@ -14,7 +14,7 @@ class CreateKotaPenandatanganTable extends Migration
     public function up()
     {
         Schema::create('kota_penandatangan', function (Blueprint $table) {
-            $table->string('id', 36)->primary();    // uuid v4
+            $table->id();    // uuid v4
             $table->string('nama');                 // nama kota
             $table->timestamps();
         });

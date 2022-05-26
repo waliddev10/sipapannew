@@ -82,7 +82,6 @@ class NpaController extends Controller
         ]);
 
         $data = Npa::create([
-            'id' => Uuid::uuid4(),
             'volume_min' => ($request->volume_min === '0') ? 0 : $request->volume_min,
             'volume_max' => ($request->volume_max === '0') ? 0 : $request->volume_max,
             'nilai' => $request->nilai,

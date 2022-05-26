@@ -61,7 +61,6 @@ class SanksiAdministrasiController extends Controller
         ]);
 
         $data = SanksiAdministrasi::create([
-            'id' => Uuid::uuid4(),
             'nilai' => $request->nilai,
             'tgl_batas' => $request->tgl_batas,
             'hari_min' => $request->hari_min,

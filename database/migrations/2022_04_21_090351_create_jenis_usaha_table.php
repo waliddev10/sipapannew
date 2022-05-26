@@ -14,7 +14,7 @@ class CreateJenisUsahaTable extends Migration
     public function up()
     {
         Schema::create('jenis_usaha', function (Blueprint $table) {
-            $table->string('id', 36)->primary();    // uuid v4
+            $table->id();    // uuid v4
             $table->string('nama');                 // nama jenis usaha
             $table->timestamps();
         });

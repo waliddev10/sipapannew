@@ -62,7 +62,6 @@ class SanksiBungaController extends Controller
         ]);
 
         $data = SanksiBunga::create([
-            'id' => Uuid::uuid4(),
             'nilai' => $request->nilai / 100,
             'hari_min' => $request->hari_min,
             'hari_max' => $request->hari_max,

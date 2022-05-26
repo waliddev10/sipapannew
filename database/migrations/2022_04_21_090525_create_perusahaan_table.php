@@ -14,13 +14,13 @@ class CreatePerusahaanTable extends Migration
     public function up()
     {
         Schema::create('perusahaan', function (Blueprint $table) {
-            $table->string('id', 36)->primary();    // uuid v4
+            $table->id();    // uuid v4
             $table->string('nama');                 // nama perusahaan
             $table->string('alamat');               // alamat perusahaan
             $table->date('tgl_penetapan');          // tgl penetapan sebagai PKP
             $table->string('hp_pj');                // nomor hp contact person
             $table->string('nama_pj');              // nama contact person
-            $table->string('jenis_usaha_id', 36);   // jenis usaha perusahaan
+            $table->unsignedBigInteger('jenis_usaha_id');   // jenis usaha perusahaan
             $table->string('email', 64);            // alamat email perusahaan
             $table->timestamps();
 

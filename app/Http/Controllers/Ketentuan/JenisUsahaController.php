@@ -54,7 +54,6 @@ class JenisUsahaController extends Controller
         ]);
 
         $data = JenisUsaha::create([
-            'id' => Uuid::uuid4(),
             'nama' => $request->nama
         ]);
 

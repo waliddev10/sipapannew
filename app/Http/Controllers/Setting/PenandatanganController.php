@@ -56,7 +56,6 @@ class PenandatanganController extends Controller
         ]);
 
         $data = Penandatangan::create([
-            'id' => Uuid::uuid4(),
             'nama' => $request->nama,
             'jabatan' => $request->jabatan,
             'nip' => $request->nip

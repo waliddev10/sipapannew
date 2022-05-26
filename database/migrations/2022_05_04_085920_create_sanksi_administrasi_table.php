@@ -14,7 +14,7 @@ class CreateSanksiAdministrasiTable extends Migration
     public function up()
     {
         Schema::create('sanksi_administrasi', function (Blueprint $table) {
-            $table->string('id', 36)->primary();            // uuid v4
+            $table->id();            // uuid v4
             $table->bigInteger('nilai')->unsigned(true);    // nilai sanksi dalam rupiah
             $table->integer('tgl_batas')->unsigned(true);   // tgl batas pelaporan awal perbulan
             $table->integer('hari_min')->unsigned(true);    // hari kerja batas pelaporan

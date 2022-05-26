@@ -14,7 +14,7 @@ class CreateTanggalLiburTable extends Migration
     public function up()
     {
         Schema::create('tanggal_libur', function (Blueprint $table) {
-            $table->string('id', 36)->primary();        // uuid v4
+            $table->id();        // uuid v4
             $table->date('tgl_libur');                  // tgl libur kalender gubernur
             $table->string('keterangan');               // tanggal libur apa?
             $table->string('dasar_hukum')->nullable();  // dasar hukum

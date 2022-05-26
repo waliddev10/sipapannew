@@ -64,7 +64,6 @@ class PerusahaanController extends Controller
         ]);
 
         $data = Perusahaan::create([
-            'id' => Uuid::uuid4(),
             'nama' => $request->nama,
             'alamat' => $request->alamat,
             'tgl_penetapan' => $request->tgl_penetapan,

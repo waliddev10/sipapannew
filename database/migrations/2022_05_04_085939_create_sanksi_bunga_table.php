@@ -14,7 +14,7 @@ class CreateSanksiBungaTable extends Migration
     public function up()
     {
         Schema::create('sanksi_bunga', function (Blueprint $table) {
-            $table->string('id', 36)->primary();                            // uuid v4
+            $table->id();                            // uuid v4
             $table->float('nilai', 5, 4)->unsigned(true);                   // nilai persen sanksi dalam decimal 0,0000
             $table->integer('hari_min')->unsigned(true);                    // batas bawah hari dikenakan sanksi setelah pelaporan
             $table->integer('hari_max')->unsigned(true);                    // batas atas hari kerja dikenakan sanksi

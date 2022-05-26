@@ -14,15 +14,15 @@ class CreatePelaporanTable extends Migration
     public function up()
     {
         Schema::create('pelaporan', function (Blueprint $table) {
-            $table->string('id', 36)->primary();
-            $table->string('masa_pajak_id', 36);
-            $table->string('perusahaan_id', 36);
+            $table->id();
+            $table->unsignedBigInteger('masa_pajak_id');
+            $table->unsignedBigInteger('perusahaan_id');
             $table->date('tgl_pelaporan');
             $table->bigInteger('volume')->unsigned();
-            $table->string('cara_pelaporan_id', 36);
+            $table->unsignedBigInteger('cara_pelaporan_id');
             $table->string('file');
-            $table->string('penandatangan_id', 36);
-            $table->string('kota_penandatangan_id', 36);
+            $table->unsignedBigInteger('penandatangan_id');
+            $table->unsignedBigInteger('kota_penandatangan_id');
             $table->timestamps();
 
             $table->foreign('masa_pajak_id')

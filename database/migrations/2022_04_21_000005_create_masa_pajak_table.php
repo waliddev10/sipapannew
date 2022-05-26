@@ -14,7 +14,7 @@ class CreateMasaPajakTable extends Migration
     public function up()
     {
         Schema::create('masa_pajak', function (Blueprint $table) {
-            $table->string('id', 36)->primary();            // uuid v4
+            $table->id();            // uuid v4
             $table->integer('bulan')->unsigned(true);       // bulan masa pajak (dalam angka)
             $table->integer('tahun')->unsigned(true);       // tahun masa pajak
             $table->timestamps();

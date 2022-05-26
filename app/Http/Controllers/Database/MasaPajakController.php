@@ -59,7 +59,6 @@ class MasaPajakController extends Controller
         ]);
 
         $data = MasaPajak::create([
-            'id' => Uuid::uuid4(),
             'bulan' => $request->bulan,
             'tahun' => $request->tahun
         ]);

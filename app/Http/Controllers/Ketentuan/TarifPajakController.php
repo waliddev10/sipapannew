@@ -59,7 +59,6 @@ class TarifPajakController extends Controller
         ]);
 
         $data = TarifPajak::create([
-            'id' => Uuid::uuid4(),
             'nilai' => $request->nilai / 100,
             'tgl_berlaku' => $request->tgl_berlaku,
             'keterangan' => $request->keterangan,

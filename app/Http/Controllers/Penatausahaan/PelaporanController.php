@@ -282,8 +282,6 @@ class PelaporanController extends Controller
             ->orderBy('nilai', 'asc')
             ->get();
 
-        dd($pelaporan);
-
         // retrieving sanksi_admministrasi first from penetapan
         $sanksi = SanksiAdministrasi::all()
             ->sortBy([

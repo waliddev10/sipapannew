@@ -8,8 +8,6 @@ class KotaPenandatangan extends Model
 {
     protected $table = 'kota_penandatangan';
 
-    public $incrementing = false;
-
     protected $fillable = [
         'id', 'nama'
     ];

@@ -8,8 +8,6 @@ class Npa extends Model
 {
     protected $table = 'npa';
 
-    public $incrementing = false;
-
     protected $fillable = [
         'id', 'volume_min', 'volume_max', 'nilai', 'jenis_usaha_id', 'tgl_berlaku', 'keterangan'
     ];

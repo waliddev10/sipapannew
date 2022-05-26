@@ -69,7 +69,6 @@ class TanggalLiburController extends Controller
         ]);
 
         $data = TanggalLibur::create([
-            'id' => Uuid::uuid4(),
             'tgl_libur' => $request->tgl_libur,
             'keterangan' => $request->keterangan,
             'dasar_hukum' => $request->dasar_hukum

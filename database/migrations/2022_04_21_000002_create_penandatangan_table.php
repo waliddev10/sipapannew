@@ -14,7 +14,7 @@ class CreatePenandatanganTable extends Migration
     public function up()
     {
         Schema::create('penandatangan', function (Blueprint $table) {
-            $table->string('id', 36)->primary();    // uuid v4
+            $table->id();    // uuid v4
             $table->string('nama');                 // nama penandatangan
             $table->string('jabatan');              // jabatan penandatangan
             $table->string('nip');                  // nip penandatangan

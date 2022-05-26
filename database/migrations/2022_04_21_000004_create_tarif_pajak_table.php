@@ -14,7 +14,7 @@ class CreateTarifPajakTable extends Migration
     public function up()
     {
         Schema::create('tarif_pajak', function (Blueprint $table) {
-            $table->string('id', 36)->primary();            // uuid v4
+            $table->id();            // uuid v4
             $table->float('nilai', 5, 4)->unsigned(true);   // tarif pajak dalam decimal: 0,0000
             $table->date('tgl_berlaku');                    // tgl sejak kapan tarif berlaku
             $table->string('keterangan')->nullable();       // keterangan tarif pajak
