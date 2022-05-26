@@ -11,6 +11,7 @@ use App\Models\Npa;
 use App\Models\Penandatangan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
+use App\Models\SanksiBunga;
 use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
 use Carbon\Carbon;
@@ -281,12 +282,49 @@ class PelaporanController extends Controller
             ->get();
 
         // retrieving sanksi_admministrasi first from penetapan
-        $sanksi = SanksiAdministrasi::all()
+        $sanksi_administrasi = SanksiAdministrasi::all()
             ->sortBy([
                 fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
             ])->first(function ($value, $key) use ($pelaporan) {
                 return date($value->tgl_berlaku) <= date($pelaporan->tgl_pelaporan);
             });
+
+        $tgl_libur = TanggalLibur::all();
+
+        // define var
+        $mp = $pelaporan->masa_pajak;
+        $sanksi = $sanksi_administrasi;
+
+        // tgl_jatuh_tempo 
+        $bulan = $mp->bulan + 1; // jatuh tempo di bulan berikutnya dari masa pajak
+        $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $bulan, $sanksi->tgl_batas, $mp->tahun));
+
+        // mencari tanggal jaatuh tempo,  jika weekend maka ditambah +1 hari
+        while (Carbon::parse($tgl_jatuh_tempo)->isWeekend()) {
+            $tgl_jatuh_tempo = Carbon::parse($tgl_jatuh_tempo)->addDay()->format('Y-m-d');
+        }
+
+        // menghitung kapan batas pelaporan ditambah dengan tanggal libur
+        $tgl_batas_pelaporan = $tgl_jatuh_tempo; // init tanggal awal
+        $counter_hari = 0;
+        $sanksi_hari_counter = $sanksi->hari_min;
+        while ($counter_hari < $sanksi_hari_counter) {
+            if ($tgl_libur
+                ->filter(function ($value, $key) use ($tgl_batas_pelaporan) {
+                    return Carbon::parse($value->tgl_libur) == Carbon::parse($tgl_batas_pelaporan);
+                })->count()
+            ) {
+                $sanksi_hari_counter++;
+            }
+            $tgl_batas_pelaporan = Carbon::parse($tgl_batas_pelaporan)->addWeekday()->format('Y-m-d');
+            $counter_hari++;
+        }
+
+        if ($tgl_batas_pelaporan < $pelaporan->tgl_pelaporan) {
+            $nilai_sanksi_administrasi = $sanksi_administrasi->nilai;
+        } else {
+            $nilai_sanksi_administrasi = null;
+        }
 
         // retrieving tarif_pajak first from penetapan
         $tarif_pajak = TarifPajak::all()
@@ -296,7 +334,67 @@ class PelaporanController extends Controller
                 return date($value->tgl_berlaku) <= date($pelaporan->tgl_pelaporan);
             });
 
-        $pdf = PDF::loadView('pdf.surat-penetapan', compact('pelaporan', 'npa', 'tarif_pajak'));
+        // npa
+        $npa_dokumen = [];
+        $volume_total = $pelaporan->volume;
+        foreach ($npa as $np) {
+            // membuat object
+            if (!is_null($np->volume_max)) {
+                if ($volume_total > $np->volume_max) {
+                    if ($np->volume_min == 0) {
+                        $volume_pemakaian = $np->volume_max - $np->volume_min;
+                    } else {
+                        $volume_pemakaian = $np->volume_max - ($np->volume_min - 1);
+                    }
+                } else {
+                    $volume_pemakaian = $volume_total;
+                }
+            } else {
+                $volume_pemakaian = $volume_total;
+            }
+            $volume_total = $volume_total - $volume_pemakaian;
+
+            // get column volume standar
+            if (is_null($np->volume_max)) {
+                if ($np->volume_min == 0) {
+                    $volume_standar = null;
+                } else {
+                    $volume_standar = '> ' . ($np->volume_min - 1);
+                }
+            }
+            if (!is_null($np->volume_min) && !is_null($np->volume_max)) {
+                $volume_standar = $np->volume_min . ' - ' . $np->volume_max;
+            }
+
+            $item = (object) [
+                'volume_standar' => $volume_standar,
+                'volume_pemakaian' =>  $volume_pemakaian,
+                'npa' => $np->nilai,
+                'jumlah' => $volume_pemakaian * $np->nilai,
+                'pajak_terutang' => $volume_pemakaian * $np->nilai * $tarif_pajak->nilai
+            ];
+            array_push($npa_dokumen, $item);
+        }
+
+        // // sanksi bunga
+        // $sanksi_bunga = SanksiBunga::all()
+        //     ->sortBy([
+        //         fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
+        //     ])->first(function ($value, $key) use ($pelaporan) {
+        //         return date($value->tgl_berlaku) <= date($pelaporan->tgl_pelaporan);
+        //     });
+        // $jumlah_tanggal_libur_untuk_bunga = $tgl_libur
+        //     ->filter(function ($value, $key) use ($tgl_batas_pelaporan, $pelaporan) {
+        //         return Carbon::parse($value->tgl_libur) > Carbon::parse($tgl_batas_pelaporan) && Carbon::parse($value->tgl_libur) < Carbon::parse($pelaporan->tgl_pelaporan) && Carbon::parse($value->tgl_libur)->isWeekday();
+        //     })->count();
+        // $jumlah_hari_sanksi_bunga = Carbon::parse($pelaporan->tgl_pelaporan)->diff()->days - $jumlah_tanggal_libur_untuk_bunga - $sanksi_bunga->hari_min;
+
+        // variabel khusus
+        $jumlah_volume_pemakaian = collect($npa_dokumen)->sum('volume_pemakaian');
+        $jumlah_pajak_terutang = collect($npa_dokumen)->sum('pajak_terutang');
+        $jumlah_pajak_dan_sanksi = $jumlah_pajak_terutang + $nilai_sanksi_administrasi;
+
+        $pdf = PDF::loadView('pdf.surat-penetapan', compact('pelaporan', 'npa', 'tarif_pajak', 'nilai_sanksi_administrasi', 'npa_dokumen', 'jumlah_volume_pemakaian', 'jumlah_pajak_terutang', 'jumlah_pajak_dan_sanksi'));
         return $pdf->stream('download.pdf');
     }
 }

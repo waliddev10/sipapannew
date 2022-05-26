@@ -75,49 +75,34 @@
                 <th style="border: 0.5pt solid black;">TARIF<br />PAJAK</th>
                 <th style="border: 0.5pt solid black;">PAJAK TERUTANG<br />(Rp)</th>
             </tr>
+            @foreach ($npa_dokumen as $npad)
             <tr>
-                <td rowspan="5" style="text-align: center; border: 0.5pt solid black;">PAP</td>
-                <td style="text-align: center; border: 0.5pt solid black;">0 - 50</td>
-                <td style="text-align: right; border: 0.5pt solid black;">50</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.091</td>
-                <td style="text-align: right; border: 0.5pt solid black;">54.550</td>
-                <td rowspan="5" style="text-align: center; border: 0.5pt solid black;">{{ $tarif_pajak->nilai * 100 }}%
+                @if ($loop->first)
+                <td rowspan="{{ count($npa_dokumen) }}" style="text-align: center; border: 0.5pt solid black;">PAP</td>
+                @endif
+                <td style="text-align: center; border: 0.5pt solid black;">{{ $npad->volume_standar }}</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->volume_pemakaian, 0,
+                    ',', '.') }}</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->npa, 0, ',', '.') }}
                 </td>
-                <td style="text-align: right; border: 0.5pt solid black;">5.455</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->jumlah, 0, ',', '.')
+                    }}</td>
+                @if ($loop->first)
+                <td rowspan="{{ count($npa_dokumen) }}" style="text-align: center; border: 0.5pt solid black;">{{
+                    $tarif_pajak->nilai * 100 }}%
+                </td>
+                @endif
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->pajak_terutang, 0,
+                    ',', '.') }}</td>
             </tr>
-            <tr>
-                <td style="text-align: center; border: 0.5pt solid black;">51 - 500</td>
-                <td style="text-align: right; border: 0.5pt solid black;">450</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.141</td>
-                <td style="text-align: right; border: 0.5pt solid black;">513.450</td>
-                <td style="text-align: right; border: 0.5pt solid black;">51.345</td>
-            </tr>
-            <tr>
-                <td style="text-align: center; border: 0.5pt solid black;">501 - 1000</td>
-                <td style="text-align: right; border: 0.5pt solid black;">500</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.190</td>
-                <td style="text-align: right; border: 0.5pt solid black;">595.000</td>
-                <td style="text-align: right; border: 0.5pt solid black;">59.500</td>
-            </tr>
-            <tr>
-                <td style="text-align: center; border: 0.5pt solid black;">1001 - 2500</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.500</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.240</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.860.000</td>
-                <td style="text-align: right; border: 0.5pt solid black;">186.000</td>
-            </tr>
-            <tr>
-                <td style="text-align: center; border: 0.5pt solid black;">> 2500</td>
-                <td style="text-align: right; border: 0.5pt solid black;">12.511</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.290</td>
-                <td style="text-align: right; border: 0.5pt solid black;">16.139.190</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.613.919</td>
-            </tr>
+            @endforeach
             <tr>
                 <td colspan="2" style="border: 0.5pt solid black;">Jumlah Pemakaian</td>
-                <td style="text-align: right; border: 0.5pt solid black;">15.011</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_volume_pemakaian, 0,
+                    ',', '.') }}</td>
                 <td colspan="3" style="font-weight: bold; border: 0.5pt solid black;">JUMLAH PAJAK TERUTANG</td>
-                <td style="text-align: right; border: 0.5pt solid black;">1.916.219</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_pajak_terutang, 0,
+                    ',', '.') }}</td>
             </tr>
             <tr>
                 <td colspan="6" style="padding-left: 4.75cm;">Sanksi Bunga/Denda <span
@@ -129,14 +114,17 @@
                 <td colspan="6" style="padding-left: 4.75cm;">Sanksi Administrasi <span
                         style="margin-left: 1.5cm"></span>
                 </td>
-                <td style="text-align: right; border: 0.5pt solid black;">-</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{
+                    $nilai_sanksi_administrasi ? number_format($nilai_sanksi_administrasi, 0, ',', '.') : '-' }}</td>
             </tr>
             <tr>
                 <td colspan="6" style="padding-left: 4.75cm; font-weight: bold">Jumlah Pajak, Denda, dan Sanksi Air
                     Permukaan
                     sebesar
                 </td>
-                <td style="text-align: right; font-weight: bold; border: 0.5pt solid black;">1.916.219</td>
+                <td style="text-align: right; font-weight: bold; border: 0.5pt solid black;">{{
+                    number_format($jumlah_pajak_dan_sanksi, 0, ',', '.')
+                    }}</td>
             </tr>
         </table>
     </div>
