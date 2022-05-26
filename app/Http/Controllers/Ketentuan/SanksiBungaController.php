@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\SanksiBunga;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
 class SanksiBungaController extends Controller

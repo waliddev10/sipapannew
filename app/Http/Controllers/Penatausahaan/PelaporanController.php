@@ -184,13 +184,11 @@ class PelaporanController extends Controller
         ]);
 
         $file = $request->file('file');
-        $id = Uuid::uuid4();
-        $nama_file = $id . "." . $file->extension();
+        $nama_file = Uuid::uuid4() . "." . $file->extension();
         $tujuan_upload = storage_path('app') . '/berkas-pelaporan';
         $file->move($tujuan_upload, $nama_file);
 
         $data = Pelaporan::create([
-            'id' => $id,
             'masa_pajak_id' => $request->masa_pajak_id,
             'perusahaan_id' => $request->perusahaan_id,
             'tgl_pelaporan' => $request->tgl_pelaporan,

@@ -7,7 +7,6 @@ use App\Models\MasaPajak;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
 class MasaPajakController extends Controller

@@ -7,7 +7,6 @@ use App\Models\JenisUsaha;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 
 class PerusahaanController extends Controller
