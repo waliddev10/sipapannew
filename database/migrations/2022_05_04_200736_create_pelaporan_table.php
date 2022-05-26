@@ -20,6 +20,7 @@ class CreatePelaporanTable extends Migration
             $table->date('tgl_pelaporan');
             $table->bigInteger('volume')->unsigned();
             $table->string('cara_pelaporan_id', 36);
+            $table->string('file');
             $table->string('penandatangan_id', 36);
             $table->string('kota_penandatangan_id', 36);
             $table->timestamps();
