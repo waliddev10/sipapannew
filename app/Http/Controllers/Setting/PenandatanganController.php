@@ -20,7 +20,7 @@ class PenandatanganController extends Controller
         if ($request->ajax()) {
             return DataTables::of(Penandatangan::orderBy('updated_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('penandatangan.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><button class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('penandatangan.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></button><button class="btn btn-xs btn-warning" title="Detail" data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('penandatangan.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></button></div>';
                 })
                 ->rawColumns(['action'])
                 ->addIndexColumn()

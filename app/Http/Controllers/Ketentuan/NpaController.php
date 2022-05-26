@@ -27,7 +27,7 @@ class NpaController extends Controller
                         ->get()
                 )
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('npa.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('npa.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><button class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('npa.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></button><button class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('npa.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></button></div>';
                 })
                 ->addColumn('volume', function ($item) {
                     if (is_null($item->volume_min)) return '< ' . $item->volume_max;

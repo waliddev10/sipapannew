@@ -20,7 +20,7 @@ class SanksiBungaController extends Controller
         if ($request->ajax()) {
             return DataTables::of(SanksiBunga::orderBy('created_at', 'desc')->get())
                 ->addColumn('action', function ($item) {
-                    return '<div class="btn-group"><a class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-bunga.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></a><a class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-bunga.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></a></div>';
+                    return '<div class="btn-group"><button class="btn btn-xs btn-info" title="Ubah" data-toggle="modal" data-target="#modalContainer" data-title="Ubah" href="' . route('sanksi-bunga.edit', $item->id) . '"> <i class="fas fa-edit fa-fw"></i></button><button class="btn btn-xs btn-warning" title="Detail " data-toggle="modal" data-target="#modalContainer" data-title="Detail" href="' . route('sanksi-bunga.show', $item->id) . '"><i class="fas fa-eye fa-fw"></i></button></div>';
                 })
                 ->editColumn('nilai', function ($item) {
                     return $item->nilai * 100 . '%';
