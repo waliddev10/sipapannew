@@ -19,7 +19,6 @@ class SanksiBungaSeeder extends Seeder
         return SanksiBunga::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'nilai' => 0.02,
                     'hari_min' => 15,
                     'hari_max' => 15 * 30,

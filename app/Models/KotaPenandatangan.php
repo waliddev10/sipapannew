@@ -9,6 +9,6 @@ class KotaPenandatangan extends Model
     protected $table = 'kota_penandatangan';
 
     protected $fillable = [
-        'id', 'nama'
+        'nama'
     ];
 }

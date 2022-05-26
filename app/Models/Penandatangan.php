@@ -9,6 +9,6 @@ class Penandatangan extends Model
     protected $table = 'penandatangan';
 
     protected $fillable = [
-        'id', 'nama', 'jabatan', 'nip'
+        'nama', 'jabatan', 'nip'
     ];
 }

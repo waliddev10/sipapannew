@@ -9,6 +9,6 @@ class SanksiBunga extends Model
     protected $table = 'sanksi_bunga';
 
     protected $fillable = [
-        'id', 'nilai', 'hari_min', 'hari_max', 'hari_pembagi', 'tgl_berlaku', 'keterangan'
+        'nilai', 'hari_min', 'hari_max', 'hari_pembagi', 'tgl_berlaku', 'keterangan'
     ];
 }

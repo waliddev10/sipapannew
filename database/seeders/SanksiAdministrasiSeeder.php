@@ -19,7 +19,6 @@ class SanksiAdministrasiSeeder extends Seeder
         return SanksiAdministrasi::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'nilai' => 25000,
                     'tgl_batas' => 3,
                     'hari_min' => 20,

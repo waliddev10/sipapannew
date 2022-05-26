@@ -9,6 +9,6 @@ class MasaPajak extends Model
     protected $table = 'masa_pajak';
 
     protected $fillable = [
-        'id', 'bulan', 'tahun'
+        'bulan', 'tahun'
     ];
 }

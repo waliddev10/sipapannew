@@ -9,7 +9,7 @@ class Perusahaan extends Model
     protected $table = 'perusahaan';
 
     protected $fillable = [
-        'id', 'nama', 'alamat', 'tgl_penetapan', 'hp_pj', 'nama_pj', 'jenis_usaha_id', 'email'
+        'nama', 'alamat', 'tgl_penetapan', 'hp_pj', 'nama_pj', 'jenis_usaha_id', 'email'
     ];
 
     public function jenis_usaha()

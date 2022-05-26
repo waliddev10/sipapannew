@@ -9,6 +9,6 @@ class CaraPelaporan extends Model
     protected $table = 'cara_pelaporan';
 
     protected $fillable = [
-        'id', 'nama'
+        'nama'
     ];
 }

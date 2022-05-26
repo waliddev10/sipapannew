@@ -19,13 +19,11 @@ class KotaPenandatanganSeeder extends Seeder
         return KotaPenandatangan::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Penajam',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Samarinda',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()

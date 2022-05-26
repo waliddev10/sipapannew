@@ -17,7 +17,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         return User::create([
-            'id' => Uuid::uuid4(),
             'nama' => 'Adelia Ayuningtyas Widiyanto',
             'nip' => '200101022022012002',
             'jabatan' => 'Pengelola Pendapatan',

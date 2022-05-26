@@ -9,6 +9,6 @@ class SanksiAdministrasi extends Model
     protected $table = 'sanksi_administrasi';
 
     protected $fillable = [
-        'id', 'nilai', 'tgl_batas', 'hari_min', 'tgl_berlaku', 'keterangan'
+        'nilai', 'tgl_batas', 'hari_min', 'tgl_berlaku', 'keterangan'
     ];
 }

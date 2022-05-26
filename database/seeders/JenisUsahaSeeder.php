@@ -19,37 +19,31 @@ class JenisUsahaSeeder extends Seeder
         return JenisUsaha::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Non Niaga',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Niaga Kecil',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Niaga Besar',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Industri Kecil',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Industri Besar',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'BUMD',
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()

@@ -19,7 +19,6 @@ class PenandatanganSeeder extends Seeder
         return Penandatangan::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'Donny Marisya, S.E.',
                     'jabatan' => 'Kasi Pendataan & Penetapan',
                     'nip' => '19760201 200212 1 009',
@@ -27,7 +26,6 @@ class PenandatanganSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'nama' => 'H. Arifin, S.Sos.',
                     'jabatan' => 'Kepala',
                     'nip' => '19661104 199002 2 002',

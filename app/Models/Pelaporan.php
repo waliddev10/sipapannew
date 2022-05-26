@@ -9,7 +9,7 @@ class Pelaporan extends Model
     protected $table = 'pelaporan';
 
     protected $fillable = [
-        'id', 'masa_pajak_id', 'perusahaan_id', 'tgl_pelaporan', 'volume', 'cara_pelaporan_id', 'file', 'penandatangan_id', 'kota_penandatangan_id'
+        'masa_pajak_id', 'perusahaan_id', 'tgl_pelaporan', 'volume', 'cara_pelaporan_id', 'file', 'penandatangan_id', 'kota_penandatangan_id'
     ];
 
     public function cara_pelaporan()

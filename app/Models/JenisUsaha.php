@@ -9,6 +9,6 @@ class JenisUsaha extends Model
     protected $table = 'jenis_usaha';
 
     protected $fillable = [
-        'id', 'nama'
+        'nama'
     ];
 }

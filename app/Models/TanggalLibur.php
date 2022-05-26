@@ -9,6 +9,6 @@ class TanggalLibur extends Model
     protected $table = 'tanggal_libur';
 
     protected $fillable = [
-        'id', 'tgl_libur', 'dasar_hukum', 'keterangan'
+        'tgl_libur', 'dasar_hukum', 'keterangan'
     ];
 }

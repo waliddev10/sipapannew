@@ -16,7 +16,6 @@ class CaraPelaporanSeeder extends Seeder
     public function run()
     {
         return CaraPelaporan::create([
-            'id' => Uuid::uuid4(),
             'nama' => 'Pesan WhatsApp',
         ]);
     }

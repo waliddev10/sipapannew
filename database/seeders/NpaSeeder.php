@@ -24,7 +24,6 @@ class NpaSeeder extends Seeder
         return Npa::insert(
             [
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 0,
                     'volume_max' => 50,
                     'nilai' => 1091,
@@ -35,7 +34,6 @@ class NpaSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 51,
                     'volume_max' => 500,
                     'nilai' => 1141,
@@ -46,7 +44,6 @@ class NpaSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 501,
                     'volume_max' => 1000,
                     'nilai' => 1190,
@@ -57,7 +54,6 @@ class NpaSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 1001,
                     'volume_max' => 2500,
                     'nilai' => 1240,
@@ -68,7 +64,6 @@ class NpaSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 2501,
                     'volume_max' => null,
                     'nilai' => 1290,
@@ -79,7 +74,6 @@ class NpaSeeder extends Seeder
                     'updated_at' => Carbon::now()
                 ],
                 [
-                    'id' => Uuid::uuid4(),
                     'volume_min' => 0,
                     'volume_max' => null,
                     'nilai' => 100,
