@@ -109,9 +109,12 @@ class PelaporanController extends Controller
                 ->addColumn('status', function ($item) {
                     if ($item->pelaporan->count() > 0)
                         return '<div class="btn-group">
-                    <a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
+                    <a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
                         <i class="fas fa-print fa-fw"></i>
-                    </a>';
+                    </a>
+                    </div>
+                    <span class="badge badge-success">Sudah Lapor</span>
+                    ';
                     // return '<span class="badge badge-info">Sudah Lapor <span class="badge badge-light fw-bold">' . $item->pelaporan->count() . '</span></span>';
 
                     return  '<span class="badge badge-warning">Belum Lapor</span>';

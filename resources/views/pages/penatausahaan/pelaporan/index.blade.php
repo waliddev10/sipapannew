@@ -43,14 +43,16 @@
                     </div>
                     <div class="tab-pane" id="penetapan-tab" role="tabpanel" aria-labelledby="penetapan-tab">
                         <div class="table-responsive mt-3">
-                            <table class="table table-bordered" id="table-rincian" width="100%">
-                                <thead class="bg-dark text-center">
+                            <table id="penetapanTable" class="table table-sm table-bordered table-hover" width="100%"
+                                cellspacing="0">
+                                <thead>
                                     <tr>
-                                        <th class="text-white"></th>
-                                        <th class="text-white">No</th>
-                                        <th class="text-white">No SP2D</th>
-                                        <th class="text-white">Tgl SP2D</th>
-                                        <th class="text-white">Uraian</th>
+                                        <th></th>
+                                        <th>No.</th>
+                                        <th>Masa Pajak</th>
+                                        <th>Nama Perusahaan</th>
+                                        <th>Batas Pelaporan</th>
+                                        <th>Keterangan</th>
                                     </tr>
                                 </thead>
                             </table>
