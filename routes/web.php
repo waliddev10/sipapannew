@@ -63,6 +63,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('/pelaporan', PelaporanController::class);
         Route::get('/cetak-pelaporan/{pelaporan}', [PelaporanController::class, 'print'])
             ->name('pelaporan.cetak-surat');
+        Route::get('/berkas-pelaporan/{filename}', [PelaporanController::class, 'showFile'])
+            ->name('pelaporan.berkas');
     });
 
     Route::prefix('/database')->group(function () {

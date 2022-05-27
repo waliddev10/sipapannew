@@ -20,6 +20,8 @@ use Illuminate\Http\Response;
 use Ramsey\Uuid\Uuid;
 use Yajra\DataTables\DataTables;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response as FacadesResponse;
 
 class PelaporanController extends Controller
 {
@@ -399,5 +401,22 @@ class PelaporanController extends Controller
 
         $pdf = PDF::loadView('pdf.surat-penetapan', compact('pelaporan', 'npa', 'tarif_pajak', 'nilai_sanksi_administrasi', 'npa_dokumen', 'jumlah_volume_pemakaian', 'jumlah_pajak_terutang', 'jumlah_pajak_dan_sanksi'));
         return $pdf->stream('download.pdf');
+    }
+
+    function showFile($filename)
+
+    {
+        $path = storage_path('app/berkas-pelaporan/' . $filename);
+
+        if (!File::exists($path)) {
+            abort(404);
+        }
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+
+        $response = FacadesResponse::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }

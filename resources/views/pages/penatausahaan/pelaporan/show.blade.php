@@ -5,6 +5,14 @@
             <td>{{ $item->tgl_pelaporan }}</td>
         </tr>
         <tr>
+            <th width="1%">Nama Perusahaan</th>
+            <td>{{ $item->perusahaan->nama }}</td>
+        </tr>
+        <tr>
+            <th width="1%">Masa Pajak</th>
+            <td>{{ $item->masa_pajak->bulan }} - {{ $item->masa_pajak->tahun }}</td>
+        </tr>
+        <tr>
             <th width="1%">Volume Meter</th>
             <td class="text-right">{{ number_format($item->volume, 0, ',', '.') }} m<sup>3</sup></td>
         </tr>
@@ -19,6 +27,14 @@
         <tr>
             <th width="1%">Kota Penandatangan</th>
             <td>{{ $item->kota_penandatangan->nama }}</td>
+        </tr>
+        <tr>
+            <th width="1%">Berkas Pendukung</th>
+            <td><a class="btn btn-success" title="Lihat Berkas Pendukung" data-title="Lihat Berkas Pendukung"
+                    onclick="return !window.open(this.href, 'Berkas Pendukung', 'resizable=no,width=1024,height=768')"
+                    href="{{ route('pelaporan.berkas', $item->file) }}">
+                    <i class="fas fa-file fa-fw"></i> {{ $item->file }}
+                </a> </td>
         </tr>
     </tbody>
 </table>
