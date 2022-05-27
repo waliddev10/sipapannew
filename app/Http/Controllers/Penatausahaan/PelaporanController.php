@@ -117,7 +117,6 @@ class PelaporanController extends Controller
                     </div>
                     <span class="badge badge-success">Sudah Lapor</span>
                     ';
-                    // return '<span class="badge badge-info">Sudah Lapor <span class="badge badge-light fw-bold">' . $item->pelaporan->count() . '</span></span>';
 
                     return  '<span class="badge badge-warning">Belum Lapor</span>';
                 })
@@ -371,28 +370,17 @@ class PelaporanController extends Controller
                 $volume_standar = $np->volume_min . ' - ' . $np->volume_max;
             }
 
-            $item = (object) [
-                'volume_standar' => $volume_standar,
-                'volume_pemakaian' =>  $volume_pemakaian,
-                'npa' => $np->nilai,
-                'jumlah' => $volume_pemakaian * $np->nilai,
-                'pajak_terutang' => $volume_pemakaian * $np->nilai * $tarif_pajak->nilai
-            ];
-            array_push($npa_dokumen, $item);
+            if ($volume_pemakaian > 0) {
+                $item = (object) [
+                    'volume_standar' => $volume_standar,
+                    'volume_pemakaian' =>  $volume_pemakaian,
+                    'npa' => $np->nilai,
+                    'jumlah' => $volume_pemakaian * $np->nilai,
+                    'pajak_terutang' => $volume_pemakaian * $np->nilai * $tarif_pajak->nilai
+                ];
+                array_push($npa_dokumen, $item);
+            }
         }
-
-        // // sanksi bunga
-        // $sanksi_bunga = SanksiBunga::all()
-        //     ->sortBy([
-        //         fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
-        //     ])->first(function ($value, $key) use ($pelaporan) {
-        //         return date($value->tgl_berlaku) <= date($pelaporan->tgl_pelaporan);
-        //     });
-        // $jumlah_tanggal_libur_untuk_bunga = $tgl_libur
-        //     ->filter(function ($value, $key) use ($tgl_batas_pelaporan, $pelaporan) {
-        //         return Carbon::parse($value->tgl_libur) > Carbon::parse($tgl_batas_pelaporan) && Carbon::parse($value->tgl_libur) < Carbon::parse($pelaporan->tgl_pelaporan) && Carbon::parse($value->tgl_libur)->isWeekday();
-        //     })->count();
-        // $jumlah_hari_sanksi_bunga = Carbon::parse($pelaporan->tgl_pelaporan)->diff()->days - $jumlah_tanggal_libur_untuk_bunga - $sanksi_bunga->hari_min;
 
         // variabel khusus
         $jumlah_volume_pemakaian = collect($npa_dokumen)->sum('volume_pemakaian');
