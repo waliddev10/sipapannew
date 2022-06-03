@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-<div class="row">
+<div class="row p-4">
 
     <!-- Earnings (Monthly) Card Example -->
     <div class="col-xl-3 col-md-6 mb-4">

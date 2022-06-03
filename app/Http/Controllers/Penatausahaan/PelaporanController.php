@@ -101,10 +101,26 @@ class PelaporanController extends Controller
                 }
             }
 
-            return DataTables::of(collect($jatuh_tempo)->sortBy([
-                fn ($a, $b) => $b->tgl_jatuh_tempo <=> $a->tgl_jatuh_tempo,
-                fn ($a, $b) => $a->nama <=> $b->nama,
-            ]))
+            $filtered_data = collect($jatuh_tempo)
+                ->sortBy([
+                    fn ($a, $b) => $b->tgl_jatuh_tempo <=> $a->tgl_jatuh_tempo,
+                    fn ($a, $b) => $a->nama <=> $b->nama,
+                ])
+                ->filter(function ($item) use ($request) {
+                    if ($request->has('bulan') && $request->bulan != 'Semua') {
+                        return Carbon::parse($item->tgl_jatuh_tempo)->month == $request->bulan;
+                    } else {
+                        return true;
+                    }
+
+                    if ($request->has('tahun')) {
+                        return Carbon::parse($item->tgl_jatuh_tempo)->year == $request->tahun;
+                    } else {
+                        return true;
+                    }
+                });
+
+            return DataTables::of($filtered_data)
                 ->addColumn('periode', function ($item) {
                     return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
                 })

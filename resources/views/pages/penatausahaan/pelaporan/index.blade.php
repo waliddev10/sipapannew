@@ -23,6 +23,43 @@
                 </ul>
                 <div id="ta-pelaporan-content" class="tab-content">
                     <div class="tab-pane active" id="pelaporan-tab" role="tabpanel" aria-labelledby="pelaporan-tab">
+                        <form id="search-form" class="form-inline mt-3">
+                            <div class="form-group mr-2">
+                                <label class="mr-3">Filter Jatuh Tempo</label>
+                                <select name="bulan" class="form-control">
+                                    <option selected value="Semua">-- Semua Bulan --</option>
+                                    @php
+                                    $bulan = 1;
+                                    @endphp
+                                    @while ($bulan <= 12) <option value="{{ $bulan }}" @if(old('bulan')==$bulan)
+                                        selected @endif>{{
+                                        \Carbon\Carbon::create()->month($bulan)->monthName }}
+                                        </option>
+                                        @php
+                                        $bulan++;
+                                        @endphp
+                                        @endwhile
+                                </select>
+                            </div>
+                            <div class="form-group mr-2">
+                                <select name="bulan" class="form-control">
+                                    <option selected disabled>Pilih Tahun...</option>
+                                    @php
+                                    $tahun = 2022;
+                                    @endphp
+                                    @while ($tahun <= \Carbon\Carbon::parse(now())->year) <option value="{{ $tahun }}"
+                                            @if(\Carbon\Carbon::parse(now())->year == $tahun) selected @endif>{{
+                                            $tahun }}
+                                        </option>
+                                        @php
+                                        $tahun++;
+                                        @endphp
+                                        @endwhile
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-filter fa-fw"></i>
+                                Filter</button>
+                        </form>
                         <div class="table-responsive mt-3">
                             <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%"
                                 cellspacing="0">
@@ -148,7 +185,13 @@
         responsive: true,
         processing: true,
         serverSide: true,
-        ajax: '{!! route('pelaporan.index') !!}',
+        ajax: {
+           url: '{!! route('pelaporan.index') !!}',
+           data: function (d) {
+                d.bulan = $('select[name=bulan]').val();
+                d.tahun = $('select[name=tahun]').val();
+            }
+        },
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
@@ -160,6 +203,11 @@
             { data: 'keterangan', name: 'keterangan' },
         ],
         pageLength: 50
+    });
+
+    $('#search-form').on('submit', function(e) {
+        tableDokumen.draw();
+        e.preventDefault();
     });
 
     // Global Settings DataTables Search
