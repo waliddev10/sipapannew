@@ -10,92 +10,59 @@
     <div class="card-body">
         <div class="row">
             <div class="col-12">
-                <ul class="nav nav-pills nav-fill" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="ta-pelaporan-tab" data-toggle="tab" href="#pelaporan-tab"
-                            role="tab" aria-controls="pelaporan" aria-selected="true"><i class="fas fa-paper-plane"></i>
-                            Pelaporan</a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="ta-penetapan-tab" data-toggle="tab" href="#penetapan-tab" role="tab"
-                            aria-controls="penetapan" aria-selected="true"><i class="fas fa-gavel"></i> Penetapan</a>
-                    </li>
-                </ul>
-                <div id="ta-pelaporan-content" class="tab-content">
-                    <div class="tab-pane active" id="pelaporan-tab" role="tabpanel" aria-labelledby="pelaporan-tab">
-                        <form id="search-form" class="form-inline mt-3">
-                            <div class="form-group mr-2">
-                                <label class="mr-3">Filter Jatuh Tempo</label>
-                                <select name="bulan" class="form-control">
-                                    <option selected value="Semua">-- Semua Bulan --</option>
-                                    @php
-                                    $bulan = 1;
-                                    @endphp
-                                    @while ($bulan <= 12) <option value="{{ $bulan }}" @if(old('bulan')==$bulan)
-                                        selected @endif>{{
-                                        \Carbon\Carbon::create()->month($bulan)->monthName }}
-                                        </option>
-                                        @php
-                                        $bulan++;
-                                        @endphp
-                                        @endwhile
-                                </select>
-                            </div>
-                            <div class="form-group mr-2">
-                                <select name="bulan" class="form-control">
-                                    <option selected disabled>Pilih Tahun...</option>
-                                    @php
-                                    $tahun = 2022;
-                                    @endphp
-                                    @while ($tahun <= \Carbon\Carbon::parse(now())->year) <option value="{{ $tahun }}"
-                                            @if(\Carbon\Carbon::parse(now())->year == $tahun) selected @endif>{{
-                                            $tahun }}
-                                        </option>
-                                        @php
-                                        $tahun++;
-                                        @endphp
-                                        @endwhile
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-filter fa-fw"></i>
-                                Filter</button>
-                        </form>
-                        <div class="table-responsive mt-3">
-                            <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%"
-                                cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>No.</th>
-                                        <th>Jatuh Tempo</th>
-                                        <th>Masa Pajak</th>
-                                        <th>Status</th>
-                                        <th>Nama Perusahaan</th>
-                                        <th>Batas Pelaporan</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
+                <form id="search-form" class="form-inline mt-3">
+                    <div class="form-group mr-2">
+                        <label class="mr-3">Filter Jatuh Tempo</label>
+                        <select name="bulan" class="form-control">
+                            <option selected value="Semua">-- Semua Bulan --</option>
+                            @php
+                            $bulan = 1;
+                            @endphp
+                            @while ($bulan <= 12) <option value="{{ $bulan }}" @if(old('bulan')==$bulan) selected
+                                @endif>{{
+                                \Carbon\Carbon::create()->month($bulan)->monthName }}
+                                </option>
+                                @php
+                                $bulan++;
+                                @endphp
+                                @endwhile
+                        </select>
                     </div>
-                    <div class="tab-pane" id="penetapan-tab" role="tabpanel" aria-labelledby="penetapan-tab">
-                        <div class="table-responsive mt-3">
-                            <table id="penetapanTable" class="table table-sm table-bordered table-hover" width="100%"
-                                cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>No.</th>
-                                        <th>Masa Pajak</th>
-                                        <th>Nama Perusahaan</th>
-                                        <th>Batas Pelaporan</th>
-                                        <th>Keterangan</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-
+                    <div class="form-group mr-2">
+                        <select name="bulan" class="form-control">
+                            <option selected disabled>Pilih Tahun...</option>
+                            @php
+                            $tahun = 2022;
+                            @endphp
+                            @while ($tahun <= \Carbon\Carbon::parse(now())->year) <option value="{{ $tahun }}"
+                                    @if(\Carbon\Carbon::parse(now())->year == $tahun) selected @endif>{{
+                                    $tahun }}
+                                </option>
+                                @php
+                                $tahun++;
+                                @endphp
+                                @endwhile
+                        </select>
                     </div>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-filter fa-fw"></i>
+                        Filter</button>
+                </form>
+                <div class="table-responsive mt-3">
+                    <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%"
+                        cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>No.</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Masa Pajak</th>
+                                <th>Status</th>
+                                <th>Nama Perusahaan</th>
+                                <th>Batas Pelaporan</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>

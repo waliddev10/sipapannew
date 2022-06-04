@@ -20,7 +20,7 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
+                {{-- <a class="dropdown-item" href="#">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profil Saya
                 </a>
@@ -28,7 +28,7 @@
                     <i class="fas fa-lock fa-sm fa-fw mr-2 text-gray-400"></i>
                     Ubah Password
                 </a>
-                <div class="dropdown-divider"></div>
+                <div class="dropdown-divider"></div> --}}
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

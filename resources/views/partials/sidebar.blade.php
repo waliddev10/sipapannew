@@ -65,6 +65,12 @@ $menu = collect([
 'route' => 'pelaporan.index'
 ],
 ## --- submenu 3.2 --- #
+## --- submenu 3.2 --- #
+(object) [
+'title' => 'Penetapan',
+'route' => 'penetapan.index'
+],
+## --- submenu 3.2 --- #
 // ## --- submenu 3.2 --- #
 // (object) [
 // 'title' => 'Penetapan',

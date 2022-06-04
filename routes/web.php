@@ -10,6 +10,7 @@ use App\Http\Controllers\Ketentuan\SanksiAdministrasiController;
 use App\Http\Controllers\Ketentuan\SanksiBungaController;
 use App\Http\Controllers\Ketentuan\TarifPajakController;
 use App\Http\Controllers\Penatausahaan\PelaporanController;
+use App\Http\Controllers\Penatausahaan\PenetapanController;
 use App\Http\Controllers\Setting\KotaPenandatanganController;
 use App\Http\Controllers\Setting\PenandatanganController;
 use App\Models\MasaPajak;
@@ -65,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('pelaporan.cetak-surat');
         Route::get('/berkas-pelaporan/{filename}', [PelaporanController::class, 'showFile'])
             ->name('pelaporan.berkas');
+
+        Route::resource('/penetapan', PenetapanController::class);
     });
 
     Route::prefix('/database')->group(function () {

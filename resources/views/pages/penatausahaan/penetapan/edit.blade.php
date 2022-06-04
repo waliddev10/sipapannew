@@ -1,4 +1,4 @@
-<form action="{{ route('kota-penandatangan.update', $item->id) }}" accept-charset="UTF-8" class="form needs-validation"
+<form action="{{ route('pelaporan.update', $item->id) }}" accept-charset="UTF-8" class="form needs-validation"
     id="editForm" autocomplete="off">
     @csrf
     @method('PUT')
