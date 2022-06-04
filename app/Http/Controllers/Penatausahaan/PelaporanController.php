@@ -11,7 +11,6 @@ use App\Models\Npa;
 use App\Models\Penandatangan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
-use App\Models\SanksiBunga;
 use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
 use Carbon\Carbon;
@@ -126,15 +125,9 @@ class PelaporanController extends Controller
                 })
                 ->addColumn('status', function ($item) {
                     if ($item->pelaporan->count() > 0)
-                        return '<div class="btn-group">
-                    <a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
-                        <i class="fas fa-print fa-fw"></i>
-                    </a>
-                    </div>
-                    <span class="badge badge-success">Sudah Lapor</span>
-                    ';
+                        return '<span class="badge badge-success">Sudah Lapor</span>';
 
-                    return  '<span class="badge badge-warning">Belum Lapor</span>';
+                    return '<span class="badge badge-warning">Belum Lapor</span>';
                 })
                 ->addColumn('keterangan', function ($item) {
                     $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
