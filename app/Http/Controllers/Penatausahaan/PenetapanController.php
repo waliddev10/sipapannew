@@ -36,21 +36,42 @@ class PenetapanController extends Controller
             $data = Pelaporan::with(['perusahaan', 'masa_pajak'])
                 ->get();
 
-            return DataTables::of($data)
+            $filtered_data = collect($data)
+                ->filter(function ($item) use ($request) {
+                    if ($request->has('bulan') && $request->bulan != 'Semua') {
+                        return $item->masa_pajak->bulan == $request->bulan;
+                    } else {
+                        return true;
+                    }
+                })
+                ->filter(function ($item) use ($request) {
+                    if ($request->has('tahun')) {
+                        return $item->masa_pajak->tahun == $request->tahun;
+                    } else {
+                        return true;
+                    }
+                });
+
+            return DataTables::of($filtered_data)
                 ->addColumn('periode', function ($item) {
                     return str_pad($item->masa_pajak->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->masa_pajak->tahun;
                 })
+                ->editColumn('tgl_pelaporan', function ($item) {
+                    return '<span class="float-left">' . $item->tgl_pelaporan . '</span><a class="btn btn-xs btn-success float-right" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->id) . '">
+                    <i class="fas fa-print fa-xs mr-1"></i><small>Surat Penetapan</small></a>';
+                })
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group">
-                            <button class="btn btn-xs btn-success" title="Lihat Daftar Penetapan" data-title="Lihat Daftar Penetapan" href="" data-toggle="modal" data-target="#modalContainer">
+                            <button class="btn btn-xs btn-warning" title="Lihat Daftar Penetapan" data-title="Lihat Daftar Penetapan" href="" data-toggle="modal" data-target="#modalContainer">
                                 <i class="fas fa-list fa-fw"></i>
                             </button>
                     </div>';
                 })
                 ->addColumn('penetapan', function ($item) {
-                    return '3 penetapan';
+                    return '<span class="float-left">3 Penetapan</span><span class="float-right"><a class="btn btn-xs btn-success float-right" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->id) . '">
+                    <i class="fas fa-print fa-xs mr-1"></i><small>SKPD Terbaru</small></a></span>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'tgl_pelaporan', 'penetapan'])
                 ->addIndexColumn()
                 ->make(true);
         }

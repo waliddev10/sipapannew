@@ -77,6 +77,7 @@
     {{-- <script src="{{ asset('assets/js/sb-admin-2.js').'?v='.Str::random(5) }}"></script> --}}
 
     @stack('scripts')
+
 </body>
 
 </html>

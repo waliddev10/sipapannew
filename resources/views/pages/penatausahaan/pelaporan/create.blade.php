@@ -70,9 +70,22 @@
                     <input type="date" name="tgl_penetapan" class="form-control" />
                 </div>
                 <div class="form-group">
+                    <label class="font-weight-semibold">Nomor SKPD</label>
+                    <div class="input-group inline-block">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text text-xs">973/</span>
+                        </div>
+                        <input type="text" name="no_penetapan" class="form-control" @if($penetapan_auto)
+                            value="{{ $penetapan_auto->no_penetapan + 1 }}" @endif />
+                        <div class="input-group-append">
+                            <span class="input-group-text text-xs">/AP-PPRD.PPU/<strong>BULAN</strong>/2022</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="font-weight-semibold">Penandatangan</label>
-                    <select class="form-control select2" id="penandatangan_penetapan-field"
-                        name="penandatangan_penetapan_id">
+                    <select class="form-control select2" id="penandatangan_id_penetapan-field"
+                        name="penandatangan_id_penetapan">
                         <option selected="selected" disabled>Pilih Penandatangan</option>
                         @foreach ($penandatangan as $p)
                         <option value="{{ $p->id }}">{{ $p->nama }} - {{ $p->jabatan }}</option>
@@ -81,8 +94,8 @@
                 </div>
                 <div class="form-group">
                     <label class="font-weight-semibold">Kota Penandatangan</label>
-                    <select class="form-control select2" id="kota_penandatangan_penetapan-field"
-                        name="kota_penandatangan_penetapan_id">
+                    <select class="form-control select2" id="kota_penandatangan_id_penetapan-field"
+                        name="kota_penandatangan_id_penetapan">
                         <option selected="selected" disabled>Pilih Kota Penandatangan</option>
                         @foreach ($kota_penandatangan as $kp)
                         <option value="{{ $kp->id }}">{{ $kp->nama }}</option>

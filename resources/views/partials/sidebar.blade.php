@@ -54,10 +54,10 @@ $menu = collect([
 'route' => null,
 'submenu' => [
 ## --- submenu 3.2 --- #
-// (object) [
-// 'title' => 'Aplikasi',
-// 'route' => null
-// ],
+(object) [
+'title' => 'Penatausahaan',
+'route' => null
+],
 ## --- submenu 3.1 --- #
 ## --- submenu 3.2 --- #
 (object) [

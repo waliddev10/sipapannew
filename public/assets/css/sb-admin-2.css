@@ -11357,6 +11357,12 @@ border-radius: 0;
 }
 
 .select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 0 !important;
+}
+
+.select2-container--default .select2-selection--single {
   border: 1px solid #d1d3e2 !important;
 }
 

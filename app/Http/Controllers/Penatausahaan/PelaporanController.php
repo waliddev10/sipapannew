@@ -9,6 +9,7 @@ use App\Models\Pelaporan;
 use App\Models\MasaPajak;
 use App\Models\Npa;
 use App\Models\Penandatangan;
+use App\Models\Penetapan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
 use App\Models\TanggalLibur;
@@ -144,13 +145,30 @@ class PelaporanController extends Controller
                 })
                 ->addColumn('status', function ($item) {
                     if ($item->pelaporan->count() > 0)
-                        return '<span class="badge badge-success">Sudah Lapor</span>';
+                        return '<a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
+                        <i class="fas fa-print fa-fw"></i></a>
+                        <span class="badge badge-success">Sudah Lapor</span>';
 
                     return '<span class="badge badge-warning">Belum Lapor</span>';
                 })
-                ->addColumn('keterangan', function ($item) {
+                ->editColumn('tgl_jatuh_tempo', function ($item) use ($sanksi) {
+                    if ($item->pelaporan->count() > 0) {
+                        return '<span class="float-left">' . $item->tgl_jatuh_tempo . '</span><span class="badge badge-success float-right" style="cursor: pointer;" title="' . $sanksi->hari_min . ' Hari Kerja">' . $sanksi->hari_min . '</span>';
+                    }
+
+                    return '<span class="float-left">' . $item->tgl_jatuh_tempo . '</span><span class="badge badge-warning float-right" style="cursor: pointer;" title="' . $sanksi->hari_min . ' Hari Kerja">' . $sanksi->hari_min . '</span>';
+                })
+                ->editColumn('tgl_batas_pelaporan', function ($item) {
+                    if ($item->pelaporan->count() > 0) {
+                        return '<span class="float-left">' . $item->tgl_batas_pelaporan . '</span><span class="badge badge-success float-right" style="cursor: pointer;" title="Sudah Lapor"><i class="fas fa-check-circle"></i></span>';
+                    }
+
                     $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
-                    return  $diff . ' hari lagi<br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' hari kerja</small>';
+                    if ($diff < 10) {
+                        return '<span class="float-left">' . $item->tgl_batas_pelaporan . '</span><span class="badge badge-danger float-right" style="cursor: pointer;" title="Kurang dari 10 Hari/Sudah Telat">' . $diff . '</span>';
+                    } else {
+                        return '<span class="float-left">' . $item->tgl_batas_pelaporan . '</span><span class="badge badge-warning float-right" style="cursor: pointer;" title="' . $diff . ' Hari Lagi">' . $diff . '</span>';
+                    }
                 })
                 ->addColumn('action', function ($item) {
                     if ($item->pelaporan->count() > 0) {
@@ -170,7 +188,13 @@ class PelaporanController extends Controller
                         </button>
                     </div>';
                 })
-                ->rawColumns(['action', 'status', 'keterangan', 'tgl_jatuh_tempo'])
+                ->rawColumns([
+                    'action',
+                    'status',
+                    'keterangan',
+                    'tgl_jatuh_tempo',
+                    'tgl_batas_pelaporan'
+                ])
                 ->addIndexColumn()
                 ->make(true);
         }
@@ -188,9 +212,20 @@ class PelaporanController extends Controller
         $cara_pelaporan = CaraPelaporan::all();
         $penandatangan = Penandatangan::all();
         $kota_penandatangan = KotaPenandatangan::all();
+        $penetapan_auto = Penetapan::latest()->first();
         $masa_pajak_id = $request->masa_pajak_id;
         $perusahaan_id = $request->perusahaan_id;
-        return view('pages.penatausahaan.pelaporan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id', 'penandatangan', 'kota_penandatangan'));
+        return view(
+            'pages.penatausahaan.pelaporan.create',
+            compact(
+                'cara_pelaporan',
+                'masa_pajak_id',
+                'perusahaan_id',
+                'penandatangan',
+                'kota_penandatangan',
+                'penetapan_auto'
+            )
+        );
     }
 
     /**
@@ -208,6 +243,10 @@ class PelaporanController extends Controller
             'penandatangan_id' => 'required',
             'kota_penandatangan_id' => 'required',
             'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
+            // penetapan pertama
+            'tgl_penetapan' => 'required|date',
+            'no_penetapan' => 'nullable',
+            'kota_penandatangan_id_penetapan' => 'required',
         ]);
 
         $file = $request->file('file');
@@ -226,10 +265,19 @@ class PelaporanController extends Controller
             'file' => $nama_file,
         ]);
 
+        $penetapan = Penetapan::create([
+            'pelaporan_id' => $data->id,
+            'tgl_penetapan' => $request->tgl_penetapan,
+            'no_penetapan' => $request->no_penetapan,
+            'penandatangan_id' => $request->penandatangan_id_penetapan,
+            'kota_penandatangan_id' => $request->kota_penandatangan_id_penetapan
+        ]);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Pelaporan berhasil ditambah.',
-            'pelaporan' => $data
+            'pelaporan' => $data,
+            'penetapan' => $penetapan
         ], Response::HTTP_CREATED);
     }
 

@@ -14,8 +14,9 @@
             Tambah
             Perusahaan</a>
         <div class="table-responsive mt-3">
-            <table id="perusahaanTable" class="table table-sm table-bordered table-hover" width="100%" cellspacing="0">
-                <thead>
+            <table id="perusahaanTable" class="table table-sm table-bordered table-hover table-striped" width="100%"
+                cellspacing="0">
+                <thead class="bg-secondary text-white">
                     <tr>
                         <th></th>
                         <th>No.</th>
