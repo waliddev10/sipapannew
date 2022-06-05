@@ -55,6 +55,7 @@
                                 <th></th>
                                 <th>No.</th>
                                 <th>Masa Pajak</th>
+                                <th>Pelaporan</th>
                                 <th>Perusahaan</th>
                                 <th>Penetapan</th>
                             </tr>
@@ -159,7 +160,8 @@
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
-            { data: 'periode', name: 'periode' },
+            { data: 'periode', name: 'periode', className: 'text-center' },
+            { data: 'tgl_pelaporan', name: 'tgl_pelaporan', className: 'text-center' },
             { data: 'perusahaan.nama', name: 'perusahaan.nama' },
             { data: 'penetapan', name: 'penetapan' },
         ],
