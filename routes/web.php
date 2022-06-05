@@ -37,6 +37,9 @@ Route::get('/migrate', function () {
 Route::get('/migrate/fresh', function () {
     return Artisan::call('migrate:fresh');
 });
+Route::get('/migrate/rollback', function () {
+    return Artisan::call('migrate:rollback');
+});
 Route::get('/seed', function () {
     return Artisan::call('db:seed');
 });

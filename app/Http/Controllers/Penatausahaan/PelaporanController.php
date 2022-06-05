@@ -205,8 +205,8 @@ class PelaporanController extends Controller
             'tgl_pelaporan' => 'required|date',
             'volume' => 'required',
             'cara_pelaporan_id' => 'required',
-            // 'penandatangan_id' => 'required',
-            // 'kota_penandatangan_id' => 'required',
+            'penandatangan_id' => 'required',
+            'kota_penandatangan_id' => 'required',
             'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
         ]);
 
@@ -221,8 +221,8 @@ class PelaporanController extends Controller
             'tgl_pelaporan' => $request->tgl_pelaporan,
             'volume' => $request->volume,
             'cara_pelaporan_id' => $request->cara_pelaporan_id,
-            // 'penandatangan_id' => $request->penandatangan_id,
-            // 'kota_penandatangan_id' => $request->kota_penandatangan_id,
+            'penandatangan_id' => $request->penandatangan_id,
+            'kota_penandatangan_id' => $request->kota_penandatangan_id,
             'file' => $nama_file,
         ]);
 
@@ -241,7 +241,7 @@ class PelaporanController extends Controller
      */
     public function show($id)
     {
-        $pelaporan = Pelaporan::with(['cara_pelaporan'])->findOrFail($id);
+        $pelaporan = Pelaporan::with(['cara_pelaporan', 'penandatangan', 'kota_penandatangan'])->findOrFail($id);
         return view('pages.penatausahaan.pelaporan.show', ['item' => $pelaporan]);
     }
 

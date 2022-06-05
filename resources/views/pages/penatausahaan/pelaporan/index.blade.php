@@ -77,7 +77,7 @@
 </div>
 <div class="modal fade" id="modalContainer" data-backdrop="static" data-keyboard="false" role="dialog"
     aria-labelledby="modalContainer" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white">Title</h5>

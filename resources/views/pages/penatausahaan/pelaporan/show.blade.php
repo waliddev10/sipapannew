@@ -20,6 +20,18 @@
             <th width="1%">Cara Pelaporan</th>
             <td>{{ $item->cara_pelaporan->nama }}</td>
         </tr>
+        @if($item->penandatangan)
+        <tr>
+            <th width="1%">Penandatangan</th>
+            <td>{{ $item->penandatangan->nama }}</td>
+        </tr>
+        @endif
+        @if($item->kota_penandatangan)
+        <tr>
+            <th width="1%">Kota Penandatangan</th>
+            <td>{{ $item->kota_penandatangan->nama }}</td>
+        </tr>
+        @endif
         <tr>
             <th width="1%">Berkas Pendukung</th>
             <td><a class="btn btn-success" title="Lihat Berkas Pendukung" data-title="Lihat Berkas Pendukung"

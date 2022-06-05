@@ -30,8 +30,8 @@ class DropColumnsFromPelaporanTable extends Migration
     public function down()
     {
         Schema::table('pelaporan', function (Blueprint $table) {
-            $table->unsignedBigInteger('penandatangan_id');
-            $table->unsignedBigInteger('kota_penandatangan_id');
+            $table->unsignedBigInteger('penandatangan_id')->nullable();
+            $table->unsignedBigInteger('kota_penandatangan_id')->nullable();
 
             $table->foreign('penandatangan_id')
                 ->references('id')
