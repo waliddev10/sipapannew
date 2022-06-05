@@ -219,7 +219,7 @@ $menu = collect([
         <div id="{{ Str::slug($m->title) }}"
             class="collapse @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) show @endif @endforeach"
             aria-labelledby="{{ Str::slug($m->title) }}" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            <div class="bg-white py-2 collapse-inner">
                 @foreach ($m->submenu as $sm)
                 @if(!empty($sm->route))
                 <a class="collapse-item @if(Route::is($sm->route)) active @endif" href="{{ URL::route($sm->route) }}">{{
