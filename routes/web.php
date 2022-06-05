@@ -71,6 +71,10 @@ Route::middleware(['auth'])->group(function () {
             ->name('pelaporan.berkas');
 
         Route::resource('/penetapan', PenetapanController::class);
+        Route::get('/penetapan-show/{pelaporan_id}', [PenetapanController::class, 'showList'])
+            ->name('penetapan.list');
+        Route::get('/cetak-penetapan/{penetapan_id}', [PenetapanController::class, 'print'])
+            ->name('penetapan.cetak');
     });
 
     Route::prefix('/database')->group(function () {

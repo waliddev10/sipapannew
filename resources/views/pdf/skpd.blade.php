@@ -5,7 +5,7 @@
     }
 
     body {
-        font-size: 11pt;
+        font-size: 10pt;
     }
 
     table td,
@@ -34,12 +34,12 @@
                         <tr>
                             <td style="width: 36%;">Nomor</td>
                             <td style="width: 1%">:</td>
-                            <td>973/024/AP-PPRD.PPU/III/2022</td>
+                            <td>973/{{ str_pad($penetapan->no_penetapan,3,"0",STR_PAD_LEFT) }}/AP-PPRD.PPU/III/2022</td>
                         </tr>
                         <tr>
                             <td>Nama Wajib Pajak</td>
                             <td>:</td>
-                            <td>KALTIM PLANTATION</td>
+                            <td>{{ Str::upper($pelaporan->perusahaan->nama) }}</td>
                         </tr>
                         <tr>
                             <td>Alamat Wajib Pajak</td>
@@ -49,7 +49,7 @@
                         <tr>
                             <td>Nama Perusahaan</td>
                             <td>:</td>
-                            <td>PT. Waru Kaltim Plantation</td>
+                            <td>{{ $pelaporan->perusahaan->nama }}</td>
                         </tr>
                     </table>
                 </td>
@@ -58,22 +58,22 @@
                         <tr>
                             <td style="width: 36%;">Alamat Perusahaan</td>
                             <td style="width: 1%">:</td>
-                            <td>JL. BANGUN MULYO KEL. WARU, PENAJAM PASER UTARA</td>
+                            <td>{{ Str::upper($pelaporan->perusahaan->alamat) }}</td>
                         </tr>
                         <tr>
                             <td>Peruntukan</td>
                             <td>:</td>
-                            <td>Industri Besar</td>
+                            <td>{{ $pelaporan->perusahaan->jenis_usaha->nama }}</td>
                         </tr>
                         <tr>
                             <td>Bulan</td>
                             <td>:</td>
-                            <td>Februari</td>
+                            <td>{{ \Carbon\Carbon::create()->month($pelaporan->masa_pajak->bulan)->monthName }}</td>
                         </tr>
                         <tr>
                             <td>Tahun</td>
                             <td>:</td>
-                            <td>2022</td>
+                            <td>{{ $pelaporan->masa_pajak->tahun }}</td>
                         </tr>
                     </table>
                 </td>
@@ -87,7 +87,81 @@
     <div style="margin: 20pt 0 40pt 0;">
         <h3 style="text-align: center; font-size: 12pt; font-weight: normal;">PERHITUNGAN PAJAK</h3>
 
-        <table class="tabel-perhitungan" style="width: 100%; border-collapse: collapse; margin-bottom: 5pt;">
+        <table class="tabel-perhitungan"
+            style="width: 100%; border-collapse: collapse; margin-bottom: 5pt; font-size: 10pt;">
+            <tr style="border: 0.5pt solid black;">
+                <th style="border: 0.5pt solid black;">JENIS<br />PUNGUTAN</th>
+                @if (collect($npa_dokumen)->count() > 1)
+                <th style="border: 0.5pt solid black;">VOLUME<br />STANDAR</th>
+                @endif
+                <th style="border: 0.5pt solid black;">VOLUME<br />PEMAKAIAN</th>
+                <th style="border: 0.5pt solid black;">NPA<br />{{ Str::upper($npa->first()->jenis_usaha->nama) }}</th>
+                <th style="border: 0.5pt solid black;">JUMLAH<br />(NPA x V)</th>
+                <th style="border: 0.5pt solid black;">TARIF<br />PAJAK</th>
+                <th style="border: 0.5pt solid black;">PAJAK TERUTANG<br />(Rp)</th>
+            </tr>
+            @foreach ($npa_dokumen as $npad)
+            <tr>
+                @if ($loop->first)
+                <td rowspan="{{ count($npa_dokumen) }}" style="text-align: center; border: 0.5pt solid black;">PAP</td>
+                @endif
+                @if (collect($npa_dokumen)->count() > 1)
+                <td style="text-align: center; border: 0.5pt solid black;">{{ $npad->volume_standar }}</td>
+                @endif
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->volume_pemakaian, 0,
+                    ',', '.') }}</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->npa, 0, ',', '.') }}
+                </td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->jumlah, 0, ',', '.')
+                    }}</td>
+                @if ($loop->first)
+                <td rowspan="{{ count($npa_dokumen) }}" style="text-align: center; border: 0.5pt solid black;">{{
+                    $tarif_pajak->nilai * 100 }}%
+                </td>
+                @endif
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($npad->pajak_terutang, 0,
+                    ',', '.') }}</td>
+            </tr>
+            @endforeach
+            <tr>
+                @if (collect($npa_dokumen)->count() > 1)
+                <td colspan="2" style="border: 0.5pt solid black;">
+                    Jumlah
+                    Pemakaian</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_volume_pemakaian, 0,
+                    ',', '.') }}</td>
+                @endif
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 3 @else 5 @endif"
+                    style="font-weight: bold; border: 0.5pt solid black;">JUMLAH PAJAK TERUTANG</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ number_format($jumlah_pajak_terutang, 0,
+                    ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">
+                    Sanksi Bunga/Denda <span style="margin-left: 1.5cm">0%</span>
+                </td>
+                <td style="text-align: right; border: 0.5pt solid black;">-</td>
+            </tr>
+            <tr>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">
+                    Sanksi Administrasi <span style="margin-left: 1.5cm"></span>
+                </td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{
+                    $nilai_sanksi_administrasi ? number_format($nilai_sanksi_administrasi, 0, ',', '.') : '-' }}</td>
+            </tr>
+            <tr>
+                <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif"
+                    style="padding-left: 4.75cm; font-weight: bold">Jumlah Pajak, Denda, dan Sanksi Air
+                    Permukaan
+                    sebesar
+                </td>
+                <td style="text-align: right; font-weight: bold; border: 0.5pt solid black;">{{
+                    number_format($jumlah_pajak_dan_sanksi, 0, ',', '.')
+                    }}</td>
+            </tr>
+        </table>
+
+        {{-- <table class="tabel-perhitungan" style="width: 100%; border-collapse: collapse; margin-bottom: 5pt;">
             <tr>
                 <th>JENIS<br />PUNGUTAN</th>
                 <th>VOLUME<br />(m<sup>3</sup>)</th>
@@ -114,7 +188,7 @@
                 <th colspan="4">JUMLAH PAJAK TERUTANG</th>
                 <td style="text-align: right; font-weight: bold;">1.916.219</td>
             </tr>
-        </table>
+        </table> --}}
 
         <span style="font-style: italic;">*Jumlah ketetapan pajak di atas sewaktu-waktu dapat
             berubah</span>
@@ -125,19 +199,20 @@
             <tr>
                 <td style="width: 39%">Ditetapkan</td>
                 <td style="width: 1%">:</td>
-                <td style="width: 60%">Penajam,</td>
+                <td style="width: 60%">{{ $penetapan->kota_penandatangan->nama }},</td>
             </tr>
             <tr>
                 <td>Pada tanggal</td>
                 <td>:</td>
-                <td>07 Maret 2022</td>
+                <td>{{ \Carbon\Carbon::parse($penetapan->tgl_penetapan)->isoFormat('D MMMM Y') }}</td>
             </tr>
         </table>
 
-        <h4 style="font-size: 11pt; margin: 30pt 0 60pt; text-align: center;">Kepala</h4>
+        <h4 style="font-size: 11pt; margin: 30pt 0 60pt; text-align: center;">{{ $penetapan->penandatangan->jabatan }}
+        </h4>
 
-        <h4 style="font-size: 11pt; margin: 0; text-align: center;">H. Arifin, S.Sos</h4>
-        <h5 style="font-size: 11pt; font-weight: normal; margin: 3pt 0 0 0; text-align: center;">NIP. 19661104 199002 2
-            002</h5>
+        <h4 style="font-size: 11pt; margin: 0; text-align: center;">{{ $penetapan->penandatangan->nama }}</h4>
+        <h5 style="font-size: 11pt; font-weight: normal; margin: 3pt 0 0 0; text-align: center;">NIP. {{
+            $penetapan->penandatangan->nip }}</h5>
     </div>
 </body>

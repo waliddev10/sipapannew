@@ -16,6 +16,11 @@ class Penetapan extends Model
         'kota_penandatangan_id'
     ];
 
+    public function pelaporan()
+    {
+        return $this->belongsTo(Pelaporan::class);
+    }
+
     public function penandatangan()
     {
         return $this->belongsTo(Penandatangan::class);

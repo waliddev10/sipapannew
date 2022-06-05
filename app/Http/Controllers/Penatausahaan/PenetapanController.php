@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\CaraPelaporan;
 use App\Models\KotaPenandatangan;
 use App\Models\Pelaporan;
-use App\Models\MasaPajak;
 use App\Models\Npa;
 use App\Models\Penandatangan;
-use App\Models\Perusahaan;
+use App\Models\Penetapan;
 use App\Models\SanksiAdministrasi;
-use App\Models\SanksiBunga;
 use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
 use Carbon\Carbon;
@@ -32,7 +30,7 @@ class PenetapanController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
+        if ($request->wantsJson()) {
             $data = Pelaporan::with(['perusahaan', 'masa_pajak'])
                 ->get();
 
@@ -52,6 +50,8 @@ class PenetapanController extends Controller
                     }
                 });
 
+            $penetapan = Penetapan::all();
+
             return DataTables::of($filtered_data)
                 ->addColumn('periode', function ($item) {
                     return str_pad($item->masa_pajak->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->masa_pajak->tahun;
@@ -62,13 +62,19 @@ class PenetapanController extends Controller
                 })
                 ->addColumn('action', function ($item) {
                     return '<div class="btn-group">
-                            <button class="btn btn-xs btn-warning" title="Lihat Daftar Penetapan" data-title="Lihat Daftar Penetapan" href="" data-toggle="modal" data-target="#modalContainer">
+                            <button class="btn btn-xs btn-warning" title="Lihat Daftar Penetapan" data-title="Lihat Daftar Penetapan" href="' . route('penetapan.list', $item->id) . '" data-toggle="modal" data-target="#modalContainer">
                                 <i class="fas fa-list fa-fw"></i>
                             </button>
                     </div>';
                 })
-                ->addColumn('penetapan', function ($item) {
-                    return '<span class="float-left">3 Penetapan</span><span class="float-right"><a class="btn btn-xs btn-success float-right" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->id) . '">
+                ->addColumn('penetapan', function ($item) use ($penetapan) {
+                    $penetapan = collect($penetapan)->filter(function ($pen) use ($item) {
+                        return $pen->pelaporan_id == $item->id;
+                    })->sortBy([
+                        fn ($a, $b) => $b->tgl_penetapan <=> $a->tgl_penetapan
+                    ]);
+
+                    return '<span class="float-left">' . $penetapan->count() . ' Penetapan</span><span class="float-right"><a class="btn btn-xs btn-success float-right" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('penetapan.cetak', $penetapan->first()->id) . '">
                     <i class="fas fa-print fa-xs mr-1"></i><small>SKPD Terbaru</small></a></span>';
                 })
                 ->rawColumns(['action', 'tgl_pelaporan', 'penetapan'])
@@ -77,6 +83,39 @@ class PenetapanController extends Controller
         }
 
         return view('pages.penatausahaan.penetapan.index');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showList(Request $request, $pelaporan_id)
+    {
+        if ($request->wantsJson()) {
+            $penetapan = Penetapan::with(['pelaporan', 'penandatangan', 'kota_penandatangan'])
+                ->where('pelaporan_id', $pelaporan_id)
+                ->get();
+
+            return DataTables::of($penetapan)
+                ->addColumn('action', function ($item) {
+                    return '<div class="btn-group">
+                    <a class="btn btn-xs btn-success float-right" title="Cetak SKPD" data-title="Cetak SKPD" onclick="return !window.open(this.href, &#039;SKPD&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('penetapan.cetak', $item->id) . '">
+                    <i class="fas fa-print fa-fw"></i></a>
+                    </div>';
+                })
+                ->editColumn('no_penetapan', function ($item) {
+                    return str_pad($item->no_penetapan, 3, "0", STR_PAD_LEFT);
+                })
+                ->rawColumns(['action'])
+                ->addIndexColumn()
+                ->make(true);
+        }
+
+        return view('pages.penatausahaan.penetapan.showList', [
+            'pelaporan_id' => $pelaporan_id
+        ]);
     }
 
     /**
@@ -201,9 +240,12 @@ class PenetapanController extends Controller
         ], Response::HTTP_ACCEPTED);
     }
 
-    public function print($id)
+    public function print($penetapan_id)
     {
-        $pelaporan = Pelaporan::with(['masa_pajak', 'perusahaan', 'perusahaan.jenis_usaha', 'cara_pelaporan', 'penandatangan', 'kota_penandatangan'])->findOrFail($id);
+        $penetapan = Penetapan::with(['penandatangan', 'kota_penandatangan'])
+            ->findOrFail($penetapan_id);
+        $pelaporan = Pelaporan::with(['masa_pajak', 'perusahaan', 'perusahaan.jenis_usaha'])
+            ->findOrFail($penetapan->pelaporan_id);
         $npa = Npa::where('jenis_usaha_id', $pelaporan->perusahaan->jenis_usaha_id)
             ->orderBy('nilai', 'asc')
             ->get();
@@ -310,24 +352,17 @@ class PenetapanController extends Controller
         $jumlah_pajak_terutang = collect($npa_dokumen)->sum('pajak_terutang');
         $jumlah_pajak_dan_sanksi = $jumlah_pajak_terutang + $nilai_sanksi_administrasi;
 
-        $pdf = PDF::loadView('pdf.surat-penetapan', compact('pelaporan', 'npa', 'tarif_pajak', 'nilai_sanksi_administrasi', 'npa_dokumen', 'jumlah_volume_pemakaian', 'jumlah_pajak_terutang', 'jumlah_pajak_dan_sanksi'));
+        $pdf = PDF::loadView('pdf.skpd', compact(
+            'penetapan',
+            'pelaporan',
+            'npa',
+            'tarif_pajak',
+            'nilai_sanksi_administrasi',
+            'npa_dokumen',
+            'jumlah_volume_pemakaian',
+            'jumlah_pajak_terutang',
+            'jumlah_pajak_dan_sanksi'
+        ));
         return $pdf->stream('download.pdf');
-    }
-
-    function showFile($filename)
-
-    {
-        $path = storage_path('app/berkas-pelaporan/' . $filename);
-
-        if (!File::exists($path)) {
-            abort(404);
-        }
-
-        $file = File::get($path);
-        $type = File::mimeType($path);
-
-        $response = FacadesResponse::make($file, 200);
-        $response->header("Content-Type", $type);
-        return $response;
     }
 }
