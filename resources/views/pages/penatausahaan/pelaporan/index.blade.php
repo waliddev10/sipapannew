@@ -61,10 +61,10 @@
                             <tr>
                                 <th></th>
                                 <th>No.</th>
-                                <th>Jatuh Tempo</th>
-                                <th>Batas Pelaporan</th>
                                 <th>Masa Pajak</th>
                                 <th>Status</th>
+                                <th>Jatuh Tempo</th>
+                                <th>Batas Pelaporan</th>
                                 <th>Nama Perusahaan</th>
                             </tr>
                         </thead>
@@ -169,10 +169,10 @@
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
-            { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo', className: 'text-center' },
-            { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan', className: 'text-center' },
             { data: 'periode', name: 'periode', className: 'text-center' },
             { data: 'status', name: 'status', className: 'text-center' },
+            { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo', className: 'text-center' },
+            { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan', className: 'text-center' },
             { data: 'nama', name: 'nama' },
         ],
         pageLength: 50
