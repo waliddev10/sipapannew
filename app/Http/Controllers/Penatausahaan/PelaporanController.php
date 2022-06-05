@@ -147,7 +147,7 @@ class PelaporanController extends Controller
                     if ($item->pelaporan->count() > 0)
                         return '<a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
                         <i class="fas fa-print fa-fw"></i></a>
-                        <span class="badge badge-success">Sudah Lapor</span>';
+                        <span class="badge badge-success">Sudah Lapor</span><br/>' . $item->pelaporan->first()->tgl_pelaporan;
 
                     return '<span class="badge badge-warning">Belum Lapor</span>';
                 })
