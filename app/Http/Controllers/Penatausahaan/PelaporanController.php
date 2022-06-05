@@ -155,9 +155,6 @@ class PelaporanController extends Controller
                 ->addColumn('action', function ($item) {
                     if ($item->pelaporan->count() > 0) {
                         return '<div class="btn-group">
-                        <button class="btn btn-xs btn-info" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" disabled>
-                            <i class="fas fa-upload fa-fw"></i>
-                        </button>
                         <button class="btn btn-xs btn-warning" title="Lihat Pelaporan" data-toggle="modal" data-target="#modalContainer" data-title="Lihat Pelaporan" href="' . route('pelaporan.show', $item->pelaporan->first()->id) . '">
                                 <i class="fas fa-eye fa-fw"></i>
                             </button>
@@ -171,12 +168,9 @@ class PelaporanController extends Controller
                     ]) . '">
                             <i class="fas fa-upload fa-fw"></i>
                         </button>
-                        <button disabled class="btn btn-xs btn-warning" title="Lihat Pelaporan" data-title="Lihat Pelaporan" href="">
-                                <i class="fas fa-eye fa-fw"></i>
-                            </button>
                     </div>';
                 })
-                ->rawColumns(['action', 'status', 'keterangan'])
+                ->rawColumns(['action', 'status', 'keterangan', 'tgl_jatuh_tempo'])
                 ->addIndexColumn()
                 ->make(true);
         }
