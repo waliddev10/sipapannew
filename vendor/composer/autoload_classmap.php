@@ -27,6 +27,7 @@ return array(
     'App\\Http\\Controllers\\Ketentuan\\SanksiBungaController' => $baseDir . '/app/Http/Controllers/Ketentuan/SanksiBungaController.php',
     'App\\Http\\Controllers\\Ketentuan\\TarifPajakController' => $baseDir . '/app/Http/Controllers/Ketentuan/TarifPajakController.php',
     'App\\Http\\Controllers\\Penatausahaan\\PelaporanController' => $baseDir . '/app/Http/Controllers/Penatausahaan/PelaporanController.php',
+    'App\\Http\\Controllers\\Penatausahaan\\PenetapanController' => $baseDir . '/app/Http/Controllers/Penatausahaan/PenetapanController.php',
     'App\\Http\\Controllers\\Setting\\KotaPenandatanganController' => $baseDir . '/app/Http/Controllers/Setting/KotaPenandatanganController.php',
     'App\\Http\\Controllers\\Setting\\PenandatanganController' => $baseDir . '/app/Http/Controllers/Setting/PenandatanganController.php',
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',

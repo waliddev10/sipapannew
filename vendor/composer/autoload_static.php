@@ -576,6 +576,7 @@ class ComposerStaticInit1aebcac66cc997385d2160a4daf942b8
         'App\\Http\\Controllers\\Ketentuan\\SanksiBungaController' => __DIR__ . '/../..' . '/app/Http/Controllers/Ketentuan/SanksiBungaController.php',
         'App\\Http\\Controllers\\Ketentuan\\TarifPajakController' => __DIR__ . '/../..' . '/app/Http/Controllers/Ketentuan/TarifPajakController.php',
         'App\\Http\\Controllers\\Penatausahaan\\PelaporanController' => __DIR__ . '/../..' . '/app/Http/Controllers/Penatausahaan/PelaporanController.php',
+        'App\\Http\\Controllers\\Penatausahaan\\PenetapanController' => __DIR__ . '/../..' . '/app/Http/Controllers/Penatausahaan/PenetapanController.php',
         'App\\Http\\Controllers\\Setting\\KotaPenandatanganController' => __DIR__ . '/../..' . '/app/Http/Controllers/Setting/KotaPenandatanganController.php',
         'App\\Http\\Controllers\\Setting\\PenandatanganController' => __DIR__ . '/../..' . '/app/Http/Controllers/Setting/PenandatanganController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',

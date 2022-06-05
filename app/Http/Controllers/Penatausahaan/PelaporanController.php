@@ -102,6 +102,7 @@ class PelaporanController extends Controller
 
             $filtered_data = collect($jatuh_tempo)
                 ->sortBy([
+                    fn ($a, $b) => $a->pelaporan->count() <=> $b->pelaporan->count(),
                     fn ($a, $b) => $b->tgl_jatuh_tempo <=> $a->tgl_jatuh_tempo,
                     fn ($a, $b) => $a->nama <=> $b->nama,
                 ])
@@ -192,8 +193,8 @@ class PelaporanController extends Controller
             'tgl_pelaporan' => 'required|date',
             'volume' => 'required',
             'cara_pelaporan_id' => 'required',
-            'penandatangan_id' => 'required',
-            'kota_penandatangan_id' => 'required',
+            // 'penandatangan_id' => 'required',
+            // 'kota_penandatangan_id' => 'required',
             'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
         ]);
 
@@ -208,8 +209,8 @@ class PelaporanController extends Controller
             'tgl_pelaporan' => $request->tgl_pelaporan,
             'volume' => $request->volume,
             'cara_pelaporan_id' => $request->cara_pelaporan_id,
-            'penandatangan_id' => $request->penandatangan_id,
-            'kota_penandatangan_id' => $request->kota_penandatangan_id,
+            // 'penandatangan_id' => $request->penandatangan_id,
+            // 'kota_penandatangan_id' => $request->kota_penandatangan_id,
             'file' => $nama_file,
         ]);
 

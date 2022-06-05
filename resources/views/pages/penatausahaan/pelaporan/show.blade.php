@@ -21,14 +21,6 @@
             <td>{{ $item->cara_pelaporan->nama }}</td>
         </tr>
         <tr>
-            <th width="1%">Penandatangan</th>
-            <td>{{ $item->penandatangan->nama }}</td>
-        </tr>
-        <tr>
-            <th width="1%">Kota Penandatangan</th>
-            <td>{{ $item->kota_penandatangan->nama }}</td>
-        </tr>
-        <tr>
             <th width="1%">Berkas Pendukung</th>
             <td><a class="btn btn-success" title="Lihat Berkas Pendukung" data-title="Lihat Berkas Pendukung"
                     onclick="return !window.open(this.href, 'Berkas Pendukung', 'resizable=no,width=1024,height=768')"

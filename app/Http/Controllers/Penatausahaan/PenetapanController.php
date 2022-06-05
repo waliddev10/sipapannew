@@ -11,6 +11,7 @@ use App\Models\Npa;
 use App\Models\Penandatangan;
 use App\Models\Perusahaan;
 use App\Models\SanksiAdministrasi;
+use App\Models\SanksiBunga;
 use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
 use Carbon\Carbon;
@@ -168,7 +169,7 @@ class PenetapanController extends Controller
                 ->make(true);
         }
 
-        return view('pages.penatausahaan.penetapan.index');
+        return view('pages.penatausahaan.pelaporan.index');
     }
 
     /**
@@ -183,7 +184,7 @@ class PenetapanController extends Controller
         $kota_penandatangan = KotaPenandatangan::all();
         $masa_pajak_id = $request->masa_pajak_id;
         $perusahaan_id = $request->perusahaan_id;
-        return view('pages.penatausahaan.penetapan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id', 'penandatangan', 'kota_penandatangan'));
+        return view('pages.penatausahaan.pelaporan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id', 'penandatangan', 'kota_penandatangan'));
     }
 
     /**
@@ -235,7 +236,7 @@ class PenetapanController extends Controller
     public function show($id)
     {
         $pelaporan = Pelaporan::with(['cara_pelaporan', 'penandatangan', 'kota_penandatangan'])->findOrFail($id);
-        return view('pages.penatausahaan.penetapan.show', ['item' => $pelaporan]);
+        return view('pages.penatausahaan.pelaporan.show', ['item' => $pelaporan]);
     }
 
     /**
@@ -246,7 +247,7 @@ class PenetapanController extends Controller
      */
     public function edit(Pelaporan $pelaporan)
     {
-        return view('pages.penatausahaan.penetapan.edit', ['item' => $pelaporan]);
+        return view('pages.penatausahaan.pelaporan.edit', ['item' => $pelaporan]);
     }
 
     /**

@@ -30,24 +30,6 @@
         <label class="font-weight-semibold">Berkas Pendukung</label>
         <input type="file" name="file" class="form-control" accept="image/png,image/jpeg,application/pdf" />
     </div>
-    <div class="form-group">
-        <label class="font-weight-semibold">Penandatangan</label>
-        <select class="form-control select2" id="penandatangan-field" name="penandatangan_id">
-            <option selected="selected" disabled>Pilih Penandatangan</option>
-            @foreach ($penandatangan as $p)
-            <option value="{{ $p->id }}">{{ $p->nama }} - {{ $p->jabatan }}</option>
-            @endforeach
-        </select>
-    </div>
-    <div class="form-group">
-        <label class="font-weight-semibold">Kota Penandatangan</label>
-        <select class="form-control select2" id="kota_penandatangan-field" name="kota_penandatangan_id">
-            <option selected="selected" disabled>Pilih Kota Penandatangan</option>
-            @foreach ($kota_penandatangan as $kp)
-            <option value="{{ $kp->id }}">{{ $kp->nama }}</option>
-            @endforeach
-        </select>
-    </div>
     <div class="form-group row text-right">
         <div class="col-12">
             <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
