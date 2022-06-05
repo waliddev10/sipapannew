@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '5ef442a734b4dc3b874c9e14a7535870d7f33342',
+        'reference' => '8491f3d1fbf34f6c4952adde31634d6d57ba914e',
         'name' => 'laravel/laravel',
         'dev' => true,
     ),
@@ -427,7 +427,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '5ef442a734b4dc3b874c9e14a7535870d7f33342',
+            'reference' => '8491f3d1fbf34f6c4952adde31634d6d57ba914e',
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
@@ -871,6 +871,15 @@
             'replaced' => array(
                 0 => '4.2.3',
             ),
+        ),
+        'riskihajar/terbilang' => array(
+            'pretty_version' => '1.2.5',
+            'version' => '1.2.5.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../riskihajar/terbilang',
+            'aliases' => array(),
+            'reference' => '924eb6b2f96da2cfb90ed91aa9c4ee78d4986f23',
+            'dev_requirement' => false,
         ),
         'sabberworm/php-css-parser' => array(
             'pretty_version' => '8.4.0',

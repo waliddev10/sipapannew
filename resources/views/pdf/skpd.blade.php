@@ -34,7 +34,9 @@
                         <tr>
                             <td style="width: 36%;">Nomor</td>
                             <td style="width: 1%">:</td>
-                            <td>973/{{ str_pad($penetapan->no_penetapan,3,"0",STR_PAD_LEFT) }}/AP-PPRD.PPU/III/2022</td>
+                            <td>973/{{ str_pad($penetapan->no_penetapan,3,"0",STR_PAD_LEFT) }}/AP-PPRD.PPU/{{
+                                Terbilang::roman(\Carbon\Carbon::parse($penetapan->tgl_penetapan)->format('m')) }}/2022
+                            </td>
                         </tr>
                         <tr>
                             <td>Nama Wajib Pajak</td>

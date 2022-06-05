@@ -95,6 +95,7 @@ class ComposerStaticInit1aebcac66cc997385d2160a4daf942b8
         ),
         'R' => 
         array (
+            'Riskihajar\\Terbilang\\' => 21,
             'Ramsey\\Uuid\\' => 12,
             'Ramsey\\Collection\\' => 18,
         ),
@@ -331,6 +332,10 @@ class ComposerStaticInit1aebcac66cc997385d2160a4daf942b8
         'Sabberworm\\CSS\\' => 
         array (
             0 => __DIR__ . '/..' . '/sabberworm/php-css-parser/src',
+        ),
+        'Riskihajar\\Terbilang\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/riskihajar/terbilang/src',
         ),
         'Ramsey\\Uuid\\' => 
         array (
@@ -596,6 +601,7 @@ class ComposerStaticInit1aebcac66cc997385d2160a4daf942b8
         'App\\Models\\Npa' => __DIR__ . '/../..' . '/app/Models/Npa.php',
         'App\\Models\\Pelaporan' => __DIR__ . '/../..' . '/app/Models/Pelaporan.php',
         'App\\Models\\Penandatangan' => __DIR__ . '/../..' . '/app/Models/Penandatangan.php',
+        'App\\Models\\Penetapan' => __DIR__ . '/../..' . '/app/Models/Penetapan.php',
         'App\\Models\\Perusahaan' => __DIR__ . '/../..' . '/app/Models/Perusahaan.php',
         'App\\Models\\SanksiAdministrasi' => __DIR__ . '/../..' . '/app/Models/SanksiAdministrasi.php',
         'App\\Models\\SanksiBunga' => __DIR__ . '/../..' . '/app/Models/SanksiBunga.php',
@@ -4641,6 +4647,9 @@ class ComposerStaticInit1aebcac66cc997385d2160a4daf942b8
         'Ramsey\\Uuid\\Validator\\GenericValidator' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/GenericValidator.php',
         'Ramsey\\Uuid\\Validator\\ValidatorInterface' => __DIR__ . '/..' . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
         'ReturnTypeWillChange' => __DIR__ . '/..' . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
+        'Riskihajar\\Terbilang\\Facades\\Terbilang' => __DIR__ . '/..' . '/riskihajar/terbilang/src/Facades/Terbilang.php',
+        'Riskihajar\\Terbilang\\Terbilang' => __DIR__ . '/..' . '/riskihajar/terbilang/src/Terbilang.php',
+        'Riskihajar\\Terbilang\\TerbilangServiceProvider' => __DIR__ . '/..' . '/riskihajar/terbilang/src/TerbilangServiceProvider.php',
         'Sabberworm\\CSS\\CSSList\\AtRuleBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/AtRuleBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSBlockList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSBlockList.php',
         'Sabberworm\\CSS\\CSSList\\CSSList' => __DIR__ . '/..' . '/sabberworm/php-css-parser/src/CSSList/CSSList.php',
