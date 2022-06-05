@@ -132,7 +132,7 @@ class PelaporanController extends Controller
                 })
                 ->addColumn('keterangan', function ($item) {
                     $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
-                    return  '<small>' . $diff . ' hari lagi</small><br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' HK</small>';
+                    return  $diff . ' hari lagi<br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' hari kerja</small>';
                 })
                 ->addColumn('action', function ($item) {
                     if ($item->pelaporan->count() > 0) {

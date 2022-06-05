@@ -3,6 +3,7 @@
 @section('content')
 <div class="col-12">
     <div class="text-lg text-center mb-3">
+        <img class="mx-auto d-block" src="{{ asset('assets/img/logo-sipapan.png') }}" height="100">
         <strong>Login</strong>
     </div>
     <form class="user" method="POST" action="{{ route('login') }}">

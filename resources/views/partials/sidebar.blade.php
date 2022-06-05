@@ -199,9 +199,9 @@ $menu = collect([
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
         <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-laugh-wink"></i>
+            <img src="{{ asset('assets/img/logo-sipapan.png') }}" height="84">
         </div>
-        <div class="sidebar-brand-text mx-3">{{ config('app.name') }}</div>
+        <div class="sidebar-brand-text mr-3">{{ config('app.name') }}</div>
     </a>
 
     <!-- Divider -->
