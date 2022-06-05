@@ -12,7 +12,7 @@
             <div class="col-12">
                 <form id="search-form" class="form-inline mt-3">
                     <div class="form-group mr-2">
-                        <label class="mr-3">Filter Jatuh Tempo</label>
+                        <label class="mr-3">Filter Periode</label>
                         <select name="bulan" class="form-control">
                             <option selected value="Semua">-- Semua Bulan --</option>
                             @php
@@ -48,18 +48,15 @@
                         Filter</button>
                 </form>
                 <div class="table-responsive mt-3">
-                    <table id="pelaporanTable" class="table table-sm table-bordered table-hover" width="100%"
+                    <table id="penetapanTable" class="table table-sm table-bordered table-hover" width="100%"
                         cellspacing="0">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>No.</th>
-                                <th>Jatuh Tempo</th>
                                 <th>Masa Pajak</th>
-                                <th>Status</th>
-                                <th>Nama Perusahaan</th>
-                                <th>Batas Pelaporan</th>
-                                <th>Keterangan</th>
+                                <th>Perusahaan</th>
+                                <th>Penetapan</th>
                             </tr>
                         </thead>
                     </table>
@@ -148,12 +145,12 @@
 
 @push('scripts')
 <script type="text/javascript">
-    tableDokumen = $('#pelaporanTable').DataTable({
+    tableDokumen = $('#penetapanTable').DataTable({
         responsive: true,
         processing: true,
         serverSide: true,
         ajax: {
-           url: '{!! route('pelaporan.index') !!}',
+           url: '{!! route('penetapan.index') !!}',
            data: function (d) {
                 d.bulan = $('select[name=bulan]').val();
                 d.tahun = $('select[name=tahun]').val();
@@ -162,12 +159,9 @@
         columns: [
             { data: 'action', name: 'action', className: 'text-nowrap text-center', width: '1%', orderable: false, searchable: false },
             { data: 'DT_RowIndex', name: 'DT_RowIndex', className: 'text-center', width: '1%' , searchable: false, orderable: false},
-            { data: 'tgl_jatuh_tempo', name: 'tgl_jatuh_tempo' },
             { data: 'periode', name: 'periode' },
-            { data: 'status', name: 'status', className: 'text-center' },
-            { data: 'nama', name: 'nama' },
-            { data: 'tgl_batas_pelaporan', name: 'tgl_batas_pelaporan' },
-            { data: 'keterangan', name: 'keterangan' },
+            { data: 'perusahaan.nama', name: 'perusahaan.nama' },
+            { data: 'penetapan', name: 'penetapan' },
         ],
         pageLength: 50
     });

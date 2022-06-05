@@ -24,39 +24,43 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+{{--
 
-    <div class="container">
+<body class="bg-gradient-primary"> --}}
 
-        <!-- Outer Row -->
-        <div class="row justify-content-center">
+    <body class="bg-primary">
 
-            <div class="col-md-6 col-lg-4">
-                <div class="card o-hidden border-0 shadow-lg my-5">
-                    <div class="card-body px-4 py-5">
-                        <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            @yield('content')
+        <div class="container">
+
+            <!-- Outer Row -->
+            <div class="row justify-content-center">
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body px-4">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                @yield('content')
+                            </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
 
         </div>
 
-    </div>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
-
-</body>
+    </body>
 
 </html>

@@ -9,22 +9,17 @@ class Pelaporan extends Model
     protected $table = 'pelaporan';
 
     protected $fillable = [
-        'masa_pajak_id', 'perusahaan_id', 'tgl_pelaporan', 'volume', 'cara_pelaporan_id', 'file', 'penandatangan_id', 'kota_penandatangan_id'
+        'masa_pajak_id',
+        'perusahaan_id',
+        'tgl_pelaporan',
+        'volume',
+        'cara_pelaporan_id',
+        'file'
     ];
 
     public function cara_pelaporan()
     {
         return $this->belongsTo(CaraPelaporan::class);
-    }
-
-    public function penandatangan()
-    {
-        return $this->belongsTo(Penandatangan::class);
-    }
-
-    public function kota_penandatangan()
-    {
-        return $this->belongsTo(KotaPenandatangan::class);
     }
 
     public function masa_pajak()

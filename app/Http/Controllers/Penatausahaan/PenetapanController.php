@@ -33,143 +33,29 @@ class PenetapanController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $masa_pajak = MasaPajak::orderBy('tahun', 'desc')
-                ->orderBy('bulan', 'desc')
+            $data = Pelaporan::with(['perusahaan', 'masa_pajak'])
                 ->get();
-            $perusahaan = Perusahaan::all();
-            $sanksi_administrasi = collect(SanksiAdministrasi::all());
-            $pelaporan = Pelaporan::all();
 
-            $tgl_libur = TanggalLibur::all();
-
-            $jatuh_tempo = [];
-            foreach ($masa_pajak as $mp) {
-                foreach ($perusahaan as $p) {
-
-                    // retrieving sanksi admministrasi first from penetapan
-                    $sanksi = $sanksi_administrasi
-                        ->sortBy([
-                            fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
-                        ])->first(function ($value, $key) use ($p) {
-                            return date($value->tgl_berlaku) <= date($p->tgl_penetapan);
-                        });
-
-                    // tgl_jatuh_tempo 
-                    $bulan = $mp->bulan + 1; // jatuh tempo di bulan berikutnya dari masa pajak
-                    $tgl_jatuh_tempo = date('Y-m-d', mktime(0, 0, 0, $bulan, $sanksi->tgl_batas, $mp->tahun));
-
-                    // mencari tanggal jaatuh tempo,  jika weekend maka ditambah +1 hari
-                    while (Carbon::parse($tgl_jatuh_tempo)->isWeekend()) {
-                        $tgl_jatuh_tempo = Carbon::parse($tgl_jatuh_tempo)->addDay()->format('Y-m-d');
-                    }
-
-                    // menghitung kapan batas pelaporan ditambah dengan tanggal libur
-                    $tgl_batas_pelaporan = $tgl_jatuh_tempo; // init tanggal awal
-                    $counter_hari = 0;
-                    $sanksi_hari_counter = $sanksi->hari_min;
-                    while ($counter_hari < $sanksi_hari_counter) {
-                        if ($tgl_libur
-                            ->filter(function ($value, $key) use ($tgl_batas_pelaporan) {
-                                return Carbon::parse($value->tgl_libur) == Carbon::parse($tgl_batas_pelaporan);
-                            })->count()
-                        ) {
-                            $sanksi_hari_counter++;
-                        }
-                        $tgl_batas_pelaporan = Carbon::parse($tgl_batas_pelaporan)->addWeekday()->format('Y-m-d');
-                        $counter_hari++;
-                    }
-
-                    // search pelaporan
-                    $pelaporan_check = $pelaporan
-                        ->filter(function ($value, $key) use ($mp, $p) {
-                            return $value->masa_pajak_id == $mp->id && $value->perusahaan_id == $p->id;
-                        });
-
-                    // membuat object
-                    $item = (object) [
-                        'masa_pajak_id' => $mp->id,
-                        'perusahaan_id' => $p->id,
-                        'tgl_jatuh_tempo' => $tgl_jatuh_tempo,
-                        'hari_min' => $sanksi->hari_min,
-                        'tgl_batas_pelaporan' => $tgl_batas_pelaporan,
-                        'bulan' => $mp->bulan,
-                        'tahun' => $mp->tahun,
-                        'nama' => $p->nama,
-                        'pelaporan' => $pelaporan_check
-                    ];
-                    array_push($jatuh_tempo, $item);
-                }
-            }
-
-            $filtered_data = collect($jatuh_tempo)
-                ->sortBy([
-                    fn ($a, $b) => $b->tgl_jatuh_tempo <=> $a->tgl_jatuh_tempo,
-                    fn ($a, $b) => $a->nama <=> $b->nama,
-                ])
-                ->filter(function ($item) use ($request) {
-                    if ($request->has('bulan') && $request->bulan != 'Semua') {
-                        return Carbon::parse($item->tgl_jatuh_tempo)->month == $request->bulan;
-                    } else {
-                        return true;
-                    }
-
-                    if ($request->has('tahun')) {
-                        return Carbon::parse($item->tgl_jatuh_tempo)->year == $request->tahun;
-                    } else {
-                        return true;
-                    }
-                });
-
-            return DataTables::of($filtered_data)
+            return DataTables::of($data)
                 ->addColumn('periode', function ($item) {
-                    return str_pad($item->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->tahun;
-                })
-                ->addColumn('status', function ($item) {
-                    if ($item->pelaporan->count() > 0)
-                        return '<div class="btn-group">
-                    <a class="btn btn-xs btn-success" title="Cetak Surat Penetapan" data-title="Cetak Surat Penetapan" onclick="return !window.open(this.href, &#039;Surat Penetapan&#039;, &#039;resizable=no,width=1024,height=768&#039;)" href="' . route('pelaporan.cetak-surat', $item->pelaporan->first()->id) . '">
-                        <i class="fas fa-print fa-fw"></i>
-                    </a>
-                    </div>
-                    <span class="badge badge-success">Sudah Lapor</span>
-                    ';
-
-                    return  '<span class="badge badge-warning">Belum Lapor</span>';
-                })
-                ->addColumn('keterangan', function ($item) {
-                    $diff = Carbon::parse($item->tgl_batas_pelaporan)->diff(now())->days;
-                    return  '<small>' . $diff . ' hari lagi</small><br/><small><i class="far fa-clock mr-1"></i>' . $item->hari_min . ' HK</small>';
+                    return str_pad($item->masa_pajak->bulan, 2, "0", STR_PAD_LEFT) . '-' . $item->masa_pajak->tahun;
                 })
                 ->addColumn('action', function ($item) {
-                    if ($item->pelaporan->count() > 0) {
-                        return '<div class="btn-group">
-                        <button class="btn btn-xs btn-info" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" disabled>
-                            <i class="fas fa-upload fa-fw"></i>
-                        </button>
-                        <button class="btn btn-xs btn-warning" title="Lihat Pelaporan" data-toggle="modal" data-target="#modalContainer" data-title="Lihat Pelaporan" href="' . route('pelaporan.show', $item->pelaporan->first()->id) . '">
-                                <i class="fas fa-eye fa-fw"></i>
-                            </button>
-                    </div>';
-                    }
-
                     return '<div class="btn-group">
-                        <button class="btn btn-xs btn-info" title="Lapor Meter" data-toggle="modal" data-target="#modalContainer" data-title="Lapor Meter" href="' . route('pelaporan.create', [
-                        'masa_pajak_id' => $item->masa_pajak_id,
-                        'perusahaan_id' => $item->perusahaan_id
-                    ]) . '">
-                            <i class="fas fa-upload fa-fw"></i>
-                        </button>
-                        <button disabled class="btn btn-xs btn-warning" title="Lihat Pelaporan" data-title="Lihat Pelaporan" href="">
-                                <i class="fas fa-eye fa-fw"></i>
+                            <button class="btn btn-xs btn-success" title="Lihat Daftar Penetapan" data-title="Lihat Daftar Penetapan" href="" data-toggle="modal" data-target="#modalContainer">
+                                <i class="fas fa-list fa-fw"></i>
                             </button>
                     </div>';
                 })
-                ->rawColumns(['action', 'status', 'keterangan'])
+                ->addColumn('penetapan', function ($item) {
+                    return '3 penetapan';
+                })
+                ->rawColumns(['action'])
                 ->addIndexColumn()
                 ->make(true);
         }
 
-        return view('pages.penatausahaan.pelaporan.index');
+        return view('pages.penatausahaan.penetapan.index');
     }
 
     /**
@@ -184,7 +70,7 @@ class PenetapanController extends Controller
         $kota_penandatangan = KotaPenandatangan::all();
         $masa_pajak_id = $request->masa_pajak_id;
         $perusahaan_id = $request->perusahaan_id;
-        return view('pages.penatausahaan.pelaporan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id', 'penandatangan', 'kota_penandatangan'));
+        return view('pages.penatausahaan.penetapan.create', compact('cara_pelaporan', 'masa_pajak_id', 'perusahaan_id', 'penandatangan', 'kota_penandatangan'));
     }
 
     /**
@@ -236,7 +122,7 @@ class PenetapanController extends Controller
     public function show($id)
     {
         $pelaporan = Pelaporan::with(['cara_pelaporan', 'penandatangan', 'kota_penandatangan'])->findOrFail($id);
-        return view('pages.penatausahaan.pelaporan.show', ['item' => $pelaporan]);
+        return view('pages.penatausahaan.penetapan.show', ['item' => $pelaporan]);
     }
 
     /**
@@ -247,7 +133,7 @@ class PenetapanController extends Controller
      */
     public function edit(Pelaporan $pelaporan)
     {
-        return view('pages.penatausahaan.pelaporan.edit', ['item' => $pelaporan]);
+        return view('pages.penatausahaan.penetapan.edit', ['item' => $pelaporan]);
     }
 
     /**

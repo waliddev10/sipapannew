@@ -44,6 +44,13 @@
                                 @endwhile
                         </select>
                     </div>
+                    <div class="form-group mr-2">
+                        <select name="status" class="form-control">
+                            <option selected value="Semua">-- Semua Status --</option>
+                            <option value="0">Belum Lapor</option>
+                            <option value="1">Sudah Lapor</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary"><i class="fa fa-filter fa-fw"></i>
                         Filter</button>
                 </form>
@@ -157,6 +164,7 @@
            data: function (d) {
                 d.bulan = $('select[name=bulan]').val();
                 d.tahun = $('select[name=tahun]').val();
+                d.status = $('select[name=status]').val();
             }
         },
         columns: [

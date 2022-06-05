@@ -194,65 +194,68 @@ $menu = collect([
 ]);
 @endphp
 
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+{{-- <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar"> --}}
+    <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <img src="{{ asset('assets/img/logo-sipapan.png') }}" height="84">
-        </div>
-        <div class="sidebar-brand-text mr-3">{{ config('app.name') }}</div>
-    </a>
-
-    <!-- Divider -->
-    <hr class="sidebar-divider my-0">
-
-    @foreach ($menu as $m)
-    @if(!empty($m->submenu))
-    <li
-        class="nav-item @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) active @endif @endforeach">
-        <a href="javascript:void(0)" class="nav-link collapsed" data-toggle="collapse"
-            data-target="#{{ Str::slug($m->title) }}" aria-expanded="true" aria-controls="{{ Str::slug($m->title) }}">
-            <i class="{{ $m->icon }}"></i>
-            <span>{{ $m->title }}</span>
-        </a>
-        <div id="{{ Str::slug($m->title) }}"
-            class="collapse @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) show @endif @endforeach"
-            aria-labelledby="{{ Str::slug($m->title) }}" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner">
-                @foreach ($m->submenu as $sm)
-                @if(!empty($sm->route))
-                <a class="collapse-item @if(Route::is($sm->route)) active @endif" href="{{ URL::route($sm->route) }}">{{
-                    $sm->title }}</a>
-                @else
-                <h6 class="collapse-header">{{ $sm->title }}</h6>
-                @endif
-                @endforeach
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
+            <div class="sidebar-brand-icon rotate-n-15">
+                <img src="{{ asset('assets/img/logo-sipapan.png') }}" height="84">
             </div>
-        </div>
-    </li>
-    @else
-    <li class="nav-item @if(Route::is($m->route)) active @endif">
-        <a class="nav-link" href="{{ URL::route($m->route) }}">
-            <i class="{{ $m->icon }}"></i>
-            <span>{{ $m->title }}</span>
+            <div class="sidebar-brand-text mr-3">{{ config('app.name') }}</div>
         </a>
-    </li>
-    @endif
-    @endforeach
 
-    <!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
 
-    <!-- Sidebar Message -->
-    <div class="sidebar-card d-none d-lg-flex">
-        <p class="text-center mb-2"><strong>{{ config('app.name') }} {{ config('app.version')
-                }}</strong>
-            <br />
-            {{ config('app.description') }}
-        </p>
-        <a class="btn btn-success btn-sm" href="https://wa.me/6285172277277"><i class="fab fa-whatsapp"></i>
-            Kontak Kami</a>
-    </div>
+        @foreach ($menu as $m)
+        @if(!empty($m->submenu))
+        <li
+            class="nav-item @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) active @endif @endforeach">
+            <a href="javascript:void(0)" class="nav-link collapsed" data-toggle="collapse"
+                data-target="#{{ Str::slug($m->title) }}" aria-expanded="true"
+                aria-controls="{{ Str::slug($m->title) }}">
+                <i class="{{ $m->icon }}"></i>
+                <span>{{ $m->title }}</span>
+            </a>
+            <div id="{{ Str::slug($m->title) }}"
+                class="collapse @foreach($m->submenu as $xsm) @if(collect($xsm)->contains(Route::currentRouteName())) show @endif @endforeach"
+                aria-labelledby="{{ Str::slug($m->title) }}" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner">
+                    @foreach ($m->submenu as $sm)
+                    @if(!empty($sm->route))
+                    <a class="collapse-item @if(Route::is($sm->route)) active @endif"
+                        href="{{ URL::route($sm->route) }}">{{
+                        $sm->title }}</a>
+                    @else
+                    <h6 class="collapse-header">{{ $sm->title }}</h6>
+                    @endif
+                    @endforeach
+                </div>
+            </div>
+        </li>
+        @else
+        <li class="nav-item @if(Route::is($m->route)) active @endif">
+            <a class="nav-link" href="{{ URL::route($m->route) }}">
+                <i class="{{ $m->icon }}"></i>
+                <span>{{ $m->title }}</span>
+            </a>
+        </li>
+        @endif
+        @endforeach
 
-</ul>
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+
+        <!-- Sidebar Message -->
+        <div class="sidebar-card d-none d-lg-flex">
+            <p class="text-center mb-2"><strong>{{ config('app.name') }} {{ config('app.version')
+                    }}</strong>
+                <br />
+                {{ config('app.description') }}
+            </p>
+            <a class="btn btn-success btn-sm" href="https://wa.me/6285172277277"><i class="fab fa-whatsapp"></i>
+                Kontak Kami</a>
+        </div>
+
+    </ul>

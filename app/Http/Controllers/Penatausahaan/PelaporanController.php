@@ -112,9 +112,27 @@ class PelaporanController extends Controller
                     } else {
                         return true;
                     }
-
+                })
+                ->filter(function ($item) use ($request) {
                     if ($request->has('tahun')) {
                         return Carbon::parse($item->tgl_jatuh_tempo)->year == $request->tahun;
+                    } else {
+                        return true;
+                    }
+                })
+                ->filter(function ($item) use ($request) {
+                    if ($request->has('status')) {
+                        if ($request->status == 'Semua') {
+                            return true;
+                        }
+
+                        if ($request->status == 0) {
+                            return $item->pelaporan->count() < 1;
+                        }
+
+                        if ($request->status == 1) {
+                            return $item->pelaporan->count() > 0;
+                        }
                     } else {
                         return true;
                     }
@@ -229,7 +247,7 @@ class PelaporanController extends Controller
      */
     public function show($id)
     {
-        $pelaporan = Pelaporan::with(['cara_pelaporan', 'penandatangan', 'kota_penandatangan'])->findOrFail($id);
+        $pelaporan = Pelaporan::with(['cara_pelaporan'])->findOrFail($id);
         return view('pages.penatausahaan.pelaporan.show', ['item' => $pelaporan]);
     }
 
