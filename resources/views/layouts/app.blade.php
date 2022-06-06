@@ -74,10 +74,18 @@
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('assets/js/sb-admin-2.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/sb-admin-2.js').'?v='.Str::random(5) }}"></script> --}}
-
     @stack('scripts')
-
+    <script>
+        $(document).ajaxStart(function () {
+            $("input").attr("disabled", "disabled");
+            $("select").attr("disabled", "disabled");
+            $("textarea").attr("disabled", "disabled");
+        }).ajaxComplete(function(){
+            $("input").removeAttr("disabled");
+            $("select").removeAttr("disabled");
+            $("textarea").removeAttr("disabled");
+        });
+    </script>
 </body>
 
 </html>

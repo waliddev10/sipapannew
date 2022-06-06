@@ -265,15 +265,4 @@
         }
     }
 </script>
-<script>
-    $(document).ajaxStart(function () {
-        $("input").attr("disabled", "disabled");
-        $("select").attr("disabled", "disabled");
-        $("textarea").attr("disabled", "disabled");
-    }).ajaxComplete(function(){
-        $("input").removeAttr("disabled");
-        $("select").removeAttr("disabled");
-        $("textarea").removeAttr("disabled");
-    });
-</script>
 @endpush
