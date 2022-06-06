@@ -265,20 +265,27 @@ class PelaporanController extends Controller
             'file' => $nama_file,
         ]);
 
-        $penetapan = Penetapan::create([
-            'pelaporan_id' => $data->id,
-            // 'tgl_penetapan' => $request->tgl_penetapan,
-            'tgl_penetapan' => $request->tgl_pelaporan,
-            'no_penetapan' => $request->no_penetapan,
-            'penandatangan_id' => $request->penandatangan_id_penetapan,
-            'kota_penandatangan_id' => $request->kota_penandatangan_id_penetapan
-        ]);
+        if ($data) {
+            $penetapan = Penetapan::create([
+                'pelaporan_id' => $data->id,
+                // 'tgl_penetapan' => $request->tgl_penetapan,
+                'tgl_penetapan' => $request->tgl_pelaporan,
+                'no_penetapan' => $request->no_penetapan,
+                'penandatangan_id' => $request->penandatangan_id_penetapan,
+                'kota_penandatangan_id' => $request->kota_penandatangan_id_penetapan
+            ]);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Pelaporan berhasil ditambah.',
+                'pelaporan' => $data,
+                'penetapan' => $penetapan
+            ], Response::HTTP_CREATED);
+        }
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Pelaporan berhasil ditambah.',
-            'pelaporan' => $data,
-            'penetapan' => $penetapan
+            'status' => 'error',
+            'message' => 'SKPD Gagal di buat, mohon menghapus pelaporan dan mengulangi lagi.',
         ], Response::HTTP_CREATED);
     }
 
