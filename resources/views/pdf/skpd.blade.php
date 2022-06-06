@@ -140,9 +140,11 @@
             </tr>
             <tr>
                 <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">
-                    Sanksi Bunga/Denda <span style="margin-left: 1.5cm">0%</span>
+                    Sanksi Bunga/Denda <span style="margin-left: 1.5cm">{{ $nilai_sanksi_bunga > 0 ? $nilai_sanksi_bunga
+                        * 100 : '0' }}%</span>
                 </td>
-                <td style="text-align: right; border: 0.5pt solid black;">-</td>
+                <td style="text-align: right; border: 0.5pt solid black;">{{ $jumlah_sanksi_bunga > 0 ?
+                    number_format($jumlah_sanksi_bunga, 0, ',', '.') : '-' }}</td>
             </tr>
             <tr>
                 <td colspan="@if (collect($npa_dokumen)->count() > 1) 6 @else 5 @endif" style="padding-left: 4.75cm;">

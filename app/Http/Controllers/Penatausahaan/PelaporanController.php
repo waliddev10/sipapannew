@@ -244,7 +244,7 @@ class PelaporanController extends Controller
             'kota_penandatangan_id' => 'required',
             'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
             // penetapan pertama
-            'tgl_penetapan' => 'required|date',
+            // 'tgl_penetapan' => 'required|date',
             'no_penetapan' => 'nullable',
             'kota_penandatangan_id_penetapan' => 'required',
         ]);
@@ -267,7 +267,8 @@ class PelaporanController extends Controller
 
         $penetapan = Penetapan::create([
             'pelaporan_id' => $data->id,
-            'tgl_penetapan' => $request->tgl_penetapan,
+            // 'tgl_penetapan' => $request->tgl_penetapan,
+            'tgl_penetapan' => $request->tgl_pelaporan,
             'no_penetapan' => $request->no_penetapan,
             'penandatangan_id' => $request->penandatangan_id_penetapan,
             'kota_penandatangan_id' => $request->kota_penandatangan_id_penetapan

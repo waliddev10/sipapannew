@@ -10,6 +10,7 @@ use App\Models\Npa;
 use App\Models\Penandatangan;
 use App\Models\Penetapan;
 use App\Models\SanksiAdministrasi;
+use App\Models\SanksiBunga;
 use App\Models\TanggalLibur;
 use App\Models\TarifPajak;
 use Carbon\Carbon;
@@ -273,6 +274,7 @@ class PenetapanController extends Controller
             $tgl_jatuh_tempo = Carbon::parse($tgl_jatuh_tempo)->addDay()->format('Y-m-d');
         }
 
+        /*___MENGHITUNG APAKAH DIKENAKAN SANKSI ADMINISTRASI___*/
         // menghitung kapan batas pelaporan ditambah dengan tanggal libur
         $tgl_batas_pelaporan = $tgl_jatuh_tempo; // init tanggal awal
         $counter_hari = 0;
@@ -293,6 +295,51 @@ class PenetapanController extends Controller
             $nilai_sanksi_administrasi = $sanksi_administrasi->nilai;
         } else {
             $nilai_sanksi_administrasi = null;
+        }
+
+        /*___MENGHITUNG APAKAH DIKENAKAN SANKSI BUNGA___*/
+        // retrieving sanksi_admministrasi first from penetapan
+        $sanksi_bunga = SanksiBunga::all()
+            ->sortBy([
+                fn ($a, $b) => $b->tgl_berlaku <=> $a->tgl_berlaku
+            ])->first(function ($value, $key) use ($penetapan) {
+                return date($value->tgl_berlaku) <= date($penetapan->tgl_penetapan);
+            });
+
+        // get penetapan pertama (SKPD pertama)
+        $penetapan_pertama = Penetapan::where('pelaporan_id', $penetapan->pelaporan_id)
+            ->get()
+            ->sortBy([
+                fn ($a, $b) => $a->tgl_penetapan <=> $b->tgl_penetapan
+            ])->first();
+
+        $perbedaan_hari_dengan_penetapan_pertama = Carbon::parse($penetapan_pertama->tgl_penetapan)
+            ->diffInDays(Carbon::parse($penetapan->tgl_penetapan), false);
+
+        // dd($perbedaan_hari_dengan_penetapan_pertama);
+
+        // menghitung kapan batas pembayaran ditambah dengan tanggal libur
+        $tgl_batas_penetapan = $penetapan_pertama->tgl_penetapan; // init tanggal awal
+        $counter_hari_bunga = 0;
+        $sanksi_hari_counter_bunga = $perbedaan_hari_dengan_penetapan_pertama;
+        // $sanksi_hari_counter_bunga = $sanksi_bunga->hari_min;
+        while ($counter_hari_bunga < $sanksi_hari_counter_bunga) {
+            if ($tgl_libur
+                ->filter(function ($value, $key) use ($tgl_batas_penetapan) {
+                    return Carbon::parse($value->tgl_libur) == Carbon::parse($tgl_batas_penetapan);
+                })->count()
+            ) {
+                $sanksi_hari_counter_bunga++;
+            }
+            $tgl_batas_penetapan = Carbon::parse($tgl_batas_penetapan)->addWeekday()->format('Y-m-d');
+            $counter_hari_bunga++;
+        }
+
+        if ($counter_hari_bunga >= $sanksi_bunga->hari_min && $counter_hari_bunga <= $sanksi_bunga->hari_max) {
+            $multiplier = ceil($counter_hari_bunga / $sanksi_bunga->hari_pembagi);
+            $nilai_sanksi_bunga = $sanksi_bunga->nilai * $multiplier;
+        } else {
+            $nilai_sanksi_bunga = 0;
         }
 
         // retrieving tarif_pajak first from penetapan
@@ -350,7 +397,8 @@ class PenetapanController extends Controller
         // variabel khusus
         $jumlah_volume_pemakaian = collect($npa_dokumen)->sum('volume_pemakaian');
         $jumlah_pajak_terutang = collect($npa_dokumen)->sum('pajak_terutang');
-        $jumlah_pajak_dan_sanksi = $jumlah_pajak_terutang + $nilai_sanksi_administrasi;
+        $jumlah_sanksi_bunga = $nilai_sanksi_bunga * $jumlah_pajak_terutang;
+        $jumlah_pajak_dan_sanksi = $jumlah_pajak_terutang + $nilai_sanksi_administrasi + $jumlah_sanksi_bunga;
 
         $pdf = PDF::loadView('pdf.skpd', compact(
             'penetapan',
@@ -358,6 +406,8 @@ class PenetapanController extends Controller
             'npa',
             'tarif_pajak',
             'nilai_sanksi_administrasi',
+            'nilai_sanksi_bunga',
+            'jumlah_sanksi_bunga',
             'npa_dokumen',
             'jumlah_volume_pemakaian',
             'jumlah_pajak_terutang',

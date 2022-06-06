@@ -65,10 +65,10 @@
                 <div class="form-group">
                     <strong>Untuk SKPD Pertama</strong>
                 </div>
-                <div class="form-group">
+                {{-- <div class="form-group">
                     <label class="font-weight-semibold">Tanggal Penetapan</label>
                     <input type="date" name="tgl_penetapan" class="form-control" />
-                </div>
+                </div> --}}
                 <div class="form-group">
                     <label class="font-weight-semibold">Nomor SKPD</label>
                     <div class="input-group inline-block">
