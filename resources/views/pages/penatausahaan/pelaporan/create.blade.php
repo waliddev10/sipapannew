@@ -105,7 +105,7 @@
             </div>
             <div class="form-group row text-right">
                 <div class="col-12">
-                    <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
+                    <input type="submit" class="btn btn-success" />
                 </div>
             </div>
         </div>
