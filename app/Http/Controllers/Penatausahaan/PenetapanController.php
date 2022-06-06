@@ -114,8 +114,11 @@ class PenetapanController extends Controller
                 ->make(true);
         }
 
+        $penetapan_auto = Penetapan::latest()->first();
+
         return view('pages.penatausahaan.penetapan.showList', [
-            'pelaporan_id' => $pelaporan_id
+            'pelaporan_id' => $pelaporan_id,
+            'penetapan_auto' => $penetapan_auto
         ]);
     }
 
@@ -143,28 +146,20 @@ class PenetapanController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'tgl_pelaporan' => 'required|date',
-            'volume' => 'required',
-            'cara_pelaporan_id' => 'required',
-            'penandatangan_id' => 'required',
-            'kota_penandatangan_id' => 'required',
-            'file' => 'required|file|mimes:jpeg,png,jpg,pdf|max:1024',
+            'tgl_penetapan' => 'required|date',
+            'no_penetapan' => 'required',
         ]);
 
-        $file = $request->file('file');
-        $nama_file = Uuid::uuid4() . "." . $file->extension();
-        $tujuan_upload = storage_path('app') . '/berkas-pelaporan';
-        $file->move($tujuan_upload, $nama_file);
+        $penetapan_terakhir = Penetapan::where('pelaporan_id', $request->pelaporan_id)
+            ->latest()
+            ->first();
 
-        $data = Pelaporan::create([
-            'masa_pajak_id' => $request->masa_pajak_id,
-            'perusahaan_id' => $request->perusahaan_id,
-            'tgl_pelaporan' => $request->tgl_pelaporan,
-            'volume' => $request->volume,
-            'cara_pelaporan_id' => $request->cara_pelaporan_id,
-            'penandatangan_id' => $request->penandatangan_id,
-            'kota_penandatangan_id' => $request->kota_penandatangan_id,
-            'file' => $nama_file,
+        $data = Penetapan::create([
+            'pelaporan_id' => $penetapan_terakhir->pelaporan_id,
+            'tgl_penetapan' => $request->tgl_penetapan,
+            'no_penetapan' => $request->no_penetapan,
+            'penandatangan_id' => $penetapan_terakhir->penandatangan_id,
+            'kota_penandatangan_id' => $penetapan_terakhir->kota_penandatangan_id
         ]);
 
         return response()->json([
